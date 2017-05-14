@@ -24,8 +24,8 @@ public class DAOIndicadoresFuse {
 
 	public DAOIndicadoresFuse() {
 		System.out.println("DAOIndicadoresFuse.construtor");
-		c = new Conexao(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco1(), ConfigS.getUser(),
-				ConfigS.getSenha());
+		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
+				ConfigS.getSenhaPgDB());
 	}
 
 	public void inserirArrayItens(String codiReco, ItensIndicadores[] itensIndicador) throws SQLException {

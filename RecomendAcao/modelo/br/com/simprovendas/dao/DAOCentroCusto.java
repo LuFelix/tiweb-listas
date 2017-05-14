@@ -21,10 +21,10 @@ public class DAOCentroCusto {
 	public DAOCentroCusto() {
 		super();
 		System.out.println("DAOCentroCusto.construtor");
-		c = new Conexao(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco1(), ConfigS.getUser(),
-				ConfigS.getSenha());
-		c2 = new ConexaoSTM(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco1(),
-				ConfigS.getUser(), ConfigS.getSenha());
+		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
+				ConfigS.getSenhaPgDB());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
+				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
 	}
 
 	public void reservaCodigo(String codigo) throws SQLException {

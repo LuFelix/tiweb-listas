@@ -23,8 +23,8 @@ public class DAOCotacaoYahoo {
 
 	public DAOCotacaoYahoo() {
 		System.out.println("DAOCotacaoYahoo.construtor");
-		c = new Conexao(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco2(), ConfigS.getUser(),
-				ConfigS.getSenha());
+		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(), ConfigS.getUserPgDB(),
+				ConfigS.getSenhaPgDB());
 	}
 
 	// "ano-mês-dia horas:minutos:segundos"

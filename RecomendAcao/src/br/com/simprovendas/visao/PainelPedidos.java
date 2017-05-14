@@ -2,6 +2,7 @@ package br.com.simprovendas.visao;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
@@ -22,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -48,29 +50,48 @@ import br.com.simprovendas.dao.DAOTabelaPreco;
 
 public class PainelPedidos extends JPanel {
 
-	JPanel painelPrincipal;
+	
+	private JLabel lblImagem;
 	private JLabel lblTituloTela;
 	private JLabel lblLogoEmpresa;
 	private JLabel lblCodigopedi;
 	private JLabel lblUsuario;
 	private JLabel lblCliente;
+	private JLabel lblCodiCliente;
 	private JLabel lblQuantItens;
 	private JLabel lblData;
 	private JLabel lblPermiteEditar;
+	
 	private static JLabel lblTipoPedido;
 	private static JTextField txtFCodigoPedi;
 	private static JTextField txtFCodiCliente;
 	private static JTextField txtFNomeCliente;
 	private static JTextField txtfUsuario;
 	private static JTextField txtFQuantItens;
-	private static JScrollPane scrProdutos;
+	private static JTextField txtFPrecopedi;
+	
+	
 	private static JScrollPane scrObsPedido;
-	private static JScrollPane scrPagamentos;
-	private static JTabbedPane pnlTabAnexos;
 	private static JComboBox<String> cmbTipoPedido;
 	private static JComboBox<String> cmbTabPreco;
 
-	private static JTextField txtFPrecopedi;
+	private static JScrollPane scrImagem;
+	private static JScrollPane scrP01;
+	private static JScrollPane scrP02;
+	private static JScrollPane scrP03;
+	private JSplitPane sppImagem;
+	private JSplitPane sppPrincipal;
+	private JSplitPane sppSuperior;
+	private JPanel pnlInferior;
+	private JPanel pnlGrid;
+	private static JTabbedPane tabVisualiza;
+	private static JTable tbl01;
+	private static JTable tbl02;
+	
+
+	private static JTable tbl03;
+	
+	
 	private JRadioButton jrbEditarSim;
 	private JRadioButton jrbEditarNao;
 	private ButtonGroup grpRadio;
@@ -96,9 +117,7 @@ public class PainelPedidos extends JPanel {
 	// Painel de Visualiza do pedido;
 	private static List<TabelaPreco> listTabPreco;
 	private static JTextArea txtAreaObsPedido;
-	private static JTable tabelaItensPedido;
 	private static DefaultTableModel modeloTabela;
-	private static JTable tblPagamentos;
 	private static DefaultTableModel modeloTabelaPagamentos;
 	private static Lancamento lanc;
 	private static ControlaLancamento contLanc;
@@ -116,72 +135,19 @@ public class PainelPedidos extends JPanel {
 		listTabPreco = new ArrayList<TabelaPreco>(daoTabPreco.pesquisaString(""));
 		contLanc = new ControlaLancamento();
 		daoProdEstoque = new DAOProdutosEstoque();
-		// Dados
-		setLayout(null);
-		painelPrincipal = new JPanel();
-		painelPrincipal.setBorder(BorderFactory.createEtchedBorder());
-		painelPrincipal.setLayout(null);
-		painelPrincipal.setSize(525, 510);
-		painelPrincipal.setBackground(Color.WHITE);
-
-		txtAreaObsPedido = new JTextArea();
-		scrObsPedido = new JScrollPane();
-		scrObsPedido.setSize(420, 320);
-		scrObsPedido.setViewportView(txtAreaObsPedido);
-
-		scrProdutos = new JScrollPane();
-		scrProdutos.setSize(420, 320);
-
-		scrPagamentos = new JScrollPane();
-		scrPagamentos.setSize(420, 320);
-
-		pnlTabAnexos = new JTabbedPane();
-		pnlTabAnexos.setBounds(0, 240, 525, 330);
-		pnlTabAnexos.addTab("Produtos", scrProdutos);
-		pnlTabAnexos.addTab("Pagamentos", scrPagamentos);
-		pnlTabAnexos.addTab("Observações", scrObsPedido);
-
-		// TODO Labels e Text fields
+		
+		// Painel Superior
 
 		lblTituloTela = new JLabel("Pedido");
-		lblTituloTela.setBounds(10, 0, 120, 40);
-		lblTituloTela.setFont(new Font("Times New Roman", Font.BOLD, 28));
+		lblTituloTela.setFont(new Font("Times New Roman", Font.BOLD, 36));
 		setLblTipoPedido(new JLabel());
-		getLblTipoPedido().setBounds(70, 30, 100, 30);
-		getLblTipoPedido().setFont(new Font("Times New Roman", Font.ITALIC, 24));
-
-		lblData = new JLabel(String.valueOf(Calendar.getInstance().getTime()));
-		lblData.setFont(new Font("Times New Roman", Font.ITALIC, 14));
-		lblData.setBounds(160, 32, 130, 30);
-
-		lblCodigopedi = new JLabel("Código:");
-		lblCodigopedi.setBounds(5, 60, 90, 25);
+		getLblTipoPedido().setFont(new Font("Times New Roman", Font.ITALIC, 28));
+		lblData = new JLabel(String.valueOf(Calendar.getInstance().get(Calendar.DATE)+" - "+String.valueOf(Calendar.getInstance().get(Calendar.MONTH)+1 +" - "+String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))));
+		lblData.setFont(new Font("Times New Roman", Font.ITALIC, 16));
+		lblCodigopedi = new JLabel("Código do Pedido:");
 		txtFCodigoPedi = new JTextField();
-		txtFCodigoPedi.setBounds(75, 60, 90, 25);
-
-		cmbTabPreco = new JComboBox<String>();
-		cmbTabPreco.setBounds(170, 60, 190, 25);
-		cmbTabPreco.addItem("Tabela de Preços");
-		for (int i = 0; i < listTabPreco.size(); i++) {
-			cmbTabPreco.addItem(listTabPreco.get(i).getNomeTabela());
-		}
-		cmbTabPreco.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent arg0) {
-				// JOptionPane.showMessageDialog(null, "Alterando para " +
-				// cmbTabPreco.getSelectedItem());
-			}
-		});
-
-		lblLogoEmpresa = new JLabel(new ImageIcon("C:\\SIMPRO\\Salutar\\logoSalutar100x80.jpg"));
-		lblLogoEmpresa.setBounds(370, 20, 150, 80);
-
-		lblCliente = new JLabel("Cliente: ");
-		lblCliente.setBounds(5, 90, 120, 25);
+		lblCodiCliente = new JLabel("Código Cliente: ");
 		txtFCodiCliente = new JTextField();
-		txtFCodiCliente.setBounds(75, 90, 90, 25);
-		txtFNomeCliente = new JTextField();
-		txtFNomeCliente.setBounds(170, 90, 190, 25);
 		txtFCodiCliente.addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -194,60 +160,107 @@ public class PainelPedidos extends JPanel {
 				FrameInicial.pesquisaUsuarioAdicionarAOPedido();
 			}
 		});
-
-		lblQuantItens = new JLabel("Qtd. ítens: ");
-		lblQuantItens.setBounds(5, 180, 120, 25);
-
+		lblCliente = new JLabel("Nome Cliente: ");
+		txtFNomeCliente = new JTextField();		
+		lblQuantItens = new JLabel("Quantidade de ítens: ");
 		txtFQuantItens = new JTextField();
-		txtFQuantItens.setBounds(75, 180, 80, 25);
 		txtFQuantItens.setHorizontalAlignment(JTextField.RIGHT);
 		txtFQuantItens.setFont(new Font("TimesNew Roman", Font.BOLD, 16));
 		txtFQuantItens.setEditable(false);
-
 		lblPrecoPedido = new JLabel("TOTAL: ");
-		lblPrecoPedido.setBounds(160, 180, 80, 25);
 		lblPrecoPedido.setFont(new Font("Times New Roman", Font.BOLD, 18));
 		txtFPrecopedi = new JTextField();
-		txtFPrecopedi.setBounds(240, 180, 200, 40);
 		txtFPrecopedi.setFont(new Font("Times New Roman", Font.BOLD, 28));
 		txtFPrecopedi.setForeground(Color.RED);
 		txtFPrecopedi.setHorizontalAlignment(JTextField.RIGHT);
 		txtFPrecopedi.setEditable(false);
+		
+		cmbTabPreco = new JComboBox<String>();
+		cmbTabPreco.addItem("Tabela de Preços");
+		for (int i = 0; i < listTabPreco.size(); i++) {
+			cmbTabPreco.addItem(listTabPreco.get(i).getNomeTabela());
+		}
+		cmbTabPreco.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent arg0) {
+				// JOptionPane.showMessageDialog(null, "Alterando para " +
+				// cmbTabPreco.getSelectedItem());
+			}
+		});
 
-		lblPermiteEditar = new JLabel("Permite Editar ");
-		lblPermiteEditar.setBounds(105, 590, 100, 25);
+		// TODO Configuração do Painel Superior
+		lblLogoEmpresa = new JLabel(new ImageIcon("C:\\SIMPRO\\Salutar\\logoSalutar120x150.jpg"));
+		scrImagem = new JScrollPane(lblLogoEmpresa);
+		scrImagem.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		scrImagem.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-		// TODO Posicionamento Botões
+		sppImagem = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		sppImagem.add(lblTituloTela);
+		sppImagem.add(scrImagem);
+		sppImagem.setDividerLocation(50);
+		sppImagem.setEnabled(false);
+		sppImagem.setBackground(Color.WHITE);
+		sppImagem.setForeground(Color.WHITE);
+		sppImagem.setDividerSize(3);
+		
+		pnlGrid = new JPanel();
+		pnlGrid.setBorder(BorderFactory.createEtchedBorder());
+		pnlGrid.setLayout(new GridLayout(7, 2));
+		pnlGrid.setBackground(Color.WHITE);
+		pnlGrid.add(lblTipoPedido);
+		pnlGrid.add(lblData);
+		pnlGrid.add(lblCodigopedi);
+		pnlGrid.add(txtFCodigoPedi);
+		pnlGrid.add(lblCodiCliente);
+		pnlGrid.add(txtFCodiCliente);
+		pnlGrid.add(lblCliente);
+		pnlGrid.add(txtFNomeCliente);
+		pnlGrid.add(lblQuantItens);
+		pnlGrid.add(txtFQuantItens);
+		pnlGrid.add(lblPrecoPedido);
+		pnlGrid.add(txtFPrecopedi);
+			
+		pnlGrid.add(cmbTabPreco);
+		
+		sppSuperior = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		sppSuperior.setDividerLocation(200);
+		sppSuperior.setDividerSize(3);
+		sppSuperior.setEnabled(false);
+		sppSuperior.add(sppImagem);
+		sppSuperior.add(pnlGrid);
+		
+		// Painel Inferior
+		tbl01 = new JTable();
+		scrP01 = new JScrollPane();
+		scrP01.setViewportView(tbl01);
 
-		// JRadio Buttons+++++++++++++++++
-		jrbEditarSim = new JRadioButton("Sim");
-		jrbEditarSim.setBounds(95, 560, 50, 35);
-		jrbEditarNao = new JRadioButton("Não");
-		jrbEditarNao.setBounds(155, 560, 50, 35);
-		grpRadio = new ButtonGroup();
-		grpRadio.add(jrbEditarSim);
-		grpRadio.add(jrbEditarNao);
+		tbl02 = new JTable();
+		scrP02 = new JScrollPane();
+		scrP02.setViewportView(tbl02);
 
-		// Ação Radio Buttons++++++++++++++++
-		jrbEditarNao.setSelected(true);
+		
+		tbl03 = new JTable();
+		txtAreaObsPedido = new JTextArea();
+		scrP03 = new JScrollPane();
+		scrP03.setViewportView(txtAreaObsPedido);
 
-		// TODO Configuração do Painel principal
-		painelPrincipal.add(lblTituloTela);
-		painelPrincipal.add(lblTipoPedido);
-		painelPrincipal.add(lblLogoEmpresa);
-		painelPrincipal.add(lblCodigopedi);
-		painelPrincipal.add(txtFCodigoPedi);
-		painelPrincipal.add(txtFNomeCliente);
-		painelPrincipal.add(cmbTabPreco);
-		painelPrincipal.add(lblCliente);
-		painelPrincipal.add(txtFCodiCliente);
-		painelPrincipal.add(lblQuantItens);
-		painelPrincipal.add(txtFQuantItens);
-		painelPrincipal.add(lblData);
-		painelPrincipal.add(lblPrecoPedido);
-		painelPrincipal.add(txtFPrecopedi);
-		painelPrincipal.add(pnlTabAnexos);
+		tabVisualiza = new JTabbedPane();
+		tabVisualiza.addTab("Produtos", scrP01);
+		tabVisualiza.addTab("Pagamentos", scrP02);
+		tabVisualiza.addTab("Observações", scrP03);
+		tabVisualiza.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				// habilitaTabelaMovimentos();
+			}
+		});
 
+		pnlInferior = new JPanel();
+		pnlInferior.setBorder(BorderFactory.createEtchedBorder());
+		pnlInferior.setLayout(new GridLayout());
+		pnlInferior.setBackground(Color.WHITE);
+		pnlInferior.add(tabVisualiza);
+		
 		desHabilitaEdicao();
 		listPedi = contPedi.listaPedidosTipo(AbaNegocios.getNomeNo());
 		tam = listPedi.size();
@@ -264,7 +277,16 @@ public class PainelPedidos extends JPanel {
 			carregarCampos(pedi);
 			desbilitaTabela();
 		}
-		add(painelPrincipal);
+		sppPrincipal = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		sppPrincipal.setDividerSize(3);
+		sppPrincipal.setDividerLocation(250);
+		sppPrincipal.setEnabled(false);
+		sppPrincipal.setBackground(Color.WHITE);
+		sppPrincipal.add(sppSuperior);
+		sppPrincipal.add(pnlInferior);
+		setLayout(new GridLayout());
+		setBackground(Color.WHITE);
+		add(sppPrincipal);
 	}
 
 	public static void desbilitaTabela() {
@@ -334,13 +356,13 @@ public class PainelPedidos extends JPanel {
 		quantProdutos = 0;
 		totalPedido = 0;
 		modeloTabela = new DefaultTableModel();
-		tabelaItensPedido = new JTable(modeloTabela);
+		tbl01 = new JTable(modeloTabela);
 		Object colunas[] = { "Código", "Nome", "Quantidade", "Preço Unit.", "Total ítem" };
 		modeloTabela.setColumnIdentifiers(colunas);
 		getTabelaItensPedido().setRowSelectionAllowed(false);
 		getTabelaItensPedido().setCellSelectionEnabled(false);
 		getTabelaItensPedido().setColumnSelectionAllowed(false);
-		tabelaItensPedido.addMouseListener(new MouseListener() {
+		tbl01.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -368,7 +390,7 @@ public class PainelPedidos extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int posicao = tabelaItensPedido.getSelectedRow();
+				int posicao = tbl01.getSelectedRow();
 				adicionaItem(pedi.getItensProduto().get(posicao));
 				carregarCampos(pedi);
 
@@ -385,24 +407,24 @@ public class PainelPedidos extends JPanel {
 			totalPedido = totalPedido + (pedi.getItensProduto().get(i).getPrec_prod_1()
 					* pedi.getItensProduto().get(i).getQuantMovimento());
 		}
-		tabelaItensPedido.setShowGrid(true);
-		scrProdutos.setViewportView(tabelaItensPedido);
+		tbl01.setShowGrid(true);
+		scrP01.setViewportView(tbl01);
 		txtFQuantItens.setText(String.valueOf(quantProdutos));
 		txtFPrecopedi.setText(String.valueOf(totalPedido));
-		return tabelaItensPedido;
+		return tbl01;
 	}
 
 	// TODO Atualiza tabela de pagamentos
 	public static JTable atualizaTabelaPagamentos(final Pedido pedi) {
 		System.out.println("PainelPedidos.atualizaTabelaPagamentos");
 		modeloTabelaPagamentos = new DefaultTableModel();
-		setTblPagamentos(new JTable(modeloTabelaPagamentos));
+		setTbl02(new JTable(modeloTabelaPagamentos));
 		Object colunas[] = { "Cod. Pedido", "Cond. Pagamento", "Valor", "Data do Lançamento" };
 		modeloTabelaPagamentos.setColumnIdentifiers(colunas);
-		getTblPagamentos().setRowSelectionAllowed(false);
-		getTblPagamentos().setCellSelectionEnabled(false);
-		getTblPagamentos().setColumnSelectionAllowed(false);
-		getTblPagamentos().addMouseListener(new MouseListener() {
+		getTbl02().setRowSelectionAllowed(false);
+		getTbl02().setCellSelectionEnabled(false);
+		getTbl02().setColumnSelectionAllowed(false);
+		getTbl02().addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -426,7 +448,7 @@ public class PainelPedidos extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int posicao = tblPagamentos.getSelectedRow();
+				int posicao = getTbl02().getSelectedRow();
 				adicionaPagamento(
 						daoCondPagamento.pesquisaCondPagCodigo(pedi.getLancPedido().get(posicao).getCodiCondPag()));
 				carregarCampos(pedi);
@@ -439,9 +461,9 @@ public class PainelPedidos extends JPanel {
 					pedi.getLancPedido().get(i).getValor(), pedi.getLancPedido().get(i).getDataHoraLancamento() };
 			modeloTabelaPagamentos.addRow(linha);
 		}
-		getTblPagamentos().setShowGrid(true);
-		scrPagamentos.setViewportView(tblPagamentos);
-		return getTblPagamentos();
+		getTbl02().setShowGrid(true);
+		scrP02.setViewportView(getTbl02());
+		return getTbl02();
 	}
 
 	// TODO Ler os campos e retornar um pedido
@@ -450,9 +472,11 @@ public class PainelPedidos extends JPanel {
 		pedi = new Pedido();
 		pedi.setTipoPedido(AbaNegocios.getNomeNo());
 		pedi.setCodiPedi(txtFCodigoPedi.getText());
-		pedi.setCodiTabPreco(daoTabPreco.pesquisaCodigoNome(cmbTabPreco.getSelectedItem().toString()));
 		if (!txtFCodiCliente.getText().equals("") & !txtFCodiCliente.equals(null)) {
-			pedi.setxNome(txtFCodiCliente.getText());
+			pedi.setCodiPessoaCliente(txtFCodiCliente.getText());
+		}
+		if (!txtFNomeCliente.getText().equals("") & !txtFNomeCliente.equals(null)) {
+			pedi.setxNome(txtFNomeCliente.getText());
 		}
 		if (!txtFQuantItens.getText().equals(null) & !txtFQuantItens.getText().equals("")) {
 			pedi.setQuantItens(Integer.parseInt(txtFQuantItens.getText()));
@@ -460,6 +484,7 @@ public class PainelPedidos extends JPanel {
 		if (!txtFPrecopedi.getText().equals(null) & !txtFPrecopedi.getText().equals("")) {
 			pedi.setTotalPedi(Float.parseFloat(txtFPrecopedi.getText()));
 		}
+		pedi.setCodiTabPreco(daoTabPreco.pesquisaCodigoNome(cmbTabPreco.getSelectedItem().toString()));
 		pedi.setObsPedi1(txtAreaObsPedido.getText());
 		return pedi;
 	}
@@ -490,12 +515,13 @@ public class PainelPedidos extends JPanel {
 		txtAreaObsPedido.setEditable(true);
 		txtAreaObsPedido.setFocusable(true);
 		getTabelaItensPedido().setEnabled(true);
-		pnlTabAnexos.setEnabled(true);
-		pnlTabAnexos.setFocusable(true);
-		pnlTabAnexos.addChangeListener(new ChangeListener() {
+		
+		tabVisualiza.setEnabled(true);
+		tabVisualiza.setFocusable(true);
+		tabVisualiza.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				numTab = pnlTabAnexos.getSelectedIndex();
+				numTab = tabVisualiza.getSelectedIndex();
 				if (numTab == 0) {
 					FrameInicial.pesquisaProdutoAdicaoItem();
 				} else if (numTab == 1) {
@@ -505,7 +531,25 @@ public class PainelPedidos extends JPanel {
 				}
 			}
 		});
+		tabVisualiza.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+								
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				numTab = tabVisualiza.getSelectedIndex();
+				if (numTab == 0) {
+					FrameInicial.pesquisaProdutoAdicaoItem();
+				} else if (numTab == 1) {
+					FrameInicial.pesquisaCondPagamentoRealizaPedido();
+				} else if (numTab == 2) {
 
+				}
+			}
+		});
 	}
 
 	// TODO Habilita edição
@@ -518,11 +562,11 @@ public class PainelPedidos extends JPanel {
 		txtAreaObsPedido.setEditable(true);
 		txtAreaObsPedido.setFocusable(true);
 		getTabelaItensPedido().setEnabled(true);
-		pnlTabAnexos.setFocusable(true);
-		pnlTabAnexos.addChangeListener(new ChangeListener() {
+		tabVisualiza.setFocusable(true);
+		tabVisualiza.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				numTab = pnlTabAnexos.getSelectedIndex();
+				numTab = tabVisualiza.getSelectedIndex();
 				if (numTab == 0) {
 					FrameInicial.pesquisaProdutoAdicaoItem();
 				} else if (numTab == 1) {
@@ -536,7 +580,7 @@ public class PainelPedidos extends JPanel {
 	}
 
 	public int abaSelecionnada() {
-		numTab = pnlTabAnexos.getSelectedIndex();
+		numTab = tabVisualiza.getSelectedIndex();
 		return numTab;
 	}
 
@@ -553,9 +597,9 @@ public class PainelPedidos extends JPanel {
 		txtFPrecopedi.setText(null);
 		txtAreaObsPedido.setEditable(false);
 		txtAreaObsPedido.setFocusable(false);
-		pnlTabAnexos.setFocusable(false);
-		for (ChangeListener cl : pnlTabAnexos.getChangeListeners()) {
-			pnlTabAnexos.removeChangeListener(cl);
+		tabVisualiza.setFocusable(false);
+		for (ChangeListener cl : tabVisualiza.getChangeListeners()) {
+			tabVisualiza.removeChangeListener(cl);
 		}
 	}
 
@@ -578,7 +622,7 @@ public class PainelPedidos extends JPanel {
 
 	static void limparTabelas() {
 		setTabelaItensPedido(null);
-		tblPagamentos = null;
+		setTbl02(null);
 	}
 
 	// TODO Carregar a tela com um pedido
@@ -586,9 +630,10 @@ public class PainelPedidos extends JPanel {
 		if (!pedi.equals(null)) {
 			System.out.println("PainelPedidos.carregarCampos: ");
 			txtFCodigoPedi.setText(pedi.getCodiPedi());
+			txtFCodiCliente.setText(pedi.getCodiPessoaCliente());
+			txtFNomeCliente.setText(pedi.getxNome());
 			txtFQuantItens.setText(String.valueOf(pedi.getQuantItens()));
 			txtFPrecopedi.setText(String.valueOf(pedi.getTotalPedi()));
-			txtFNomeCliente.setText(pedi.getxNome());
 			lblTipoPedido.setText(pedi.getTipoPedido());
 			if (!(pedi.getCodiTabPreco() == null)) {
 				cmbTabPreco.setSelectedItem(daoTabPreco.pesquisaNomeCodigo(pedi.getCodiTabPreco()));
@@ -596,7 +641,6 @@ public class PainelPedidos extends JPanel {
 				cmbTabPreco.setSelectedIndex(0);
 			}
 			txtAreaObsPedido.setText(pedi.getObsPedi1());
-
 			System.out.println("Conteudo de pedido tabela de preço:  " + pedi.getCodiTabPreco());
 			atualizaTabelaProdutos(pedi);
 			atualizaTabelaPagamentos(pedi);
@@ -605,7 +649,8 @@ public class PainelPedidos extends JPanel {
 
 	// TODO Adicionar um cliente
 	public static void adicionaUsuario(Pessoa usua) {
-		txtFCodiCliente.setText(usua.getNome());
+		txtFCodiCliente.setText(usua.getCodiPessoa());
+		txtFNomeCliente.setText(usua.getNome());
 	}
 
 	// TODO Fechamento do pedido
@@ -631,19 +676,19 @@ public class PainelPedidos extends JPanel {
 	}
 
 	public static JScrollPane getScrPedido() {
-		return scrProdutos;
+		return scrP01;
 	}
 
 	public static void setScrPedido(JScrollPane scrPedido) {
-		PainelPedidos.scrProdutos = scrPedido;
+		PainelPedidos.scrP01 = scrPedido;
 	}
 
 	public static JTable getTabelaItensPedido() {
-		return tabelaItensPedido;
+		return tbl01;
 	}
 
 	public static void setTabelaItensPedido(JTable tabelaItensPedido) {
-		PainelPedidos.tabelaItensPedido = tabelaItensPedido;
+		PainelPedidos.tbl01 = tabelaItensPedido;
 	}
 
 	public JLabel getLblQuantItens() {
@@ -663,19 +708,19 @@ public class PainelPedidos extends JPanel {
 	}
 
 	public static JTabbedPane getPnlTabAnexos() {
-		return pnlTabAnexos;
+		return tabVisualiza;
 	}
 
 	public static void setPnlTabAnexos(JTabbedPane pnlTabAnexos) {
-		PainelPedidos.pnlTabAnexos = pnlTabAnexos;
+		PainelPedidos.tabVisualiza = pnlTabAnexos;
+	}
+	
+	public static JTable getTbl02() {
+		return tbl02;
 	}
 
-	public static JTable getTblPagamentos() {
-		return tblPagamentos;
-	}
-
-	public static void setTblPagamentos(JTable tblPagamentos) {
-		PainelPedidos.tblPagamentos = tblPagamentos;
+	public static void setTbl02(JTable tbl02) {
+		PainelPedidos.tbl02 = tbl02;
 	}
 
 	public JLabel getLblTipoPedido() {

@@ -20,8 +20,8 @@ public class DAOProdutosEstoque {
 
 	public DAOProdutosEstoque() {
 		System.out.println("DAOProdutosEstoque.construtor");
-		c = new Conexao(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco1(), ConfigS.getUser(),
-				ConfigS.getSenha());
+		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
+				ConfigS.getSenhaPgDB());
 	}
 
 	public void novoMovProdEstoque(String codiEstoque, Date dataHoraMovimento, String codiProduto, int quantidade,

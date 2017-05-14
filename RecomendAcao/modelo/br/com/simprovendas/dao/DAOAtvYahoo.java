@@ -25,8 +25,8 @@ public class DAOAtvYahoo {
 
 	public DAOAtvYahoo() {
 		System.out.println("DAOAtivoYahoo.construtor");
-		c = new Conexao(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco2(), ConfigS.getUser(),
-				ConfigS.getSenha());
+		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(), ConfigS.getUserMDB(),
+				ConfigS.getSenhaPgDB());
 		daoCot = new DAOCotacaoAtivo();
 	}
 

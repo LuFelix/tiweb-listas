@@ -23,8 +23,8 @@ public class DAOProdutosPedidos {
 		System.out.println("DAOProdutosPedidos.construtor");
 		daoCotProd = new DAOProdutosCotacao();
 		daoProd = new DAOProdutoPrepSTM();
-		c = new Conexao(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco1(), ConfigS.getUser(),
-				ConfigS.getSenha());
+		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
+				ConfigS.getSenhaPgDB());
 	}
 
 	public void inserirArrayItens(String codiPedi, Produto[] itensProduto) throws SQLException {

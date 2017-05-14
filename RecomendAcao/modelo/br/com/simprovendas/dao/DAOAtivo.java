@@ -18,8 +18,8 @@ public class DAOAtivo {
 
 	public DAOAtivo() {
 		System.out.println("DAOAtivo.construtor");
-		c = new Conexao(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco2(), ConfigS.getUser(),
-				ConfigS.getSenha());
+		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(), ConfigS.getUserPgDB(),
+				ConfigS.getSenhaPgDB());
 	}
 
 	public boolean inserir(Ativo atv) {

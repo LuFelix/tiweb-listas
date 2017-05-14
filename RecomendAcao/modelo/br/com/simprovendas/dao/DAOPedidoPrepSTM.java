@@ -22,8 +22,8 @@ public class DAOPedidoPrepSTM {
 
 	public DAOPedidoPrepSTM() {
 		System.out.println("DAOPedido.construtor");
-		c = new Conexao(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco1(), ConfigS.getUser(),
-				ConfigS.getSenha());
+		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
+				ConfigS.getSenhaPgDB());
 		daoItPed = new DAOProdutosPedidos();
 		daoProdEstoque = new DAOProdutosEstoque();
 		daoContaLanc = new DAOLancamento();

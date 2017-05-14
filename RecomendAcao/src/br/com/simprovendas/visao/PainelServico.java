@@ -83,24 +83,8 @@ public class PainelServico extends JPanel {
 		contServ = new ControlaServico();
 		daoServ = new DAOServico();
 
-		setLayout(null);
-		tbl01 = new JTable();
-		scrP01 = new JScrollPane();
-		scrP01.setViewportView(tbl01);
-
-		tbl02 = new JTable();
-		scrP02 = new JScrollPane();
-		scrP02.setViewportView(tbl02);
-
-		tabVisualiza = new JTabbedPane();
-		tabVisualiza.addTab("Entradas", scrP01);
-		tabVisualiza.addTab("Saídas", scrP02);
-		tabVisualiza.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				habilitaTabelaMovimentos();
-			}
-		});
+		
+		
 		// TODO Configuração dos Labels e text fields
 		lbl01 = new JLabel("Serviço");
 		lbl01.setFont(new Font("Times New Roman", Font.BOLD, 28));
@@ -120,7 +104,7 @@ public class PainelServico extends JPanel {
 		lbl08 = new JLabel("Adicional: ");
 		txtF08 = new JTextField();
 
-		// TODO Adição de objetos
+		// Painel Superior
 
 		pnlGrid = new JPanel();
 		pnlGrid.setBorder(BorderFactory.createEtchedBorder());
@@ -161,6 +145,26 @@ public class PainelServico extends JPanel {
 		sppSuperior.setEnabled(false);
 		sppSuperior.add(sppImagem);
 		sppSuperior.add(pnlGrid);
+
+		//Painel Inferior
+		
+		tbl01 = new JTable();
+		scrP01 = new JScrollPane();
+		scrP01.setViewportView(tbl01);
+
+		tbl02 = new JTable();
+		scrP02 = new JScrollPane();
+		scrP02.setViewportView(tbl02);
+
+		tabVisualiza = new JTabbedPane();
+		tabVisualiza.addTab("Entradas", scrP01);
+		tabVisualiza.addTab("Saídas", scrP02);
+		tabVisualiza.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				habilitaTabelaMovimentos();
+			}
+		});
 
 		pnlInferior = new JPanel();
 		pnlInferior.setBorder(BorderFactory.createEtchedBorder());

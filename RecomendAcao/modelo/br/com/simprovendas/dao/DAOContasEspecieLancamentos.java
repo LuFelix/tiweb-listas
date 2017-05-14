@@ -18,8 +18,8 @@ public class DAOContasEspecieLancamentos {
 	private EspecieLancamento espLanc;
 
 	public DAOContasEspecieLancamentos() {
-		c = new Conexao(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco1(), ConfigS.getUser(),
-				ConfigS.getSenha());
+		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaMDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
+				ConfigS.getSenhaPgDB());
 	}
 
 	public void cadastrar(EspecieLancamento espLanc) throws SQLException {

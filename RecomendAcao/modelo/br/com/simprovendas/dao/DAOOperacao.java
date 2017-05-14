@@ -26,10 +26,10 @@ public class DAOOperacao {
 
 	public DAOOperacao() {
 		System.out.println("DAOOperacao.construtor");
-		c = new Conexao(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco2(), ConfigS.getUser(),
-				ConfigS.getSenha());
-		c2 = new ConexaoSTM(ConfigS.getBd(), ConfigS.getLocal(), ConfigS.getPorta(), ConfigS.getBanco2(),
-				ConfigS.getUser(), ConfigS.getSenha());
+		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(), ConfigS.getUserPgDB(),
+				ConfigS.getSenhaPgDB());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(),
+				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
 	}
 
 	// TODO Alterar - Não há como alterar uma operação realizada.

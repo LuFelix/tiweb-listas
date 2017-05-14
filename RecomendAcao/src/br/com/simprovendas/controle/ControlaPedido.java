@@ -220,7 +220,7 @@ public class ControlaPedido {
 
 	// TODO Ajustar largura colunas
 	private void ajusta_tamanho_coluna() {
-		tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		//tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tabela.getColumnModel().getColumn(0).setPreferredWidth(60);
 		tabela.getColumnModel().getColumn(1).setPreferredWidth(220);
 		tabela.getColumnModel().getColumn(2).setPreferredWidth(70);

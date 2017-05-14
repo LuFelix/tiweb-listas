@@ -46,26 +46,39 @@ public class PainelProdutos extends JPanel {
 	private JPanel painelMovimento;
 	private JLabel lblTituloTela;
 	// Labels e text fields
-	private JLabel lblSeq;
-	private JLabel lblCodigoInterno;
-	private JLabel lblCodigoFabric;
-	private JLabel lblNomeProd;
-	private JLabel lblDescricaoProd;
-	private JLabel lblAliquotaICMSProd;
-	private JLabel lblQuantProdEstoque;
-
-	private JLabel lblPrecoAtual;
+	
+	
+	
+	
+	
+	
+	
+	
 	private static JLabel lblImagem;
+	private JLabel lbl01;
+	private JLabel lbl02;
+	private JLabel lbl03;
+	private JLabel lbl04;
+	private JLabel lbl05;
+	private JLabel lbl06;
+	private JLabel lbl07;
+	private JLabel lbl08;
+	private JLabel lbl09;
+	private JLabel lbl10;
+	
+	private static JTextField txtF01;
+	private static JTextField txtF02;
+	private static JTextField txtF03;
+	private static JTextField txtF04;
+	private static JTextField txtF05;
+	private static JTextField txtF06;
+	private static JTextField txtF07;
+	private static JTextField txtF08;
+	private static JTextField txtF09;
+	private static JTextField txtF10;
+	
 	private static JCheckBox chkBListaPrecos;
 
-	private static JTextField txtFCodigoInterno;
-	private static JTextField txtFCodigoFabric;
-	private static JTextField txtFNomeProd;
-	private static JTextField txtFDescricaoProd;
-	private static JTextField txtFQuantProdEstoque;
-	private static JTextField txtFAliquotaICMSProd;
-	private static JTextField txtFPrecoAtual;
-	private static JTextField txtFSeqProduto;
 	private static JComboBox<String> cmbTabPreco;
 
 	private JButton btnProximo;
@@ -117,29 +130,22 @@ public class PainelProdutos extends JPanel {
 		lblTituloTela.setBounds(10, 0, 150, 40);
 		lblTituloTela.setFont(new Font("Times New Roman", Font.BOLD, 32));
 
-		lblSeq = new JLabel("   Sequencia:");
-		txtFSeqProduto = new JTextField();
-
-		lblCodigoInterno = new JLabel("   Código Interno:");
-		txtFCodigoInterno = new JTextField(0);
-
-		lblCodigoFabric = new JLabel("   Código Fábrica:");
-		txtFCodigoFabric = new JTextField(0);
-
-		lblNomeProd = new JLabel("   Produto: ");
-		txtFNomeProd = new JTextField();
-
-		lblAliquotaICMSProd = new JLabel("   Alíquota ICMS: ");
-		txtFAliquotaICMSProd = new JTextField();
-
-		lblDescricaoProd = new JLabel("   Descrição: ");
-		txtFDescricaoProd = new JTextField();
-
-		lblQuantProdEstoque = new JLabel("   Estoque: ");
-		txtFQuantProdEstoque = new JTextField();
-
-		lblPrecoAtual = new JLabel("   Preço Atual:");
-		txtFPrecoAtual = new JTextField();
+		lbl02 = new JLabel("Sequencia:");
+		txtF02 = new JTextField();
+		lbl03 = new JLabel("Código Interno:");
+		txtF03 = new JTextField(0);
+		lbl04 = new JLabel("Código Fábrica:");
+		txtF04 = new JTextField(0);
+		lbl05 = new JLabel("Produto: ");
+		txtF05 = new JTextField();
+		lbl06 = new JLabel("Alíquota ICMS: ");
+		txtF06 = new JTextField();
+		lbl07 = new JLabel("Descrição: ");
+		txtF07 = new JTextField();
+		lbl08 = new JLabel("Estoque: ");
+		txtF08 = new JTextField();
+		lbl09 = new JLabel("Preço Atual:");
+		txtF09 = new JTextField();
 
 		btnEditarPreco = new JButton("Alterar Preço");
 
@@ -191,22 +197,22 @@ public class PainelProdutos extends JPanel {
 		painelGrid.setBorder(BorderFactory.createEtchedBorder());
 		painelGrid.setLayout(new GridLayout(9, 2));
 		painelGrid.setBackground(Color.WHITE);
-		painelGrid.add(lblSeq);
-		painelGrid.add(txtFSeqProduto);
-		painelGrid.add(lblCodigoInterno);
-		painelGrid.add(txtFCodigoInterno);
-		painelGrid.add(lblCodigoFabric);
-		painelGrid.add(txtFCodigoFabric);
-		painelGrid.add(lblNomeProd);
-		painelGrid.add(txtFNomeProd);
-		painelGrid.add(lblDescricaoProd);
-		painelGrid.add(txtFDescricaoProd);
-		painelGrid.add(lblAliquotaICMSProd);
-		painelGrid.add(txtFAliquotaICMSProd);
-		painelGrid.add(lblQuantProdEstoque);
-		painelGrid.add(txtFQuantProdEstoque);
-		painelGrid.add(lblPrecoAtual);
-		painelGrid.add(txtFPrecoAtual);
+		painelGrid.add(lbl02);
+		painelGrid.add(txtF02);
+		painelGrid.add(lbl03);
+		painelGrid.add(txtF03);
+		painelGrid.add(lbl04);
+		painelGrid.add(txtF04);
+		painelGrid.add(lbl05);
+		painelGrid.add(txtF05);
+		painelGrid.add(lbl07);
+		painelGrid.add(txtF07);
+		painelGrid.add(lbl06);
+		painelGrid.add(txtF06);
+		painelGrid.add(lbl08);
+		painelGrid.add(txtF08);
+		painelGrid.add(lbl09);
+		painelGrid.add(txtF09);
 		painelGrid.add(cmbTabPreco);
 		painelGrid.add(btnEditarPreco);
 
@@ -272,7 +278,7 @@ public class PainelProdutos extends JPanel {
 		float valor = Float.parseFloat(JOptionPane.showInputDialog("Informe o novo valor:"));
 		try {
 			contProd.novoPreco(cmbTabPreco.getItemAt(0), Date.valueOf(data), prod.getCodi_prod_1(), valor);
-			txtFPrecoAtual.setText(String.valueOf(valor));
+			txtF09.setText(String.valueOf(valor));
 			habilitaTabelaPrecos();
 			contProd.funcaoSobrescrever();
 			FrameInicial.getBtnSalvar().doClick();
@@ -315,29 +321,29 @@ public class PainelProdutos extends JPanel {
 
 	public static Produto lerCampos() {
 		prod = new Produto();
-		if (txtFCodigoInterno.getText().equals("") || txtFCodigoInterno.getText().equals(null)) {
+		if (txtF03.getText().equals("") || txtF03.getText().equals(null)) {
 			prod.setCodi_prod_1(contProd.criaCodiProd());
 		} else {
-			prod.setCodi_prod_1(txtFCodigoInterno.getText());
+			prod.setCodi_prod_1(txtF03.getText());
 		}
-		if (!txtFNomeProd.getText().equals(null) & !txtFNomeProd.getText().equals("")) {
-			prod.setNome_prod(txtFNomeProd.getText());
+		if (!txtF05.getText().equals(null) & !txtF05.getText().equals("")) {
+			prod.setNome_prod(txtF05.getText());
 		} else {
 			JOptionPane.showMessageDialog(null, "Problemas: Verifique as informações preenchidas",
 					"Erro ao Salvar. Campos com * são necessários", JOptionPane.ERROR_MESSAGE);
 		}
-		prod.setDesc_prod(txtFDescricaoProd.getText());
-		if (!txtFAliquotaICMSProd.getText().equals(null) & !txtFAliquotaICMSProd.getText().equals("")) {
-			prod.setAliq_prod(txtFAliquotaICMSProd.getText());
+		prod.setDesc_prod(txtF07.getText());
+		if (!txtF06.getText().equals(null) & !txtF06.getText().equals("")) {
+			prod.setAliq_prod(txtF06.getText());
 		} else {
 			JOptionPane.showMessageDialog(null, "Problemas: Verifique as informações preenchidas",
 					"Erro ao Salvar. Campos com * são necessários", JOptionPane.ERROR_MESSAGE);
 		}
-		prod.setAliq_prod(txtFAliquotaICMSProd.getText());
-		if (txtFPrecoAtual.getText().equals("")) {
+		prod.setAliq_prod(txtF06.getText());
+		if (txtF09.getText().equals("")) {
 			prod.setPrec_prod_1(0);
 		} else {
-			prod.setPrec_prod_1(Float.parseFloat(txtFPrecoAtual.getText()));
+			prod.setPrec_prod_1(Float.parseFloat(txtF09.getText()));
 		}
 		return prod;
 	}
@@ -351,13 +357,13 @@ public class PainelProdutos extends JPanel {
 	public static void carregarCampos(Produto prod) {
 		if (!prod.equals(null)) {
 			chkBListaPrecos.setSelected(false);
-			txtFSeqProduto.setText(String.valueOf(prod.getSeq_produto()));
-			txtFCodigoInterno.setText(String.valueOf(prod.getCodi_prod_1()));
-			txtFNomeProd.setText(prod.getNome_prod());
-			txtFDescricaoProd.setText(prod.getDesc_prod());
-			txtFAliquotaICMSProd.setText(prod.getAliq_prod());
-			txtFPrecoAtual.setText(String.valueOf(prod.getPrec_prod_1()));
-			txtFQuantProdEstoque.setText(String.valueOf(prod.getEstoqueAtual()));
+			txtF02.setText(String.valueOf(prod.getSeq_produto()));
+			txtF03.setText(String.valueOf(prod.getCodi_prod_1()));
+			txtF05.setText(prod.getNome_prod());
+			txtF07.setText(prod.getDesc_prod());
+			txtF06.setText(prod.getAliq_prod());
+			txtF09.setText(String.valueOf(prod.getPrec_prod_1()));
+			txtF08.setText(String.valueOf(prod.getEstoqueAtual()));
 			habilitaTabelaPrecos();
 			carregarImagem(prod.getCodi_prod_1());
 
@@ -367,12 +373,12 @@ public class PainelProdutos extends JPanel {
 
 	// TODO Habilitar Edição
 	public static void habilitaEdicao() {
-		txtFCodigoInterno.setEditable(false);
-		txtFNomeProd.setEditable(true);
-		txtFDescricaoProd.setEditable(true);
-		txtFQuantProdEstoque.setEditable(true);
-		txtFAliquotaICMSProd.setEditable(true);
-		txtFPrecoAtual.setEditable(true);
+		txtF03.setEditable(false);
+		txtF05.setEditable(true);
+		txtF07.setEditable(true);
+		txtF08.setEditable(true);
+		txtF06.setEditable(true);
+		txtF09.setEditable(true);
 
 		btnEditarPreco.setEnabled(true);
 		cmbTabPreco.setEnabled(true);
@@ -381,15 +387,15 @@ public class PainelProdutos extends JPanel {
 	// TODO Habilita novo
 	public static void habilitaNovo() {
 		limparCampos();
-		txtFSeqProduto.setEditable(false);
-		txtFCodigoInterno.setEditable(false);
-		txtFCodigoInterno.setText(contProd.criaCodiProd());
-		txtFCodigoFabric.setEditable(true);
-		txtFCodigoFabric.grabFocus();
-		txtFNomeProd.setEditable(true);
-		txtFDescricaoProd.setEditable(true);
-		txtFQuantProdEstoque.setEditable(true);
-		txtFAliquotaICMSProd.setEditable(true);
+		txtF02.setEditable(false);
+		txtF03.setEditable(false);
+		txtF03.setText(contProd.criaCodiProd());
+		txtF04.setEditable(true);
+		txtF04.grabFocus();
+		txtF05.setEditable(true);
+		txtF07.setEditable(true);
+		txtF08.setEditable(true);
+		txtF06.setEditable(true);
 		// txtFPrecoAtual.setEditable(true);
 
 		btnEditarPreco.setEnabled(true);
@@ -398,12 +404,12 @@ public class PainelProdutos extends JPanel {
 
 	// TODO Desabilita edição
 	public static void desHabilitaEdicao() {
-		txtFSeqProduto.setEditable(false);
-		txtFCodigoInterno.setEditable(false);
-		txtFNomeProd.setEditable(false);
-		txtFDescricaoProd.setEditable(false);
-		txtFQuantProdEstoque.setEditable(false);
-		txtFAliquotaICMSProd.setEditable(false);
+		txtF02.setEditable(false);
+		txtF03.setEditable(false);
+		txtF05.setEditable(false);
+		txtF07.setEditable(false);
+		txtF08.setEditable(false);
+		txtF06.setEditable(false);
 
 		btnEditarPreco.setEnabled(false);
 		cmbTabPreco.setEnabled(false);
@@ -413,13 +419,13 @@ public class PainelProdutos extends JPanel {
 
 	// TODO Limpar campos
 	public static void limparCampos() {
-		txtFSeqProduto.setText(null);
-		txtFCodigoInterno.setText(null);
-		txtFNomeProd.setText(null);
-		txtFDescricaoProd.setText(null);
-		txtFQuantProdEstoque.setText(null);
-		txtFAliquotaICMSProd.setText(null);
-		txtFPrecoAtual.setText(null);
+		txtF02.setText(null);
+		txtF03.setText(null);
+		txtF05.setText(null);
+		txtF07.setText(null);
+		txtF08.setText(null);
+		txtF06.setText(null);
+		txtF09.setText(null);
 		chkBListaPrecos.setSelected(false);
 
 	}
@@ -441,11 +447,11 @@ public class PainelProdutos extends JPanel {
 	}
 
 	public static JTextField getTxtFNomeProd() {
-		return txtFNomeProd;
+		return txtF05;
 	}
 
 	public static void setTxtFNomeProd(JTextField txtFNomeProd) {
-		PainelProdutos.txtFNomeProd = txtFNomeProd;
+		PainelProdutos.txtF05 = txtFNomeProd;
 	}
 
 	public static JButton getBtnCancelar() {
