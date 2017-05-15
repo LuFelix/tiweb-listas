@@ -96,7 +96,7 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 		negocios = new DefaultMutableTreeNode("Simpro");
 		negocios.add(pedidos);
 		negocios.add(ordServicos);
-		negocios.add(pessoas);
+		//negocios.add(pessoas);
 		negocios.add(produtos);
 		negocios.add(posicaoFinanceira);
 		negocios.add(cadastros);

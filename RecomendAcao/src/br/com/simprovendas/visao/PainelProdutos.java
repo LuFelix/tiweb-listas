@@ -47,13 +47,6 @@ public class PainelProdutos extends JPanel {
 	private JLabel lblTituloTela;
 	// Labels e text fields
 	
-	
-	
-	
-	
-	
-	
-	
 	private static JLabel lblImagem;
 	private JLabel lbl01;
 	private JLabel lbl02;

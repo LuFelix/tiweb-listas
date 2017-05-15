@@ -16,11 +16,11 @@ public class ControlaPessoa {
 	private DaoPessoa daoPessoa;
 
 	/**
-	 * Cria uma tabela contendo as listas aproximadas
-	 * 
+	 * Cria uma tabela contendo as Pessoas 
+	 *  
 	 * @return JTable --
 	 */
-	public JTable tblFuncListaCompleta() {
+	public JTable tblPessoaListaCompleta() {
 		modelTblFunc = new TableModelPessoa(daoPessoa.carregaFunc());
 		tblPessoas = new JTable(modelTblFunc);
 		tblPessoas.addKeyListener(new KeyListener() {

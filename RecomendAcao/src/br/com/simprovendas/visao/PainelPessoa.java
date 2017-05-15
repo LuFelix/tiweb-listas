@@ -24,14 +24,14 @@ import javax.swing.UIManager;
 import br.com.simprovendas.beans.Pessoa;
 import br.com.simprovendas.controle.ControlaListaUsuarios;
 import br.com.simprovendas.controle.ControlaUsuario;
-import br.com.simprovendas.dao.DAOUsuario;
+import br.com.simprovendas.dao.DAOPessoa;
 
 public class PainelPessoa extends JPanel {
 	// Objetos de Controle
 	private static Pessoa p;
 	private static ControlaListaUsuarios controledaLista;
-	private static ControlaUsuario contU;
-	private DAOUsuario daoU;
+	private static ControlaUsuario contP;
+	private DAOPessoa daoP;
 	// Labels
 	private JLabel lblTituloTela;
 	private JLabel lblCodiPessoa;
@@ -83,74 +83,39 @@ public class PainelPessoa extends JPanel {
 		UIManager.put("Label.font", new Font("Times New Roman", Font.BOLD, 12));
 		UIManager.put("Button.font", new Font("Times New Roman", Font.BOLD, 12));
 
-		contU = new ControlaUsuario();
-		daoU = new DAOUsuario();
-
+		contP = new ControlaUsuario();
+		daoP = new DAOPessoa();
 		result = new int[9];
 		result1 = new int[10];
-		setLayout(null);
-		painelPrincipal = new JPanel();
-		painelPrincipal.setBackground(Color.WHITE);
-		painelPrincipal.setBorder(BorderFactory.createEtchedBorder());
-		painelPrincipal.setLayout(null);
-		painelPrincipal.setSize(525, 510);
+		
 		// JLabels e JTextFields
 		lblTituloTela = new JLabel("Contato");
-		lblTituloTela.setBounds(10, 0, 150, 40);
 		lblTituloTela.setFont(new Font("Times New Roman", Font.BOLD, 28));
 
 		lblSeqPessoa = new JLabel("Número:");
-		lblSeqPessoa.setBounds(10, 60, 90, 25);
 		txtFSeqPessoa = new JTextField();
-		txtFSeqPessoa.setBounds(100, 60, 80, 25);
+		
 
 		lblCodiPessoa = new JLabel("Código:");
-		lblCodiPessoa.setBounds(190, 60, 80, 25);
 		txtFCodiPessoa = new JTextField();
-		txtFCodiPessoa.setBounds(240, 60, 100, 25);
-
-		pnlRelPessoa = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		pnlRelPessoa.setBounds(360, 60, 140, 80);
-		pnlRelPessoa.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true), "Relação"));
-		pnlRelPessoa.setBackground(Color.WHITE);
-
-		chkCliente = new JCheckBox("Cliente");
-		chkFornecedor = new JCheckBox("Fornecedor");
-
-		pnlRelPessoa.add(chkCliente);
-		pnlRelPessoa.add(chkFornecedor);
-
-		cmbRelPessoa = new JComboBox<String>();
-		cmbRelPessoa.setBounds(360, 60, 130, 25);
-		cmbRelPessoa.addItem("Relação");
-		cmbRelPessoa.addItem("Clientes");
-		cmbRelPessoa.addItem("Fornecedores");
-		cmbRelPessoa.addItem("Ambos");
-
+				
+		cmbRelPessoa = contP.carregarGrupos();
+		cmbTipoPessoa = new JComboBox<String>();
+		cmbTipoPessoa.addItem("Tipo de Pessoa");
+		cmbTipoPessoa.addItem("Jurídica");
+		cmbTipoPessoa.addItem("Física");
+		
 		lblNome = new JLabel("Nome:");
-		lblNome.setBounds(10, 90, 90, 25);
 		txtfNome = new JTextField();
-		txtfNome.setBounds(100, 90, 240, 25);
 		txtfNome.setCaretPosition(0);
 		txtfNome.setHorizontalAlignment(JTextField.LEFT);
 
 		lblCpf = new JLabel("CPF/CNPJ:");
-		lblCpf.setBounds(10, 120, 70, 25);
 		txtfCpf = new JTextField();
-		txtfCpf.setBounds(100, 120, 100, 25);
 		txtfCpf.setColumns(15);
 
-		cmbTipoPessoa = new JComboBox<String>();
-		cmbTipoPessoa.setBounds(210, 120, 130, 25);
-		cmbTipoPessoa.addItem("Tipo de Pessoa");
-		cmbTipoPessoa.addItem("Jurídica");
-		cmbTipoPessoa.addItem("Física");
-
 		lblEmail = new JLabel("E-mail:");
-		lblEmail.setBounds(10, 150, 90, 25);
 		txtfEmail = new JTextField();
-		txtfEmail.setBounds(100, 150, 220, 25);
 		txtfEmail.setHorizontalAlignment(JTextField.LEFT);
 		txtfEmail.addFocusListener(new FocusListener() {
 
@@ -215,7 +180,7 @@ public class PainelPessoa extends JPanel {
 		sppSuperior.add(sppImagem);
 		sppSuperior.add(painelGrid);
 
-		listU = daoU.pesquisarNome(nome);
+		listU = daoP.pesquisarNome(nome);
 		tam = listU.size();
 		tam--;
 		if (tam >= 0) {
@@ -264,7 +229,7 @@ public class PainelPessoa extends JPanel {
 	public static void habilitaNovo() {
 		limparCampos();
 		if (txtFCodiPessoa.getText().equals("") || txtFCodiPessoa.getText().equals(null)) {
-			txtFCodiPessoa.setText(contU.criaCodiUsuario());
+			txtFCodiPessoa.setText(contP.criaCodiUsuario());
 		}
 		cmbRelPessoa.setEnabled(true);
 		cmbRelPessoa.grabFocus();
@@ -282,7 +247,7 @@ public class PainelPessoa extends JPanel {
 		} else {
 			p.setSeqUsuario(Integer.parseInt(txtFCodiPessoa.getText()));
 		}
-		p.setRelacao(cmbRelPessoa.getSelectedItem().toString());
+		p.setRelacao(contP.carregarCodigoGrupoNome(cmbRelPessoa.getSelectedItem().toString()));
 		p.setTipoPessoa(cmbTipoPessoa.getSelectedItem().toString());
 		p.setCodiPessoa(txtFCodiPessoa.getText());
 		p.setNome(txtfNome.getText());
@@ -302,8 +267,12 @@ public class PainelPessoa extends JPanel {
 	}
 
 	static void carregarCampos(Pessoa p) {
-		cmbRelPessoa.setSelectedItem(p.getRelacao());
 		cmbTipoPessoa.setSelectedItem(p.getTipoPessoa());
+		if (!(p.getRelacao() == null)) {
+			cmbRelPessoa.setSelectedItem(contP.carregarNomeGrupoCodigo(p.getRelacao()));
+		}else{
+			cmbRelPessoa.setSelectedIndex(0);
+		}
 		txtFSeqPessoa.setText(String.valueOf(p.getSeqUsuario()));
 		txtFCodiPessoa.setText(p.getCodiPessoa());
 		txtfNome.setText(p.getNome());

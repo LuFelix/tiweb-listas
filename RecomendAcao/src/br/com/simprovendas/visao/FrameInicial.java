@@ -699,10 +699,11 @@ public class FrameInicial {
 		menuBarPrincipal.add(menuBar2);
 
 		// Configuração das abas
-
-		painelTab1 = new AbaNegocios();
-		painelTab2 = new AbaFuse();
-		painelTab3 = new AbaRelatorios();
+		
+		painelTab1 = new AbaPessoas();
+		painelTab2 = new AbaNegocios();
+		painelTab3 = new AbaFuse();
+		painelTab4 = new AbaRelatorios();
 
 		// painelTab4 = new AbaStatus();
 		// painelTab4.setBounds(0, 0, 220, 380);
@@ -715,21 +716,26 @@ public class FrameInicial {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
 				if (painelTabulado1.getSelectedIndex() == 0) {
+					FrameInicial.getContUsua().iniciar();
+					AbaPessoas.getArvoreNegocios().setSelectionRow(0);
+				}
+				if (painelTabulado1.getSelectedIndex() == 1) {
 					FrameInicial.pesquisaProduto();
 					AbaNegocios.getArvoreNegocios().setSelectionRow(3);
 				}
-				if (painelTabulado1.getSelectedIndex() == 1) {
+				if (painelTabulado1.getSelectedIndex() == 2) {
 					FrameInicial.pesquisaAtivo();
 				}
-				if (painelTabulado1.getSelectedIndex() == 2) {
+				if (painelTabulado1.getSelectedIndex() == 3) {
 					limpaTela();
 				}
 			}
 		});
 		painelTabulado1.setBounds(5, 10, 250, 540);
-		painelTabulado1.add("Negócios", painelTab1);
-		painelTabulado1.add("Fuse", painelTab2);
-		painelTabulado1.add("Relatórios", painelTab3);
+		painelTabulado1.add("Pessoas", painelTab1);
+		painelTabulado1.add("Negócios", painelTab2);
+		painelTabulado1.add("Fuse", painelTab3);
+		painelTabulado1.add("Relatórios", painelTab4);
 
 		// painelTabulado.add("Serviços", painelTab3);
 		// painelTabulado.add("Status", painelTab4);
@@ -1037,7 +1043,7 @@ public class FrameInicial {
 
 	// TODO Pesquisa usuário
 	public static void pesquisaUsuario() {
-		System.out.println("FrameInicial.pesquisaProduto");
+		System.out.println("FrameInicial.pesquisaPessoas");
 		ControlaBotoes.limpaTodosBotoes();
 		limparTxtfPesquisa();
 		ControlaBotoes.desHabilitaEdicaoBotoes();

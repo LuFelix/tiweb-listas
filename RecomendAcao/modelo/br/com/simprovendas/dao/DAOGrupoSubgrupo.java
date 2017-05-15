@@ -74,6 +74,54 @@ public class DAOGrupoSubgrupo {
 		}
 	}
 
+	public String pesquisarNomeCodigo(String str) {
+		System.out.println("DAOGrupo.pesquisarString");
+		String sql = "select nome_grupo from grupos where codi_grupo = ? ;";
+		
+		c.conectar();
+		try {
+			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm.setString(1, str);
+			ResultSet res = prepStm.executeQuery();
+			if (res.next()) {
+				String nomeGrupo = res.getString("nome_grupo");
+				c.desconectar();
+				return nomeGrupo;
+			}else{
+				c.desconectar();
+				return null;
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+			c.desconectar();
+			return null;
+		}
+	}
+	public String pesquisarCodigoNome(String str) {
+		System.out.println("DAOGrupo.pesquisarString");
+		String sql = "select codi_grupo from grupos where nome_grupo = ? ;";
+		
+		c.conectar();
+		try {
+			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm.setString(1, str);
+			ResultSet res = prepStm.executeQuery();
+			if (res.next()) {
+				String codiGrupo = res.getString("codi_grupo");
+				c.desconectar();
+				return codiGrupo;
+			}else{
+				c.desconectar();
+				return null;
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+			c.desconectar();
+			return null;
+		}
+	}
 	public List<GrupoSubgrupo> pesquisarString(String str) {
 		System.out.println("DAOGrupo.pesquisarString");
 		String sql = "select * from grupos where codi_grupo ~* ? or nome_grupo ~* ? or no_ancora ~* ? order by nome_grupo;";
