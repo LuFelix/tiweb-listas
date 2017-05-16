@@ -21,9 +21,9 @@ public class DAOCentroCusto {
 	public DAOCentroCusto() {
 		super();
 		System.out.println("DAOCentroCusto.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
+		c = new Conexao(ConfigS.getBdPg());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
+				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
 				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
 	}
 
@@ -46,10 +46,14 @@ public class DAOCentroCusto {
 			result = prepStm.executeQuery();
 			centroCusto = new CentroCusto();
 			if (result.next()) {
-				centroCusto.setSeqcentroCusto(result.getInt("seq_centro_custo"));
-				centroCusto.setCodiCentroCusto(result.getString("codi_centro_custo"));
-				centroCusto.setNomeCentroCusto(result.getString("nome_centro_custo"));
-				centroCusto.setDescCentroCusto(result.getString("desc_centro_custo"));
+				centroCusto
+						.setSeqcentroCusto(result.getInt("seq_centro_custo"));
+				centroCusto.setCodiCentroCusto(
+						result.getString("codi_centro_custo"));
+				centroCusto.setNomeCentroCusto(
+						result.getString("nome_centro_custo"));
+				centroCusto.setDescCentroCusto(
+						result.getString("desc_centro_custo"));
 				c.desconectar();
 				return centroCusto;
 			} else {
@@ -72,10 +76,14 @@ public class DAOCentroCusto {
 			result = prepStm.executeQuery();
 			if (result.next()) {
 				centroCusto = new CentroCusto();
-				centroCusto.setSeqcentroCusto(result.getInt("seq_centro_custo"));
-				centroCusto.setCodiCentroCusto(result.getString("codi_centro_custo"));
-				centroCusto.setNomeCentroCusto(result.getString("nome_centro_custo"));
-				centroCusto.setDescCentroCusto(result.getString("desc_centro_custo"));
+				centroCusto
+						.setSeqcentroCusto(result.getInt("seq_centro_custo"));
+				centroCusto.setCodiCentroCusto(
+						result.getString("codi_centro_custo"));
+				centroCusto.setNomeCentroCusto(
+						result.getString("nome_centro_custo"));
+				centroCusto.setDescCentroCusto(
+						result.getString("desc_centro_custo"));
 				c.desconectar();
 				return centroCusto;
 			} else {
@@ -112,7 +120,8 @@ public class DAOCentroCusto {
 	public int consultaUltimo() {
 		System.out.println("DAOCentroCusto.consultarUltimo");
 		c2.conectStm();
-		result = c2.query("SELECT max(seq_centro_custo) FROM contas_centro_custo;");
+		result = c2.query(
+				"SELECT max(seq_centro_custo) FROM contas_centro_custo;");
 		c2.disconect();
 		try {
 			if (result.next()) {
@@ -133,7 +142,9 @@ public class DAOCentroCusto {
 		listCentroCusto = new ArrayList<CentroCusto>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, str);
 			prepStm.setString(2, str);
 			prepStm.setString(3, str);
@@ -141,9 +152,12 @@ public class DAOCentroCusto {
 			while (res.next()) {
 				centroCusto = new CentroCusto();
 				centroCusto.setSeqcentroCusto(res.getInt("seq_centro_custo"));
-				centroCusto.setCodiCentroCusto(res.getString("codi_centro_custo"));
-				centroCusto.setNomeCentroCusto(res.getString("nome_centro_custo"));
-				centroCusto.setDescCentroCusto(res.getString("desc_centro_custo"));
+				centroCusto
+						.setCodiCentroCusto(res.getString("codi_centro_custo"));
+				centroCusto
+						.setNomeCentroCusto(res.getString("nome_centro_custo"));
+				centroCusto
+						.setDescCentroCusto(res.getString("desc_centro_custo"));
 				listCentroCusto.add(centroCusto);
 			}
 			c.desconectar();

@@ -1,12 +1,10 @@
 package br.com.simprovendas.visao;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,14 +22,13 @@ import javax.swing.UIManager;
 import br.com.simprovendas.beans.Pessoa;
 import br.com.simprovendas.controle.ControlaListaUsuarios;
 import br.com.simprovendas.controle.ControlaUsuario;
-import br.com.simprovendas.dao.DAOPessoa;
 
 public class PainelPessoa extends JPanel {
 	// Objetos de Controle
 	private static Pessoa p;
 	private static ControlaListaUsuarios controledaLista;
 	private static ControlaUsuario contP;
-	private DAOPessoa daoP;
+
 	// Labels
 	private JLabel lblTituloTela;
 	private JLabel lblCodiPessoa;
@@ -39,11 +36,6 @@ public class PainelPessoa extends JPanel {
 	private JLabel lblEmail;
 	private JLabel lblCpf;
 	private JLabel lblSeqPessoa;
-	private JLabel lblperfil;
-	private JLabel lblDescricaoProd;
-	private JLabel lblAliquotaICMSProd;
-	private JLabel lblQuantProdEstoque;
-	private JLabel lblPrecoProd;
 
 	// Text Fields
 	private static JTextField txtfNome;
@@ -65,8 +57,6 @@ public class PainelPessoa extends JPanel {
 	// Variaveis
 	int result[];
 	int result1[];
-	private List<Pessoa> listU;
-	int tam;
 	private JSplitPane jspPrincipal;
 	private JSplitPane sppImagem;
 	private JSplitPane sppSuperior;
@@ -78,33 +68,27 @@ public class PainelPessoa extends JPanel {
 	private static JScrollPane scrDetalhes;
 	private static JScrollPane scrUltPedidos;
 
-	public PainelPessoa(String nome) {
-		UIManager.put("TextField.font", new Font("Times New Roman", Font.BOLD, 12));
+	public PainelPessoa(Pessoa p) {
+		UIManager.put("TextField.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 		UIManager.put("Label.font", new Font("Times New Roman", Font.BOLD, 12));
-		UIManager.put("Button.font", new Font("Times New Roman", Font.BOLD, 12));
+		UIManager.put("Button.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 
-		contP = new ControlaUsuario();
-		daoP = new DAOPessoa();
 		result = new int[9];
 		result1 = new int[10];
-		
+
 		// JLabels e JTextFields
 		lblTituloTela = new JLabel("Contato");
 		lblTituloTela.setFont(new Font("Times New Roman", Font.BOLD, 28));
 
 		lblSeqPessoa = new JLabel("Número:");
 		txtFSeqPessoa = new JTextField();
-		
 
 		lblCodiPessoa = new JLabel("Código:");
 		txtFCodiPessoa = new JTextField();
-				
-		cmbRelPessoa = contP.carregarGrupos();
-		cmbTipoPessoa = new JComboBox<String>();
-		cmbTipoPessoa.addItem("Tipo de Pessoa");
-		cmbTipoPessoa.addItem("Jurídica");
-		cmbTipoPessoa.addItem("Física");
-		
+		contP = new ControlaUsuario();
+
 		lblNome = new JLabel("Nome:");
 		txtfNome = new JTextField();
 		txtfNome.setCaretPosition(0);
@@ -117,15 +101,23 @@ public class PainelPessoa extends JPanel {
 		lblEmail = new JLabel("E-mail:");
 		txtfEmail = new JTextField();
 		txtfEmail.setHorizontalAlignment(JTextField.LEFT);
-		txtfEmail.addFocusListener(new FocusListener() {
+
+		cmbTipoPessoa = new JComboBox<String>();
+		cmbTipoPessoa.addItem("Tipo de Pessoa");
+		cmbTipoPessoa.addItem("Jurídica");
+		cmbTipoPessoa.addItem("Física");
+		cmbRelPessoa = contP.carregarGrupos();
+		cmbRelPessoa.addFocusListener(new FocusListener() {
 
 			@Override
-			public void focusLost(FocusEvent arg0) {
+			public void focusLost(FocusEvent e) {
 				FrameInicial.getBtnSalvar().grabFocus();
+
 			}
 
 			@Override
-			public void focusGained(FocusEvent arg0) {
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
 
 			}
 		});
@@ -142,7 +134,7 @@ public class PainelPessoa extends JPanel {
 
 		painelGrid = new JPanel();
 		painelGrid.setBorder(BorderFactory.createEtchedBorder());
-		painelGrid.setLayout(new GridLayout(9, 2));
+		painelGrid.setLayout(new GridLayout(6, 2));
 		painelGrid.setBackground(Color.WHITE);
 
 		painelGrid.add(lblSeqPessoa);
@@ -161,8 +153,10 @@ public class PainelPessoa extends JPanel {
 
 		lblImagem = new JLabel("Image not Found");
 		scrImagem = new JScrollPane(lblImagem);
-		scrImagem.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-		scrImagem.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrImagem.setVerticalScrollBarPolicy(
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		scrImagem.setHorizontalScrollBarPolicy(
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		sppImagem = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		sppImagem.add(lblTituloTela);
@@ -180,19 +174,6 @@ public class PainelPessoa extends JPanel {
 		sppSuperior.add(sppImagem);
 		sppSuperior.add(painelGrid);
 
-		listU = daoP.pesquisarNome(nome);
-		tam = listU.size();
-		tam--;
-		if (tam >= 0) {
-			controledaLista = new ControlaListaUsuarios(listU);
-			p = controledaLista.first();
-			carregarCampos(p);
-		} else {
-			FrameInicial.setPainelVisualiza(null);
-			FrameInicial.getScrVisualiza().setViewportView(FrameInicial.getPainelVisualiza());
-
-		}
-		desHabilitaEdicao();
 		jspPrincipal = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		jspPrincipal.setDividerSize(3);
 		jspPrincipal.setDividerLocation(250);
@@ -204,6 +185,9 @@ public class PainelPessoa extends JPanel {
 		setBackground(Color.WHITE);
 		add(jspPrincipal);
 
+		desHabilitaEdicao();
+		carregarCampos(p);
+		FrameInicial.getTabela().grabFocus();
 	}// TODO Fim do construtor Controle de Campos
 
 	public void desHabilitaEdicao() {
@@ -228,15 +212,17 @@ public class PainelPessoa extends JPanel {
 	// TODO habilitar novo
 	public static void habilitaNovo() {
 		limparCampos();
-		if (txtFCodiPessoa.getText().equals("") || txtFCodiPessoa.getText().equals(null)) {
+		if (txtFCodiPessoa.getText().equals("")
+				|| txtFCodiPessoa.getText().equals(null)) {
 			txtFCodiPessoa.setText(contP.criaCodiUsuario());
 		}
-		cmbRelPessoa.setEnabled(true);
-		cmbRelPessoa.grabFocus();
-		cmbTipoPessoa.setEnabled(true);
 		txtfNome.setEditable(true);
+		txtfNome.grabFocus();
 		txtfCpf.setEditable(true);
 		txtfEmail.setEditable(true);
+		cmbRelPessoa.setEnabled(true);
+		cmbTipoPessoa.setEnabled(true);
+
 	}
 
 	// TODO le campos
@@ -247,7 +233,8 @@ public class PainelPessoa extends JPanel {
 		} else {
 			p.setSeqUsuario(Integer.parseInt(txtFCodiPessoa.getText()));
 		}
-		p.setRelacao(contP.carregarCodigoGrupoNome(cmbRelPessoa.getSelectedItem().toString()));
+		p.setRelacao(contP.carregarCodigoGrupoNome(
+				cmbRelPessoa.getSelectedItem().toString()));
 		p.setTipoPessoa(cmbTipoPessoa.getSelectedItem().toString());
 		p.setCodiPessoa(txtFCodiPessoa.getText());
 		p.setNome(txtfNome.getText());
@@ -266,34 +253,36 @@ public class PainelPessoa extends JPanel {
 
 	}
 
-	static void carregarCampos(Pessoa p) {
-		cmbTipoPessoa.setSelectedItem(p.getTipoPessoa());
-		if (!(p.getRelacao() == null)) {
-			cmbRelPessoa.setSelectedItem(contP.carregarNomeGrupoCodigo(p.getRelacao()));
-		}else{
-			cmbRelPessoa.setSelectedIndex(0);
+	public static void carregarCampos(Pessoa p) {
+		if (!p.equals(null)) {
+			cmbTipoPessoa.setSelectedItem(p.getTipoPessoa());
+			if (!(p.getRelacao() == null)) {
+				cmbRelPessoa.setSelectedItem(
+						contP.carregarNomeGrupoCodigo(p.getRelacao()));
+			} else {
+				cmbRelPessoa.setSelectedIndex(0);
+			}
+			txtFSeqPessoa.setText(String.valueOf(p.getSeqUsuario()));
+			txtFCodiPessoa.setText(p.getCodiPessoa());
+			txtfNome.setText(p.getNome());
+			txtfCpf.setText(String.valueOf(p.getCpf()));
+			txtfEmail.setText(p.getEmail());
+			carregarImagem(p.getCodiPessoa());
+
+		} else {
+
 		}
-		txtFSeqPessoa.setText(String.valueOf(p.getSeqUsuario()));
-		txtFCodiPessoa.setText(p.getCodiPessoa());
-		txtfNome.setText(p.getNome());
-		txtfCpf.setText(String.valueOf(p.getCpf()));
-		txtfEmail.setText(p.getEmail());
-		carregarImagem(p.getCodiPessoa());
+
 	}
 
 	public static void carregarImagem(String codiPessoa) {
-		lblImagem = new JLabel(new ImageIcon("C:\\SIMPRO\\img\\common\\" + "javinha4" + ".jpg "));
+		lblImagem = new JLabel(new ImageIcon(
+				"C:\\SIMPRO\\img\\common\\" + "javinha4" + ".jpg "));
 		scrImagem.setViewportView(lblImagem);
 	}
 
 	public static JTextField getTxtfNome() {
 		return txtfNome;
-	}
-
-	public static void irParaPoicao(int posicao) {
-		controledaLista.setCurrentPosition(posicao);
-		p = controledaLista.getAt(posicao);
-		carregarCampos(p);
 	}
 
 	public static void setTxtfNome(JTextField txtfNome) {

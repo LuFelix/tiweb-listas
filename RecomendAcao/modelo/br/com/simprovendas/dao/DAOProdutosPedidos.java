@@ -23,11 +23,11 @@ public class DAOProdutosPedidos {
 		System.out.println("DAOProdutosPedidos.construtor");
 		daoCotProd = new DAOProdutosCotacao();
 		daoProd = new DAOProdutoPrepSTM();
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 	}
 
-	public void inserirArrayItens(String codiPedi, Produto[] itensProduto) throws SQLException {
+	public void inserirArrayItens(String codiPedi, Produto[] itensProduto)
+			throws SQLException {
 		// TODO Inserir os ítens de cada Pedido
 		c.conectar();
 		for (int i = 0; i < itensProduto.length; i++) {
@@ -57,7 +57,8 @@ public class DAOProdutosPedidos {
 		c.desconectar();
 	}
 
-	public void alterarItensPedido(String codiPedi, Produto[] itensProduto) throws SQLException {
+	public void alterarItensPedido(String codiPedi, Produto[] itensProduto)
+			throws SQLException {
 		// TODO Inserir os ítens de cada Pedido
 		c.conectar();
 		for (int i = 0; i < itensProduto.length; i++) {
@@ -82,7 +83,9 @@ public class DAOProdutosPedidos {
 		arrayItProd = new ArrayList<Produto>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, pedi.getCodiPedi());
 			result = prepStm.executeQuery();
 			if (!pedi.equals(null)) {

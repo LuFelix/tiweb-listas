@@ -25,8 +25,7 @@ public class DAOAtvYahoo {
 
 	public DAOAtvYahoo() {
 		System.out.println("DAOAtivoYahoo.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(), ConfigS.getUserMDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 		daoCot = new DAOCotacaoAtivo();
 	}
 
@@ -35,14 +34,18 @@ public class DAOAtvYahoo {
 		String sql = "Select * From ativo where tp_merc = '10' order by nome_res asc;";
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			res.first();
 			while (res.next()) {
 				atvYahoo = new AtivoYahoo();
 				atvYahoo.setIdYahoo((res.getString("id_neg") + ".SA"));
 				atvYahoo.setTpMerc(10);
-				atvYahoo.setListCotComp(daoCot.consultaTodasCotacoesAtivoTHreadDiario((atvYahoo.getIdYahoo())));
+				atvYahoo.setListCotComp(
+						daoCot.consultaTodasCotacoesAtivoTHreadDiario(
+								(atvYahoo.getIdYahoo())));
 				listAtvYahoo.add(atvYahoo);
 			}
 			c.desconectar();
@@ -75,7 +78,9 @@ public class DAOAtvYahoo {
 		String sql = "Select * From ativo_yahoo order by id_yahoo asc;";
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			res.first();
 			while (res.next()) {

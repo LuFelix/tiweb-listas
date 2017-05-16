@@ -18,8 +18,7 @@ public class DAOAtivo {
 
 	public DAOAtivo() {
 		System.out.println("DAOAtivo.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 	}
 
 	public boolean inserir(Ativo atv) {
@@ -47,7 +46,9 @@ public class DAOAtivo {
 
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			res.first();
 			while (res.next()) {
@@ -93,7 +94,9 @@ public class DAOAtivo {
 		String sql = "Select * From ativo order by nome_res asc;";
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			res.first();
 			while (res.next()) {
@@ -120,7 +123,9 @@ public class DAOAtivo {
 		String sql = "Select * From ativo order by id_neg asc;";
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			res.first();
 			while (res.next()) {
@@ -149,7 +154,9 @@ public class DAOAtivo {
 		daoCot = new DAOCotacaoAtivo();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, str);
 			prepStm.setString(2, str);
 			// prepStm.setString(3, nome);
@@ -182,7 +189,9 @@ public class DAOAtivo {
 		String sql = "Select * From ativo order by nome_res asc;";
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			res.first();
 			while (res.next()) {

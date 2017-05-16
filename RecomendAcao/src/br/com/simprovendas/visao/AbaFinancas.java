@@ -332,7 +332,7 @@ public class AbaFinancas extends JPanel implements TreeSelectionListener {
 				// col.add("Max");
 				// col.add("Min");
 				// col.add("Data");
-				FrameInicial.setTabela(contU.tabela());
+				FrameInicial.setTabela(contU.pesqNomeTabela(""));
 				FrameInicial.getTabela().setBackground(getBackground().WHITE);
 				FrameInicial.scrLista.setViewportView(FrameInicial.getTabela());
 				// FrameInicial.setPainelVisualiza(new PainelUsuarios());

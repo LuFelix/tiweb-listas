@@ -13,8 +13,7 @@ public class DAOBanco {
 	Conexao c;
 
 	public DAOBanco() {
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 	}
 
 	public List<String> listaTabelas() {
@@ -23,7 +22,8 @@ public class DAOBanco {
 		String sql = "{call lista_tabelas()}";
 		try {
 
-			CallableStatement cStm = c.getCon().prepareCall(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
+			CallableStatement cStm = c.getCon().prepareCall(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
 			ResultSet rs = cStm.executeQuery();
 

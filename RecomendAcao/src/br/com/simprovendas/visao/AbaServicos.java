@@ -358,11 +358,5 @@ public class AbaServicos extends JPanel implements TreeSelectionListener {
 				FrameInicial.getContServ().iniciar();
 			}
 		}
-		if (node.isLeaf() & node.isNodeAncestor(contatos)) {
-			if (node.getAllowsChildren()) {
-				// String idNeg = nodeInfo.toString();
-				FrameInicial.pesquisaUsuario();
-			}
-		}
 	}
 }

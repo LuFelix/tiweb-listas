@@ -18,8 +18,7 @@ public class DAOContasEspecieLancamentos {
 	private EspecieLancamento espLanc;
 
 	public DAOContasEspecieLancamentos() {
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaMDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 	}
 
 	public void cadastrar(EspecieLancamento espLanc) throws SQLException {
@@ -35,13 +34,16 @@ public class DAOContasEspecieLancamentos {
 	}
 
 	public List<EspecieLancamento> listaEspecieLancamento(String codigo) {
-		System.out.println("DaoTipoLancamento.consultaMovimentoContaOrdAscendente");
-		String sql = "select * from contas_especie_lancamentos where codi_especie_lancamento = '" + codigo
-				+ "' order by seq_especie_lancamento asc;";
+		System.out.println(
+				"DaoTipoLancamento.consultaMovimentoContaOrdAscendente");
+		String sql = "select * from contas_especie_lancamentos where codi_especie_lancamento = '"
+				+ codigo + "' order by seq_especie_lancamento asc;";
 		listEspLanc = new ArrayList<EspecieLancamento>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			res = prepStm.executeQuery();
 			if (res.first()) {
 				do {
@@ -49,7 +51,8 @@ public class DAOContasEspecieLancamentos {
 					espLanc.setSequencia(res.getInt("seq_especie_lancamento"));
 					espLanc.setCodigo(res.getString("codi_espcie_lancamento"));
 					espLanc.setNome(res.getString("nome_especie_lancamento"));
-					espLanc.setDesccricao(res.getString("desc_especie_lancamento"));
+					espLanc.setDesccricao(
+							res.getString("desc_especie_lancamento"));
 
 					listEspLanc.add(espLanc);
 				} while (res.next());

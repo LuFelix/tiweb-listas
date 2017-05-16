@@ -22,14 +22,14 @@ public class DAOProdutosCotacao {
 
 	public DAOProdutosCotacao() {
 		System.out.println("DAOProdutosCotacao.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
+		c = new Conexao(ConfigS.getBdPg());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
+				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
 				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
 	}
 
-	public void novoPrecoProduto(String codiTabela, Date dataHoraMarcaca, String codiProduto, float valor)
-			throws SQLException {
+	public void novoPrecoProduto(String codiTabela, Date dataHoraMarcaca,
+			String codiProduto, float valor) throws SQLException {
 		String sql = "insert into produtos_cotacoes ( codi_tabela, data_hora_marcacao, codi_produto, valor) "
 				+ "values (?,?,?,?);";
 		c.conectar();
@@ -44,18 +44,21 @@ public class DAOProdutosCotacao {
 
 	// TODO Cotações do produto retornado um array ordenado por data ascendente
 	public List<ProdutoCotacao> conCotProdOrdDtAscend(String codiProduto) {
-		String sql = "select * from produtos_cotacoes where codi_produto = '" + codiProduto
-				+ "' order by data_hora_marcacao asc;";
+		String sql = "select * from produtos_cotacoes where codi_produto = '"
+				+ codiProduto + "' order by data_hora_marcacao asc;";
 		listCot = new ArrayList<ProdutoCotacao>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			if (res.first()) {
 				do {
 					cot = new ProdutoCotacao();
 					cot.setCodiProduto(res.getString("codi_produto"));
-					cot.setSeqCotacaoProduto(res.getInt("seq_produtos_cotacoes"));
+					cot.setSeqCotacaoProduto(
+							res.getInt("seq_produtos_cotacoes"));
 					cot.setCodiTabela(res.getString("codi_tabela"));
 					cot.setDataHoraMarcacao(res.getDate("data_hora_marcacao"));
 					cot.setValor(res.getFloat("valor"));
@@ -80,18 +83,21 @@ public class DAOProdutosCotacao {
 	}
 
 	public List<ProdutoCotacao> conCotProdOrdDtDesc(String codiProduto) {
-		String sql = "select * from produtos_cotacoes where codi_produto = '" + codiProduto
-				+ "' order by data_hora_marcacao desc;";
+		String sql = "select * from produtos_cotacoes where codi_produto = '"
+				+ codiProduto + "' order by data_hora_marcacao desc;";
 		listCot = new ArrayList<ProdutoCotacao>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			if (res.first()) {
 				do {
 					cot = new ProdutoCotacao();
 					cot.setCodiProduto(res.getString("codi_produto"));
-					cot.setSeqCotacaoProduto(res.getInt("seq_produtos_cotacoes"));
+					cot.setSeqCotacaoProduto(
+							res.getInt("seq_produtos_cotacoes"));
 					cot.setCodiTabela(res.getString("codi_tabela"));
 					cot.setDataHoraMarcacao(res.getDate("data_hora_marcacao"));
 					cot.setValor(res.getFloat("valor"));
@@ -117,12 +123,14 @@ public class DAOProdutosCotacao {
 	}
 
 	public List<ProdutoCotacao> conCotProdOrdSeq(String codiProduto) {
-		String sql = "select * from produtos_cotacoes where codi_produto = '" + codiProduto
-				+ "' order by seq_cotacao_produto;";
+		String sql = "select * from produtos_cotacoes where codi_produto = '"
+				+ codiProduto + "' order by seq_cotacao_produto;";
 		listCot = new ArrayList<ProdutoCotacao>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			if (res.first()) {
 				do {
@@ -153,18 +161,22 @@ public class DAOProdutosCotacao {
 	}
 
 	public List<ProdutoCotacao> conCotProdOrdSeqDesc(Produto prod) {
-		String sql = "select * from produtos_cotacoes where codi_produto = '" + prod.getCodi_prod_1()
+		String sql = "select * from produtos_cotacoes where codi_produto = '"
+				+ prod.getCodi_prod_1()
 				+ "' order by seq_produtos_cotacoes desc;";
 		listCot = new ArrayList<ProdutoCotacao>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			if (res.first()) {
 				do {
 					cot = new ProdutoCotacao();
 					cot.setCodiProduto(res.getString("codi_produto"));
-					cot.setSeqCotacaoProduto(res.getInt("seq_produtos_cotacoes"));
+					cot.setSeqCotacaoProduto(
+							res.getInt("seq_produtos_cotacoes"));
 					cot.setCodiTabela(res.getString("codi_tabela"));
 					cot.setDataHoraMarcacao(res.getDate("data_hora_marcacao"));
 					cot.setValor(res.getFloat("valor"));

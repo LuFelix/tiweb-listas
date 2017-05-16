@@ -1,6 +1,5 @@
 package br.com.simprovendas.controle;
 
-import java.awt.color.CMMException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -19,7 +18,8 @@ import javax.swing.table.DefaultTableModel;
 import br.com.simprovendas.beans.GrupoSubgrupo;
 import br.com.simprovendas.beans.Pessoa;
 import br.com.simprovendas.dao.DAOGrupoSubgrupo;
-import br.com.simprovendas.dao.DAOPessoa;
+import br.com.simprovendas.dao.DAOPessoaPG;
+import br.com.simprovendas.visao.AbaPessoas;
 import br.com.simprovendas.visao.FrameInicial;
 import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
 import br.com.simprovendas.visao.PainelPedidos;
@@ -27,10 +27,10 @@ import br.com.simprovendas.visao.PainelPessoa;
 import tableModels.TableModelPessoa;
 
 public class ControlaUsuario {
-	
-	private ArrayList<Pessoa> arrayPessoa;
+
+	private List<Pessoa> arrayPessoa;
 	private List<GrupoSubgrupo> listGrupo;
-	static DAOPessoa daoP;
+	static DAOPessoaPG daoP;
 	static DAOGrupoSubgrupo daoG;
 	static JTable tabela;
 	static TableModelPessoa tblMdPessoa;
@@ -38,12 +38,13 @@ public class ControlaUsuario {
 	static Pessoa p;
 
 	public ControlaUsuario() {
-		daoP = new DAOPessoa();
+		daoP = new DAOPessoaPG();
 		daoG = new DAOGrupoSubgrupo();
+		listGrupo = daoG.pesquisarString("");
 	}
-	
-	public JTable tblPessoaListaCompleta() {
-		tblMdPessoa = new TableModelPessoa(daoP.listarTodos());
+
+	public JTable tblPessoas(String str) {
+		tblMdPessoa = new TableModelPessoa(daoP.pesquisarString(str));
 		tabela = new JTable(tblMdPessoa);
 		tabela.addKeyListener(new KeyListener() {
 
@@ -55,15 +56,21 @@ public class ControlaUsuario {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == 40 || e.getKeyCode() == 38) {
-					carregaDetalhes();
+				if (e.getExtendedKeyCode() == 40
+						|| e.getExtendedKeyCode() == 38) {
+					p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+					carregaDetalhes(p);
+
+				} else if (e.getExtendedKeyCode() == 27) {// esc
+					FrameInicial.getTxtfPesquisa().grabFocus();
 				}
 			}
 
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == 40 || e.getKeyCode() == 38) {
-					carregaDetalhes();
+					p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+					carregaDetalhes(p);
 				}
 
 			}
@@ -72,12 +79,14 @@ public class ControlaUsuario {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				carregaDetalhes();
+				p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+				carregaDetalhes(p);
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				carregaDetalhes();
+				p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+				carregaDetalhes(p);
 			}
 
 			@Override
@@ -92,29 +101,28 @@ public class ControlaUsuario {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				carregaDetalhes();
+				p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+				carregaDetalhes(p);
 			}
 		});
 
-		tabela.setShowHorizontalLines(false);
+		tabela.setShowGrid(true);
 		return tabela;
 	}
 
-
-	public ArrayList<Pessoa> pesquisar() {
-		daoP = new DAOPessoa();
+	public List<Pessoa> pesquisar() {
 		arrayPessoa = new ArrayList<Pessoa>();
 		arrayPessoa = daoP.listarTodos();
 		for (int i = 0; i < arrayPessoa.size(); i++) {
-			System.out.println(arrayPessoa.get(i).getCpf() + "Nome" + arrayPessoa.get(i).getNome());
+			System.out.println(arrayPessoa.get(i).getCpf() + "Nome"
+					+ arrayPessoa.get(i).getNome());
 		}
 		return arrayPessoa;
 
 	}
-	
+
 	public Pessoa pesquisar(String nome) {
 		p = new Pessoa();
-		daoP = new DAOPessoa();
 		p = daoP.pesquisar(nome);
 		return p;
 
@@ -140,9 +148,10 @@ public class ControlaUsuario {
 
 			@Override
 			public void keyReleased(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 					int posicao = tabela.getSelectedRow();
-					PainelPessoa.irParaPoicao(posicao);
+					// PainelPessoa.irParaPoicao(posicao);
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
 					FrameInicial.getTxtfPesquisa().grabFocus();
 				}
@@ -151,14 +160,16 @@ public class ControlaUsuario {
 			@Override
 			public void keyPressed(KeyEvent tecla) {
 				int posicao = tabela.getSelectedRow();
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
-					PainelPessoa.irParaPoicao(posicao);
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
+					// PainelPessoa.irParaPoicao(posicao);
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
 					FrameInicial.getTxtfPesquisa().grabFocus();
 				} else if (tecla.getExtendedKeyCode() == 10) {
-					PainelPessoa.irParaPoicao(posicao);
+					// PainelPessoa.irParaPoicao(posicao);
 					funcaoSobrescrever();
-					FrameInicial.getTabela().changeSelection(--posicao, 0, false, false);
+					FrameInicial.getTabela().changeSelection(--posicao, 0,
+							false, false);
 					PainelPessoa.getTxtfNome().grabFocus();
 				}
 			}
@@ -187,146 +198,20 @@ public class ControlaUsuario {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				int posicao = tabela.getSelectedRow();
-				PainelPessoa.irParaPoicao(posicao);
+				// PainelPessoa.irParaPoicao(posicao);
 				System.out.println(tabela.getMouseListeners());
 			}
 		});
 		colunas.add("Nome");
 		colunas.add("CPF");
 		colunas.add("Email");
-		ArrayList<Pessoa> dados = new ArrayList<>();
-		dados = daoP.pesquisarNome(nome);
+		List<Pessoa> dados = new ArrayList<>();
+		dados = daoP.pesquisarString(nome);
 		modelotabela.setColumnIdentifiers(colunas.toArray());
 		for (int i = 0; i < dados.size(); i++) {
-			Object linha[] = { dados.get(i).getNome(), String.valueOf(dados.get(i).getCpf()), dados.get(i).getEmail() };
-			modelotabela.addRow(linha);
-		}
-		tabela.setShowGrid(true);
-		tabela.setModel(modelotabela);
-		return tabela;
-	}
-	
-
-	// Pesquisa por nome filtra relaÁ„o
-	public static JTable pesqNomeRelacao(String nome, String relacao) {
-		tabela = new JTable();
-		ArrayList<String> colunas = new ArrayList<>();
-		DefaultTableModel modelotabela = new DefaultTableModel();
-		modelotabela = (DefaultTableModel) tabela.getModel();
-		tabela.addKeyListener(new KeyListener() {
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void keyReleased(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
-					int posicao = tabela.getSelectedRow();
-					PainelPessoa.irParaPoicao(posicao);
-				} else if (tecla.getExtendedKeyCode() == 27) {// esc
-					FrameInicial.getTxtfPesquisa().grabFocus();
-				}
-			}
-
-			@Override
-			public void keyPressed(KeyEvent tecla) {
-				int posicao = tabela.getSelectedRow();
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
-					PainelPessoa.irParaPoicao(posicao);
-				} else if (tecla.getExtendedKeyCode() == 27) {// esc
-					FrameInicial.getTxtfPesquisa().grabFocus();
-				} else if (tecla.getExtendedKeyCode() == 10) {
-					PainelPessoa.irParaPoicao(posicao);
-					funcaoSobrescrever();
-					FrameInicial.getTabela().changeSelection(--posicao, 0, false, false);
-					PainelPessoa.getTxtfNome().grabFocus();
-				}
-			}
-		});
-		tabela.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				int posicao = tabela.getSelectedRow();
-				PainelPessoa.irParaPoicao(posicao);
-				System.out.println(tabela.getMouseListeners());
-			}
-		});
-		colunas.add("Nome");
-		colunas.add("CPF");
-		colunas.add("Email");
-		ArrayList<Pessoa> dados = new ArrayList<>();
-		dados = daoP.pesquisarNome(nome);
-		modelotabela.setColumnIdentifiers(colunas.toArray());
-		for (int i = 0; i < dados.size(); i++) {
-			Object linha[] = { dados.get(i).getNome(), String.valueOf(dados.get(i).getCpf()), dados.get(i).getEmail() };
-			modelotabela.addRow(linha);
-		}
-		tabela.setShowGrid(true);
-		tabela.setModel(modelotabela);
-		return tabela;
-	}
-
-	public JTable tabela() {
-		tabela = new JTable();
-		ArrayList<String> colunas = new ArrayList<>();
-		DefaultTableModel modelotabela = new DefaultTableModel();
-		tabela.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				int posicao = tabela.getSelectedRow();
-				JOptionPane.showMessageDialog(null, "Posi√ß√£o da linha da tabela: " + posicao);
-			}
-		});
-		modelotabela = (DefaultTableModel) tabela.getModel();
-		colunas.add("Nome");
-		colunas.add("CPF");
-		colunas.add("Email");
-		ArrayList<Pessoa> dados = new ArrayList<>();
-		dados = daoP.listarTodos();
-		modelotabela.setColumnIdentifiers(colunas.toArray());
-		for (int i = 0; i < dados.size(); i++) {
-			Object linha[] = { dados.get(i).getNome(), String.valueOf(dados.get(i).getCpf()), dados.get(i).getEmail() };
+			Object linha[] = {dados.get(i).getNome(),
+					String.valueOf(dados.get(i).getCpf()),
+					dados.get(i).getEmail()};
 			modelotabela.addRow(linha);
 		}
 		tabela.setShowGrid(true);
@@ -335,7 +220,7 @@ public class ControlaUsuario {
 	}
 
 	// TODO Tabela que adiciona usu·rios ao pedido
-	public JTable pesqNomeTabelaAdicionaUsuarioAopedido(String nome) {
+	public JTable pesqNomeTabelaAdicionaUsuarioAopedido(String str) {
 		ArrayList<String> colunas = new ArrayList<>();
 		tabela = new JTable();
 		DefaultTableModel modelotabela = new DefaultTableModel();
@@ -349,7 +234,8 @@ public class ControlaUsuario {
 			@Override
 			public void keyReleased(KeyEvent tecla) {
 				// TODO Ao Soltar a tecla
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 					int posicao = tabela.getSelectedRow();
 				}
 			}
@@ -358,7 +244,8 @@ public class ControlaUsuario {
 			public void keyPressed(KeyEvent tecla) {
 				// TODO Ao Pressionar Tecla
 				int posicao = tabela.getSelectedRow();
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
 					FrameInicial.getTxtfPesquisa().grabFocus();
 				} else if (tecla.getExtendedKeyCode() == 10) {
@@ -400,32 +287,33 @@ public class ControlaUsuario {
 		colunas.add("CPF");
 		colunas.add("Email");
 		arrayPessoa = new ArrayList<>();
-		arrayPessoa = daoP.pesquisarNome(nome);
+		arrayPessoa = daoP.pesquisarString(str);
 		modelotabela.setColumnIdentifiers(colunas.toArray());
 		for (int i = 0; i < arrayPessoa.size(); i++) {
-			Object linha[] = { arrayPessoa.get(i).getNome(), arrayPessoa.get(i).getCpf(), arrayPessoa.get(i).getEmail() };
+			Object linha[] = {arrayPessoa.get(i).getNome(),
+					arrayPessoa.get(i).getCpf(), arrayPessoa.get(i).getEmail()};
 			modelotabela.addRow(linha);
 		}
 		tabela.setShowGrid(true);
 		tabela.setModel(modelotabela);
 		return tabela;
 	}
-	public String carregarNomeGrupoCodigo(String codiGrupo){
+	public String carregarNomeGrupoCodigo(String codiGrupo) {
 		return daoG.pesquisarNomeCodigo(codiGrupo);
-		
+
 	}
-	public String carregarCodigoGrupoNome(String nomeGrupo){
+	public String carregarCodigoGrupoNome(String nomeGrupo) {
 		return daoG.pesquisarCodigoNome(nomeGrupo);
-		
+
 	}
-	public JComboBox<String> carregarGrupos(){
+	public JComboBox<String> carregarGrupos() {
 		cmbGrupos = new JComboBox<String>();
 		cmbGrupos.addItem("Grupos");
-		for (int i = 0; i < daoG.pesquisarString("").size(); i++) {
-			cmbGrupos.addItem(daoG.pesquisarString("").get(i).getNomeGrupo());
+		for (int i = 0; i < listGrupo.size(); i++) {
+			cmbGrupos.addItem(listGrupo.get(i).getNomeGrupo());
 		}
 		return cmbGrupos;
-	
+
 	}
 
 	public boolean logar(Pessoa u2) {
@@ -433,14 +321,17 @@ public class ControlaUsuario {
 		return false;
 	}
 
-	public void cadastrar(Pessoa u2, String confirmaSenha, String confirmaEmail) {
+	public void cadastrar(Pessoa u2, String confirmaSenha,
+			String confirmaEmail) {
 		// TODO Auto-generated method stub
 	}
 
 	public String criaCodiUsuario() {
 		Calendar c = Calendar.getInstance();
-		String codi = String.valueOf(daoP.consultaUltimo()) + String.valueOf(c.get(Calendar.YEAR))
-				+ String.valueOf(c.get(Calendar.MONTH)) + String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+		String codi = String.valueOf(daoP.consultaUltimo())
+				+ String.valueOf(c.get(Calendar.YEAR))
+				+ String.valueOf(c.get(Calendar.MONTH))
+				+ String.valueOf(c.get(Calendar.DAY_OF_MONTH));
 
 		return codi;
 	}
@@ -455,13 +346,15 @@ public class ControlaUsuario {
 				p = PainelPessoa.lerCampos();
 				if (!p.equals(null) & daoP.alterar(p)) {
 					FrameInicial.setTabela(pesqNomeTabela(p.getCodiPessoa()));
-					FrameInicial.setPainelVisualiza(new PainelPessoa(p.getCodiPessoa()));
+					FrameInicial.setPainelVisualiza(new PainelPessoa(p));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito!");
-					FrameInicial.getContUsua().iniciar();
+					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
 				} else {
-					JOptionPane.showMessageDialog(null, "Favor verificar os campos informados. ",
-							"N„o foi possivel alterar!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Favor verificar os campos informados. ",
+							"N„o foi possivel alterar!",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -478,13 +371,14 @@ public class ControlaUsuario {
 				if (!p.equals(null) & daoP.cadastrar(p)) {
 					PainelPessoa.limparCampos();
 					FrameInicial.setTabela(pesqNomeTabela(p.getCodiPessoa()));
-					FrameInicial.setPainelVisualiza(new PainelPessoa(p.getCodiPessoa()));
+					FrameInicial.setPainelVisualiza(new PainelPessoa(p));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito");
-					FrameInicial.getContUsua().iniciar();
+					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
 				} else {
-					JOptionPane.showMessageDialog(null, "Problemas: Erro de acesso ao banco", "Erro ao Salvar",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Problemas: Erro de acesso ao banco",
+							"Erro ao Salvar", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -492,7 +386,7 @@ public class ControlaUsuario {
 
 	public static void funcaoCancelar() {
 		System.out.println("ControlaUsuario.cancelar");
-		FrameInicial.getContUsua().iniciar();
+		FrameInicial.getContUsua().iniciar("");
 	}
 
 	// TODO Funcao excluir
@@ -509,15 +403,17 @@ public class ControlaUsuario {
 		}
 	}
 
-	public void iniciar() {
-		System.out.println("FrameInicial.iniciar");
+	public void iniciar(String tipo) {
+		System.out.println("FrameInicial.controlePessoasIniciar");
 		ControlaBotoes.limpaTodosBotoes();
 		FrameInicial.limparTxtfPesquisa();
 		ControlaBotoes.desHabilitaEdicaoBotoes();
-		FrameInicial.getTxtfPesquisa().grabFocus();
-		FrameInicial.setTabela(tblPessoaListaCompleta());
-		FrameInicial.atualizaTela();
-		
+		FrameInicial.setTabela(tblPessoas(""));
+		tabela.setRowSelectionInterval(0, 0);
+		p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+		FrameInicial.setPainelVisualiza(new PainelPessoa(p));
+		carregaDetalhes(p);
+
 		FrameInicial.getBtnEditar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -555,28 +451,41 @@ public class ControlaUsuario {
 				funcaoExcluir();
 			}
 		});
+
+		FrameInicial.getTxtfPesquisa().grabFocus();
 		FrameInicial.getTxtfPesquisa().addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent tecla) {
 				if (tecla.getExtendedKeyCode() == 40) {
-					FrameInicial.getTabela().grabFocus();
-					FrameInicial.getTabela().changeSelection(0, 0, false, false);
+					tabela.setColumnSelectionInterval(0, 0);
+					tabela.grabFocus();
 				} else if (tecla.getExtendedKeyCode() == 27) {
 					funcaoCancelar();
 				} else {
-					String nome = FrameInicial.getTxtfPesquisa().getText();
-					FrameInicial.setTabela(pesqNomeTabela(nome));
-					FrameInicial.setPainelVisualiza(new PainelPessoa(nome));
+					String str = FrameInicial.getTxtfPesquisa().getText();
+					FrameInicial.setTabela(tblPessoas(str));
+					tabela.setRowSelectionInterval(0, 0);
+					p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+					carregaDetalhes(p);
 					FrameInicial.atualizaTela();
 				}
 			}
 
 			@Override
 			public void keyReleased(KeyEvent tecla) {
-				String nome = FrameInicial.getTxtfPesquisa().getText();
-				FrameInicial.setTabela(pesqNomeTabela(nome));
-				FrameInicial.setPainelVisualiza(new PainelPessoa(nome));
-				FrameInicial.atualizaTela();
+				if (tecla.getExtendedKeyCode() == 40) {
+					tabela.setColumnSelectionInterval(0, 0);
+					tabela.grabFocus();
+				} else if (tecla.getExtendedKeyCode() == 27) {
+					funcaoCancelar();
+				} else {
+					String str = FrameInicial.getTxtfPesquisa().getText();
+					FrameInicial.setTabela(tblPessoas(str));
+					tabela.setRowSelectionInterval(0, 0);
+					p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+					carregaDetalhes(p);
+					FrameInicial.atualizaTela();
+				}
 			}
 
 			@Override
@@ -584,14 +493,11 @@ public class ControlaUsuario {
 			}
 		});
 	}
-	
-	public void carregaDetalhes() {
-		if (tabela.getSelectedRow() != -1) {
-			p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
-			FrameInicial.setPainelVisualiza(new PainelPessoa(p.getNome()));
-			FrameInicial.atualizaTela();
-			
-		}
-	}
 
+	public void carregaDetalhes(Pessoa p) {
+		PainelPessoa.carregarCampos(p);
+		FrameInicial.atualizaTela();
+		tabela.grabFocus();
+
+	}
 }

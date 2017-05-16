@@ -24,11 +24,11 @@ public class DAOIndicadoresFuse {
 
 	public DAOIndicadoresFuse() {
 		System.out.println("DAOIndicadoresFuse.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 	}
 
-	public void inserirArrayItens(String codiReco, ItensIndicadores[] itensIndicador) throws SQLException {
+	public void inserirArrayItens(String codiReco,
+			ItensIndicadores[] itensIndicador) throws SQLException {
 		// TODO Inserir os indicadores utilizados em cada recomendação
 		c.conectar();
 		for (int i = 0; i < itensIndicador.length; i++) {
@@ -102,7 +102,9 @@ public class DAOIndicadoresFuse {
 		arrayItIndi = new ArrayList<ItensIndicadores>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, nome);
 			ResultSet res = prepStm.executeQuery();
 			while (res.next()) {

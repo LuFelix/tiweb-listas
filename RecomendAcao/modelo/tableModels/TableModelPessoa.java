@@ -3,26 +3,27 @@ package tableModels;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import br.com.simprovendas.beans.Pessoa;
-import br.com.simprovendas.dao.DAOPessoa;
+import br.com.simprovendas.dao.DAOPessoaPG;
+import br.com.simprovendas.visao.PainelPessoa;
 
 public class TableModelPessoa extends AbstractTableModel {
 
 	private List<Pessoa> linhas;
-	private String[] colunas = new String[] { "Pessoas" };
+	private String[] colunas = new String[]{"Nome", "E-mail"};
 	private static final int Nome = 0;
-	DAOPessoa daoPessoa;
+	private static final int email = 1;
+	DAOPessoaPG daoPessoa;
 
 	public TableModelPessoa() {
-		daoPessoa = new DAOPessoa();
+		daoPessoa = new DAOPessoaPG();
 		linhas = new ArrayList<Pessoa>();
 	}
 
 	public TableModelPessoa(List<Pessoa> listPessoa) {
-		daoPessoa = new DAOPessoa();
+		daoPessoa = new DAOPessoaPG();
 		linhas = new ArrayList<Pessoa>(listPessoa);
 	}
 
@@ -30,10 +31,14 @@ public class TableModelPessoa extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Pessoa p = linhas.get(rowIndex);
 		switch (columnIndex) {
-		case Nome:
-			return p.getNome();
-		default:
-			throw new IndexOutOfBoundsException("columnIndex out of bounds");
+			case Nome :
+				return p.getNome();
+			case email :
+				return p.getEmail();
+
+			default :
+				throw new IndexOutOfBoundsException(
+						"columnIndex out of bounds");
 		}
 	}
 
@@ -53,20 +58,23 @@ public class TableModelPessoa extends AbstractTableModel {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
-		case Nome:
-			return String.class;
-		default:
-			throw new IndexOutOfBoundsException("columnIndex out of bounds");
+			case Nome :
+				return String.class;
+			case email :
+				return String.class;
+			default :
+				throw new IndexOutOfBoundsException(
+						"columnIndex out of bounds");
 		}
 	}
 
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		Pessoa p = linhas.get(rowIndex);
-		p = ((Pessoa) aValue);
-		 fireTableCellUpdated(rowIndex, columnIndex);
-		JOptionPane.showMessageDialog(null, p.getNome()+p.getCodiPessoa());
-		 // daoPessoa.editaLista(checkList); usar para alterar direto da tabela
+		p.setNome((String) aValue);
+		fireTableCellUpdated(rowIndex, columnIndex);
+		daoPessoa.alterar(p);
+		PainelPessoa.carregarCampos(p);
 	}
 
 	@Override
@@ -76,7 +84,7 @@ public class TableModelPessoa extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return false;
+		return columnIndex == Nome;
 	}
 
 	@Override

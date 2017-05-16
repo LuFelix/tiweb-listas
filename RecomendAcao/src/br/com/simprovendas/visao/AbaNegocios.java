@@ -218,17 +218,6 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 					FrameInicial.pesquisaProduto();
 				}
 			}
-			if (node.isLeaf() & nomeNo.equals("Clientes")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContUsua().iniciar();
-
-				}
-			}
-			if (node.isLeaf() & nomeNo.equals("Fornecedores")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.pesquisaUsuario();
-				}
-			}
 			if (node.isLeaf() & nomeNo.equals("Cond. Pagamento")) {
 				if (node.getAllowsChildren()) {
 					FrameInicial.getContCondPag().iniciar();

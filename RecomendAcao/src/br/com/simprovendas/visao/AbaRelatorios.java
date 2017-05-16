@@ -221,7 +221,7 @@ public class AbaRelatorios extends JPanel implements TreeSelectionListener {
 			}
 			if (node.isLeaf() & node.isNodeAncestor(contatos)) {
 				if (node.getAllowsChildren()) {
-					FrameInicial.pesquisaUsuario();
+					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
 				}
 			}
 			if (node.isLeaf() & nomeNo.equals("Cond. Pagamento")) {

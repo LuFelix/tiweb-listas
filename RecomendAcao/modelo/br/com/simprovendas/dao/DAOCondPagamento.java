@@ -21,9 +21,9 @@ public class DAOCondPagamento {
 
 	public DAOCondPagamento() {
 		System.out.println("DAOCondicaoPagamento.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
+		c = new Conexao(ConfigS.getBdPg());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
+				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
 				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
 	}
 
@@ -79,7 +79,9 @@ public class DAOCondPagamento {
 		arrayCondPag = new ArrayList<CondPagamento>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, str);
 			prepStm.setString(2, str);
 			ResultSet res = prepStm.executeQuery();
@@ -89,14 +91,17 @@ public class DAOCondPagamento {
 				condPag.setCodiCondPag(res.getString("codi_cond_pag"));
 				condPag.setNomeCondicao(res.getString("nome_cond_pag"));
 				condPag.setIndiceJuros(res.getFloat("indice_juros"));
-				condPag.setDescontoAcrescimo(res.getFloat("desconto_acrescimo"));
-				condPag.setGeraContasReceber(res.getString("gera_conta_receber"));
+				condPag.setDescontoAcrescimo(
+						res.getFloat("desconto_acrescimo"));
+				condPag.setGeraContasReceber(
+						res.getString("gera_conta_receber"));
 				condPag.setQuantParcelas(res.getInt("quant_parcelas"));
 				condPag.setTipoNumeracao(res.getInt("tipo_numeracao"));
 				condPag.setCondicaoECF(res.getInt("condicao_ecf"));
 				condPag.setSenha(res.getString("senha_cond_pag"));
 				condPag.setData_cadastro(res.getTimestamp("data_cadastro"));
-				condPag.setData_ultima_alteracao(res.getTimestamp("data_ultima_alteracao"));
+				condPag.setData_ultima_alteracao(
+						res.getTimestamp("data_ultima_alteracao"));
 				arrayCondPag.add(condPag);
 			}
 			c.desconectar();
@@ -167,14 +172,17 @@ public class DAOCondPagamento {
 				condPag.setCodiCondPag(result.getString("codi_cond_pag"));
 				condPag.setNomeCondicao(result.getString("nome_cond_pag"));
 				condPag.setIndiceJuros(result.getFloat("indice_juros"));
-				condPag.setDescontoAcrescimo(result.getFloat("desconto_acrescimo"));
-				condPag.setGeraContasReceber(result.getString("gera_conta_receber"));
+				condPag.setDescontoAcrescimo(
+						result.getFloat("desconto_acrescimo"));
+				condPag.setGeraContasReceber(
+						result.getString("gera_conta_receber"));
 				condPag.setQuantParcelas(result.getInt("quant_parcelas"));
 				condPag.setTipoNumeracao(result.getInt("tipo_numeracao"));
 				condPag.setCondicaoECF(result.getInt("condicao_ecf"));
 				condPag.setSenha(result.getString("senha_cond_pag"));
 				condPag.setData_cadastro(result.getTimestamp("data_cadastro"));
-				condPag.setData_ultima_alteracao(result.getTimestamp("data_ultima_alteracao"));
+				condPag.setData_ultima_alteracao(
+						result.getTimestamp("data_ultima_alteracao"));
 			}
 			c.desconectar();
 			return condPag;
@@ -200,14 +208,17 @@ public class DAOCondPagamento {
 				condPag.setCodiCondPag(result.getString("codi_cond_pag"));
 				condPag.setNomeCondicao(result.getString("nome_cond_pag"));
 				condPag.setIndiceJuros(result.getFloat("indice_juros"));
-				condPag.setDescontoAcrescimo(result.getFloat("desconto_acrescimo"));
-				condPag.setGeraContasReceber(result.getString("gera_conta_receber"));
+				condPag.setDescontoAcrescimo(
+						result.getFloat("desconto_acrescimo"));
+				condPag.setGeraContasReceber(
+						result.getString("gera_conta_receber"));
 				condPag.setQuantParcelas(result.getInt("quant_parcelas"));
 				condPag.setTipoNumeracao(result.getInt("tipo_numeracao"));
 				condPag.setCondicaoECF(result.getInt("condicao_ecf"));
 				condPag.setSenha(result.getString("senha_cond_pag"));
 				condPag.setData_cadastro(result.getTimestamp("data_cadastro"));
-				condPag.setData_ultima_alteracao(result.getTimestamp("data_ultima_alteracao"));
+				condPag.setData_ultima_alteracao(
+						result.getTimestamp("data_ultima_alteracao"));
 			}
 			c.desconectar();
 			return condPag;

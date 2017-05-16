@@ -21,9 +21,9 @@ public class DAOTabelaPreco {
 
 	public DAOTabelaPreco() {
 		System.out.println("DAOTabelaPreco.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
+		c = new Conexao(ConfigS.getBdPg());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
+				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
 				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
 	}
 
@@ -73,7 +73,9 @@ public class DAOTabelaPreco {
 		listTabPreco = new ArrayList<TabelaPreco>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, str);
 			prepStm.setString(2, str);
 			result = prepStm.executeQuery();

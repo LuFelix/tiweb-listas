@@ -38,9 +38,9 @@ public class DAOProdutoPrepSTM {
 	public DAOProdutoPrepSTM() {
 		System.out.println("DAOProduto.construtor");
 		daoCotProd = new DAOProdutosCotacao();
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
+		c = new Conexao(ConfigS.getBdPg());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
+				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
 				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
 	}
 
@@ -124,7 +124,9 @@ public class DAOProdutoPrepSTM {
 		listProd = new ArrayList<Produto>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, str);
 			prepStm.setString(2, str);
 			prepStm.setString(3, str);
@@ -152,7 +154,8 @@ public class DAOProdutoPrepSTM {
 	public Produto procurar(String codiProduto) {
 		prod = new Produto();
 		c2.conectStm();
-		result = c2.query("SELECT * FROM produtos WHERE codi_prod_1 ='" + codiProduto + "';");
+		result = c2.query("SELECT * FROM produtos WHERE codi_prod_1 ='"
+				+ codiProduto + "';");
 		c2.disconect();
 		try {
 			if (result.next()) {
@@ -190,8 +193,9 @@ public class DAOProdutoPrepSTM {
 	public Produto procurarAnteriorStmt(int codiProd) {
 		prod = new Produto();
 		c2.conectStm();
-		result = c2.query("SELECT codiprod, nomeprod,descprod,aliqprod,quanprod,precprod FROM produtos WHERE codiprod="
-				+ codiProd);
+		result = c2
+				.query("SELECT codiprod, nomeprod,descprod,aliqprod,quanprod,precprod FROM produtos WHERE codiprod="
+						+ codiProd);
 		c2.disconect();
 		try {
 			result.next();
@@ -242,8 +246,9 @@ public class DAOProdutoPrepSTM {
 	public Produto procurarStmt(int codiProd) {
 		prod = new Produto();
 		c2.conectStm();
-		result = c2.query("SELECT codiprod,nomeprod,descprod,aliqprod,quanprod,precprod FROM produtos WHERE codiprod='"
-				+ codiProd + "';");
+		result = c2
+				.query("SELECT codiprod,nomeprod,descprod,aliqprod,quanprod,precprod FROM produtos WHERE codiprod='"
+						+ codiProd + "';");
 		c2.disconect();
 		try {
 			result.next();
@@ -266,7 +271,9 @@ public class DAOProdutoPrepSTM {
 		listProd = new ArrayList<Produto>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			while (res.next()) {
 				prod = new Produto();

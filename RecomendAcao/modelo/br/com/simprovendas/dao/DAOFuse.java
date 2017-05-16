@@ -22,8 +22,7 @@ public class DAOFuse {
 
 	public DAOFuse() {
 		System.out.println("DAOFuse.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 	}
 
 	public boolean cadastrar(Fuse fuse) {
@@ -78,7 +77,9 @@ public class DAOFuse {
 		arrayFuse = new ArrayList<Fuse>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, nome);
 			prepStm.setString(2, nome);
 			prepStm.setString(3, nome);
@@ -117,7 +118,9 @@ public class DAOFuse {
 		String id_neg = null;
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			while (res.next()) {
 				id_neg = res.getString("id_neg");
@@ -140,7 +143,9 @@ public class DAOFuse {
 		arrayFuse = new ArrayList<Fuse>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			while (res.next()) {
 				fuse = new Fuse();

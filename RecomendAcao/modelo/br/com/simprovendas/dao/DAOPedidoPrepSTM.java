@@ -22,8 +22,7 @@ public class DAOPedidoPrepSTM {
 
 	public DAOPedidoPrepSTM() {
 		System.out.println("DAOPedido.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 		daoItPed = new DAOProdutosPedidos();
 		daoProdEstoque = new DAOProdutosEstoque();
 		daoContaLanc = new DAOLancamento();
@@ -47,7 +46,9 @@ public class DAOPedidoPrepSTM {
 		arraypedi = new ArrayList<Pedido>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, nome);
 			prepStm.setString(2, nome);
 			prepStm.setString(3, nome);
@@ -62,7 +63,8 @@ public class DAOPedidoPrepSTM {
 				pedi.setCodiCondPag(result.getString("codi_cond_pagamento"));
 				pedi.setTotalPedi(result.getFloat("total_pedido"));
 				pedi.setTipoPedido(result.getString("tipo_pedido"));
-				pedi.setCodiPessoaCliente(result.getString("codi_pessoa_cliente"));
+				pedi.setCodiPessoaCliente(
+						result.getString("codi_pessoa_cliente"));
 				pedi.setCodiTabPreco(result.getString("codi_tabela_preco"));
 				pedi.setObsPedi1(result.getString("obs_pedido_1"));
 				arraypedi.add(pedi);
@@ -81,7 +83,9 @@ public class DAOPedidoPrepSTM {
 		arraypedi = new ArrayList<Pedido>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, tipoPedido);
 			result = prepStm.executeQuery();
 			while (result.next()) {
@@ -94,7 +98,8 @@ public class DAOPedidoPrepSTM {
 				pedi.setCodiCondPag(result.getString("codi_cond_pagamento"));
 				pedi.setTotalPedi(result.getFloat("total_pedido"));
 				pedi.setTipoPedido(result.getString("tipo_pedido"));
-				pedi.setCodiPessoaCliente(result.getString("codi_pessoa_cliente"));
+				pedi.setCodiPessoaCliente(
+						result.getString("codi_pessoa_cliente"));
 				pedi.setCodiTabPreco(result.getString("codi_tabela_preco"));
 				pedi.setObsPedi1(result.getString("obs_pedido_1"));
 				arraypedi.add(pedi);

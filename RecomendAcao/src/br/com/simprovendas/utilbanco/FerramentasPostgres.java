@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.simprovendas.dao.ConfigS;
 import br.com.simprovendas.util.Conexao;
 
 /**
@@ -28,7 +29,7 @@ public class FerramentasPostgres {
 	// FROM pg_stat_activity
 	// WHERE pid <> pg_backend_pid();
 	public List<Banco> listaUsuariosConectados() {
-		c = new Conexao("PostgreSql", "localhost", "5432", "simpro", "postgres", "Lu123!@#");
+		c = new Conexao(ConfigS.getBdPg());
 		comando = "select datname,  pid, usename, application_name, client_addr, client_hostname, backend_start  from pg_stat_activity;";
 		listConecBanco = new ArrayList<Banco>();
 		c.conectar();
@@ -49,9 +50,12 @@ public class FerramentasPostgres {
 
 			}
 			for (int i = 0; i < listConecBanco.size(); i++) {
-				System.out.println("\n\nDATNAME: " + listConecBanco.get(i).getDatname() + "\nPID: "
-						+ listConecBanco.get(i).getPid() + "\nUSENAME: " + listConecBanco.get(i).getUsename()
-						+ "\nAPPNAME: " + listConecBanco.get(i).getApplication_name() + "\nBACKEND START: "
+				System.out.println("\n\nDATNAME: "
+						+ listConecBanco.get(i).getDatname() + "\nPID: "
+						+ listConecBanco.get(i).getPid() + "\nUSENAME: "
+						+ listConecBanco.get(i).getUsename() + "\nAPPNAME: "
+						+ listConecBanco.get(i).getApplication_name()
+						+ "\nBACKEND START: "
 						+ listConecBanco.get(i).getBackend_start());
 			}
 

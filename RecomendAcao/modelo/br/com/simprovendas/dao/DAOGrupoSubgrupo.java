@@ -21,9 +21,9 @@ public class DAOGrupoSubgrupo {
 	public DAOGrupoSubgrupo() {
 		super();
 		System.out.println("DAOGrupoSubgrupo.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
+		c = new Conexao(ConfigS.getBdPg());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
+				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
 				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
 	}
 
@@ -77,21 +77,23 @@ public class DAOGrupoSubgrupo {
 	public String pesquisarNomeCodigo(String str) {
 		System.out.println("DAOGrupo.pesquisarString");
 		String sql = "select nome_grupo from grupos where codi_grupo = ? ;";
-		
+
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, str);
 			ResultSet res = prepStm.executeQuery();
 			if (res.next()) {
 				String nomeGrupo = res.getString("nome_grupo");
 				c.desconectar();
 				return nomeGrupo;
-			}else{
+			} else {
 				c.desconectar();
 				return null;
 			}
-				
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			c.desconectar();
@@ -101,21 +103,23 @@ public class DAOGrupoSubgrupo {
 	public String pesquisarCodigoNome(String str) {
 		System.out.println("DAOGrupo.pesquisarString");
 		String sql = "select codi_grupo from grupos where nome_grupo = ? ;";
-		
+
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, str);
 			ResultSet res = prepStm.executeQuery();
 			if (res.next()) {
 				String codiGrupo = res.getString("codi_grupo");
 				c.desconectar();
 				return codiGrupo;
-			}else{
+			} else {
 				c.desconectar();
 				return null;
 			}
-				
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			c.desconectar();
@@ -128,7 +132,9 @@ public class DAOGrupoSubgrupo {
 		listGrupo = new ArrayList<GrupoSubgrupo>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, str);
 			prepStm.setString(2, str);
 			prepStm.setString(3, str);

@@ -25,8 +25,7 @@ public class DAOServico {
 	// TODO Construtor
 	public DAOServico() {
 		System.out.println("DAOServico.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 	}
 
 	// TODO Cadastrar/ Inserir
@@ -84,7 +83,6 @@ public class DAOServico {
 
 	// TODO Remover
 	public boolean remover(Servico serv) {
-		c = new Conexao("PostgreSql", "localhost", "5432", "siacecf", "postgres", "Lu123!@#");
 		String sql = "delete from servicos where codi_servico=?; ";
 		c.conectar();
 		try {
@@ -104,7 +102,8 @@ public class DAOServico {
 	// metodo usa um Statement
 	public void removerStmt(Servico serv) {
 		c2.conectStm();
-		result = c2.query("DELETE  FROM servicos WHERE codi_servico = " + serv.getCodiServico());
+		result = c2.query("DELETE  FROM servicos WHERE codi_servico = "
+				+ serv.getCodiServico());
 		c2.disconect();
 	}
 
@@ -124,7 +123,9 @@ public class DAOServico {
 		arrayServ = new ArrayList<Servico>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, str);
 			prepStm.setString(2, str);
 			prepStm.setString(3, str);

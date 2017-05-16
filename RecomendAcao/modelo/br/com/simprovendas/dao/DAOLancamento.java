@@ -22,13 +22,13 @@ public class DAOLancamento {
 
 	public DAOLancamento() {
 		System.out.println("DAOContaLancamento.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 	}
 
-	public void novoLancamento(String codiConta, String codiCondPag, String codiPedido, String codiPessoa,
-			Date dataHoraMovimento, float valor, String obsLanc, Date dataHoraReceb, String tipoLanc)
-					throws SQLException {
+	public void novoLancamento(String codiConta, String codiCondPag,
+			String codiPedido, String codiPessoa, Date dataHoraMovimento,
+			float valor, String obsLanc, Date dataHoraReceb, String tipoLanc)
+			throws SQLException {
 		dataHoraMovimento = new Date(Calendar.getInstance().getTimeInMillis());
 		String sql = "insert into contas_lancamentos ( codi_conta, codi_cond_pag, codi_pedido, codi_pessoa, "
 				+ "data_hora_lancamento,valor, obs_lancamento, data_hora_recebimento, tipo_lanc) values (?,?,?,?,?,?,?,?,?);";
@@ -48,13 +48,16 @@ public class DAOLancamento {
 	}
 
 	public List<Lancamento> conMovContaOrdSeqAscend(String codigo) {
-		System.out.println("DaoContaLancamento.consulataMovimentoContaOrdAscendente");
-		String sql = "select * from contas_lancamentos where codi_conta = '" + codigo
-				+ "' order by seq_conta_lancamento asc;";
+		System.out.println(
+				"DaoContaLancamento.consulataMovimentoContaOrdAscendente");
+		String sql = "select * from contas_lancamentos where codi_conta = '"
+				+ codigo + "' order by seq_conta_lancamento asc;";
 		listMov = new ArrayList<Lancamento>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			res = prepStm.executeQuery();
 			if (res.first()) {
 				do {
@@ -64,9 +67,11 @@ public class DAOLancamento {
 					lanc.setCodiCondPag(res.getString("codi_cond_pag"));
 					lanc.setCodiPedido(res.getString("codi_pedido"));
 					lanc.setCodiPessoa(res.getString("codi_pessoa"));
-					lanc.setDataHoraLancamento(res.getDate("data_hora_lancamento"));
+					lanc.setDataHoraLancamento(
+							res.getDate("data_hora_lancamento"));
 					lanc.setValor(res.getFloat("valor"));
-					lanc.setTipoLancamento(res.getString("codi_tipo_lancamento"));
+					lanc.setTipoLancamento(
+							res.getString("codi_tipo_lancamento"));
 					listMov.add(lanc);
 				} while (res.next());
 			} else {
@@ -86,12 +91,14 @@ public class DAOLancamento {
 	// Consulta somente entradas ou somente saídas
 	public List<Lancamento> conEntrSaiConta(Conta conta) {
 		System.out.println("DAOContaMovimento.ConsultaEntradasouSaidas");
-		String sql = "select * from contas_lancamentos where codi_conta = '" + conta.getCodiConta()
-				+ "' order by seq_conta_lancamento asc;";
+		String sql = "select * from contas_lancamentos where codi_conta = '"
+				+ conta.getCodiConta() + "' order by seq_conta_lancamento asc;";
 		listMov = new ArrayList<Lancamento>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			if (res.first()) {
 				do {
@@ -101,7 +108,8 @@ public class DAOLancamento {
 					lanc.setCodiCondPag(res.getString("codi_cond_pag"));
 					lanc.setCodiPedido(res.getString("codi_pedido"));
 					lanc.setCodiPessoa(res.getString("codi_pessoa"));
-					lanc.setDataHoraLancamento(res.getDate("data_hora_lancamento"));
+					lanc.setDataHoraLancamento(
+							res.getDate("data_hora_lancamento"));
 					lanc.setValor(res.getFloat("valor"));
 					listMov.add(lanc);
 				} while (res.next());
@@ -118,12 +126,14 @@ public class DAOLancamento {
 	// Consulta lancamentos do Pedido
 	public List<Lancamento> consultLancPedido(Pedido pedi) {
 		System.out.println("DAOContaMovimento.ConsultaEntradasouSaidas");
-		String sql = "select * from contas_lancamentos where codi_pedido = '" + pedi.getCodiPedi()
-				+ "' order by seq_conta_lancamento asc;";
+		String sql = "select * from contas_lancamentos where codi_pedido = '"
+				+ pedi.getCodiPedi() + "' order by seq_conta_lancamento asc;";
 		listMov = new ArrayList<Lancamento>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			if (res.first()) {
 				do {
@@ -133,7 +143,8 @@ public class DAOLancamento {
 					lanc.setCodiCondPag(res.getString("codi_cond_pag"));
 					lanc.setCodiPedido(res.getString("codi_pedido"));
 					lanc.setCodiPessoa(res.getString("codi_pessoa"));
-					lanc.setDataHoraLancamento(res.getDate("data_hora_lancamento"));
+					lanc.setDataHoraLancamento(
+							res.getDate("data_hora_lancamento"));
 					lanc.setValor(res.getFloat("valor"));
 					listMov.add(lanc);
 				} while (res.next());

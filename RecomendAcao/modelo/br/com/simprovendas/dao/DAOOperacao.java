@@ -26,9 +26,9 @@ public class DAOOperacao {
 
 	public DAOOperacao() {
 		System.out.println("DAOOperacao.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(),
+		c = new Conexao(ConfigS.getBdPg());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
+				ConfigS.getPortaPgDB(), ConfigS.getBanco2(),
 				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
 	}
 
@@ -100,7 +100,9 @@ public class DAOOperacao {
 		listOp = new ArrayList<Operacao>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, str);
 			prepStm.setString(2, str);
 			prepStm.setString(3, str);
@@ -136,7 +138,9 @@ public class DAOOperacao {
 		listOp = new ArrayList<Operacao>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, codigoFuse);
 			ResultSet res = prepStm.executeQuery();
 			while (res.next()) {
@@ -168,7 +172,9 @@ public class DAOOperacao {
 		listOp = new ArrayList<Operacao>();
 		c.conectar();
 		try {
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			prepStm.setString(1, codigo);
 			ResultSet res = prepStm.executeQuery();
 			while (res.next()) {
@@ -183,7 +189,8 @@ public class DAOOperacao {
 				op.setQtdPapeis(res.getInt("quant_papeis"));
 				op.setCorretagem(res.getFloat("corretagem"));
 				op.setTotal(res.getFloat("total"));
-				System.out.println("adicionou essa operação para a fuse: " + op.getCodiOrdem());
+				System.out.println("adicionou essa operação para a fuse: "
+						+ op.getCodiOrdem());
 				listOp.add(op);
 			}
 			c.desconectar();

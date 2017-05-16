@@ -23,8 +23,7 @@ public class DAOCotacaoYahoo {
 
 	public DAOCotacaoYahoo() {
 		System.out.println("DAOCotacaoYahoo.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 	}
 
 	// "ano-mês-dia horas:minutos:segundos"
@@ -59,13 +58,16 @@ public class DAOCotacaoYahoo {
 		listCotYahoo = new ArrayList<CotacaoYahoo>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			res.first();
 			do {
 				cotYahoo = new CotacaoYahoo();
 				cotYahoo.setIdYahoo(res.getString("id_yahoo"));
-				cotYahoo.setDataHoraCotacao(res.getTimestamp("data_hora_cotacao"));
+				cotYahoo.setDataHoraCotacao(
+						res.getTimestamp("data_hora_cotacao"));
 				cotYahoo.setPreAbe(res.getFloat("pre_abe"));
 				cotYahoo.setPreFec(res.getFloat("pre_ult"));
 				cotYahoo.setPreMax(res.getFloat("pre_max"));
@@ -94,7 +96,8 @@ public class DAOCotacaoYahoo {
 		c.conectar();
 		c.getCon().setAutoCommit(false);
 		// Chamada do procedimento.
-		CallableStatement proc = c.getCon().prepareCall("{ ? = call tabela_ultimas (  ) }");
+		CallableStatement proc = c.getCon()
+				.prepareCall("{ ? = call tabela_ultimas (  ) }");
 		proc.registerOutParameter(1, Types.OTHER);
 		proc.execute();
 		ResultSet results = (ResultSet) proc.getObject(1);
@@ -111,7 +114,8 @@ public class DAOCotacaoYahoo {
 		c.conectar();
 		c.getCon().setAutoCommit(false);
 		// Chamada do procedimento.
-		CallableStatement proc = c.getCon().prepareCall("{ ? = call cons_tudo }");
+		CallableStatement proc = c.getCon()
+				.prepareCall("{ ? = call cons_tudo }");
 		proc.registerOutParameter(1, Types.OTHER);
 		proc.execute();
 		ResultSet results = (ResultSet) proc.getObject(1);
@@ -130,14 +134,17 @@ public class DAOCotacaoYahoo {
 		String sql = "SELECT * FROM view_ultimas_cot_tbl_compl;";
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			hashSetCotYahoo = new HashSet<CotacaoYahoo>();
 			if (res.first()) {
 				do {
 					cotYahoo = new CotacaoYahoo();
 					cotYahoo.setIdYahoo(res.getString("id_yahoo"));
-					cotYahoo.setDataHoraCotacao(res.getTimestamp("data_hora_cotacao"));
+					cotYahoo.setDataHoraCotacao(
+							res.getTimestamp("data_hora_cotacao"));
 					cotYahoo.setPreAbe(res.getFloat("pre_abe"));
 					cotYahoo.setPreFec(res.getFloat("pre_ult"));
 					cotYahoo.setPreMax(res.getFloat("pre_max"));
@@ -168,7 +175,8 @@ public class DAOCotacaoYahoo {
 
 	// TODO consultar a Última cotação por ativo
 	public CotacaoYahoo consUltCotAtv(String idYahoo) {
-		String sql = "Select * From meta_ativo_yahoo Where id_yahoo='" + idYahoo + "' order by data_hora_cotacao;";
+		String sql = "Select * From meta_ativo_yahoo Where id_yahoo='" + idYahoo
+				+ "' order by data_hora_cotacao;";
 		c.conectar();
 		try {
 			prepStm = c.getCon().prepareStatement(sql);
@@ -213,18 +221,21 @@ public class DAOCotacaoYahoo {
 
 	// TODO Consulta as cotações do ativo retornado um array ordenado por data
 	public List<CotacaoYahoo> conCotAtvOrdDtAscend(String idYahoo) {
-		String sql = "select * from meta_ativo_yahoo where id_Yahoo = '" + idYahoo
-				+ "' order by data_hora_cotacao asc;";
+		String sql = "select * from meta_ativo_yahoo where id_Yahoo = '"
+				+ idYahoo + "' order by data_hora_cotacao asc;";
 		listCotYahoo = new ArrayList<CotacaoYahoo>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			res.first();
 			do {
 				cotYahoo = new CotacaoYahoo();
 				cotYahoo.setIdYahoo(res.getString("id_yahoo"));
-				cotYahoo.setDataHoraCotacao(res.getTimestamp("data_hora_cotacao"));
+				cotYahoo.setDataHoraCotacao(
+						res.getTimestamp("data_hora_cotacao"));
 				cotYahoo.setPreAbe(res.getFloat("pre_abe"));
 				cotYahoo.setPreFec(res.getFloat("pre_ult"));
 				cotYahoo.setPreMax(res.getFloat("pre_max"));
@@ -245,19 +256,23 @@ public class DAOCotacaoYahoo {
 	}
 
 	public List<CotacaoYahoo> conCotAtvOrdDtDescend(String idYahoo) {
-		c = new Conexao("PostgreSql", "localhost", "5432", "simpro", "postgres", "Lu123!@#");
-		String sql = "select * from meta_ativo_yahoo where id_yahoo = '" + idYahoo + "' order by data_cotacao desc;";
+		String sql = "select * from meta_ativo_yahoo where id_yahoo = '"
+				+ idYahoo + "' order by data_cotacao desc;";
 		listCotYahoo = new ArrayList<CotacaoYahoo>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			res.first();
 			do {
-				System.out.println("Cotações para:::" + res.getString("id_yahoo"));
+				System.out.println(
+						"Cotações para:::" + res.getString("id_yahoo"));
 				cotYahoo = new CotacaoYahoo();
 				cotYahoo.setIdYahoo(res.getString("id_yahoo"));
-				cotYahoo.setDataHoraCotacao(res.getTimestamp("data_hora_cotacao"));
+				cotYahoo.setDataHoraCotacao(
+						res.getTimestamp("data_hora_cotacao"));
 				cotYahoo.setPreAbe(res.getFloat("pre_abe"));
 				cotYahoo.setPreFec(res.getFloat("pre_ult"));
 				cotYahoo.setPreMax(res.getFloat("pre_max"));

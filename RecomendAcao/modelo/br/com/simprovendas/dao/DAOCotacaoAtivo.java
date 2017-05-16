@@ -18,8 +18,7 @@ public class DAOCotacaoAtivo {
 
 	public DAOCotacaoAtivo() {
 		System.out.println("DAOCotacaoAtivo.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco2(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 	}
 
 	/**
@@ -30,7 +29,8 @@ public class DAOCotacaoAtivo {
 	 */
 	public boolean inserir(CotacaoAtivo cotacao) {
 		String sql = "insert into cotacoes (id_neg, data_cotacao, pre_abe, pre_fec, pre_max, pre_min, volume_neg, quatot_tit, tot_neg) values(?,?,?,?,?,?,?,?,?)";
-		java.sql.Date dataSQl = new java.sql.Date(cotacao.getDataCotacao().getTime());
+		java.sql.Date dataSQl = new java.sql.Date(
+				cotacao.getDataCotacao().getTime());
 		try {
 			c.conectar();
 			prepStm = c.getCon().prepareStatement(sql);
@@ -60,20 +60,25 @@ public class DAOCotacaoAtivo {
 	 * @return
 	 */
 	public List<CotacaoAtivo> conCotAtvOrdDtAscend(String idAtivo) {
-		String sql = "select * from cotacoes where id_neg = '" + idAtivo + "' order by data_cotacao asc;";
+		String sql = "select * from cotacoes where id_neg = '" + idAtivo
+				+ "' order by data_cotacao asc;";
 		listCot = new ArrayList<CotacaoAtivo>();
 		try {
 
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 
 			if (res.first()) {
 				do {
-					cot = new CotacaoAtivo(res.getString("id_neg"), res.getTimestamp("data_cotacao"),
-							res.getFloat("pre_abe"), res.getFloat("pre_fec"), res.getFloat("pre_max"),
-							res.getFloat("pre_min"), res.getFloat("volume_neg"), res.getLong("quatot_tit"),
-							res.getLong("tot_neg"));
+					cot = new CotacaoAtivo(res.getString("id_neg"),
+							res.getTimestamp("data_cotacao"),
+							res.getFloat("pre_abe"), res.getFloat("pre_fec"),
+							res.getFloat("pre_max"), res.getFloat("pre_min"),
+							res.getFloat("volume_neg"),
+							res.getLong("quatot_tit"), res.getLong("tot_neg"));
 					listCot.add(cot);
 				} while (res.next());
 				c.desconectar();
@@ -92,23 +97,29 @@ public class DAOCotacaoAtivo {
 	 * @param idYahoo
 	 * @return
 	 */
-	public List<CotacaoAtivo> consultaTodasCotacoesAtivoTHreadDiario(String idYahoo) {
+	public List<CotacaoAtivo> consultaTodasCotacoesAtivoTHreadDiario(
+			String idYahoo) {
 		String conteudo[] = idYahoo.split(".");
 		System.out.println(conteudo.length);
 		System.out.println("idyahoo = " + idYahoo);
 		System.out.println("Depois do split " + conteudo[1]);
-		String sql = "select * from cotacoes where id_neg = '" + conteudo[0] + "' order by data_cotacao asc;";
+		String sql = "select * from cotacoes where id_neg = '" + conteudo[0]
+				+ "' order by data_cotacao asc;";
 		listCot = new ArrayList<CotacaoAtivo>();
 		try {
 
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			res.first();
 			do {
-				cot = new CotacaoAtivo(res.getString("id_neg"), res.getTimestamp("data_cotacao"),
-						res.getFloat("pre_abe"), res.getFloat("pre_fec"), res.getFloat("pre_max"),
-						res.getFloat("pre_min"), res.getFloat("volume_neg"), res.getLong("quatot_tit"),
+				cot = new CotacaoAtivo(res.getString("id_neg"),
+						res.getTimestamp("data_cotacao"),
+						res.getFloat("pre_abe"), res.getFloat("pre_fec"),
+						res.getFloat("pre_max"), res.getFloat("pre_min"),
+						res.getFloat("volume_neg"), res.getLong("quatot_tit"),
 						res.getLong("tot_neg"));
 				listCot.add(cot);
 			} while (res.next());
@@ -131,17 +142,22 @@ public class DAOCotacaoAtivo {
 	 * @return
 	 */
 	public List<CotacaoAtivo> conCotAtvOrdDtDescend(String idAtivo) {
-		String sql = "select * from cotacoes where id_neg = '" + idAtivo + "' order by data_cotacao desc;";
+		String sql = "select * from cotacoes where id_neg = '" + idAtivo
+				+ "' order by data_cotacao desc;";
 		listCot = new ArrayList<CotacaoAtivo>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			res.first();
 			do {
-				cot = new CotacaoAtivo(res.getString("id_neg"), res.getTimestamp("data_cotacao"),
-						res.getFloat("pre_abe"), res.getFloat("pre_fec"), res.getFloat("pre_max"),
-						res.getFloat("pre_min"), res.getFloat("volume_neg"), res.getLong("quatot_tit"),
+				cot = new CotacaoAtivo(res.getString("id_neg"),
+						res.getTimestamp("data_cotacao"),
+						res.getFloat("pre_abe"), res.getFloat("pre_fec"),
+						res.getFloat("pre_max"), res.getFloat("pre_min"),
+						res.getFloat("volume_neg"), res.getLong("quatot_tit"),
 						res.getLong("tot_neg"));
 				listCot.add(cot);
 			} while (res.next());
@@ -165,11 +181,14 @@ public class DAOCotacaoAtivo {
 		listDataDisp = new ArrayList<>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			if (res.first()) {
 				do {
-					listDataDisp.add(res.getString(String.valueOf("data_cotacao")));
+					listDataDisp
+							.add(res.getString(String.valueOf("data_cotacao")));
 				} while (res.next());
 				c.desconectar();
 				return listDataDisp;

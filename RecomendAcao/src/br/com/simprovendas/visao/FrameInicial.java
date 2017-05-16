@@ -712,16 +712,15 @@ public class FrameInicial {
 		painelTabulado1 = new JTabbedPane();
 		painelTabulado1.setFont(new Font("Times New Roman", Font.BOLD, 13));
 		painelTabulado1.addChangeListener(new ChangeListener() {
-
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
 				if (painelTabulado1.getSelectedIndex() == 0) {
-					FrameInicial.getContUsua().iniciar();
+					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
 					AbaPessoas.getArvoreNegocios().setSelectionRow(0);
 				}
 				if (painelTabulado1.getSelectedIndex() == 1) {
 					FrameInicial.pesquisaProduto();
-					AbaNegocios.getArvoreNegocios().setSelectionRow(3);
+					AbaNegocios.getArvoreNegocios().setSelectionRow(2);
 				}
 				if (painelTabulado1.getSelectedIndex() == 2) {
 					FrameInicial.pesquisaAtivo();
@@ -802,6 +801,7 @@ public class FrameInicial {
 	public static void atualizaTela() {
 		scrVisualiza.setViewportView(getPainelVisualiza());
 		scrLista.setViewportView(getTabela());
+		
 	}
 
 	public static void limpaTela() {
@@ -1041,83 +1041,7 @@ public class FrameInicial {
 		});
 	}
 
-	// TODO Pesquisa usuário
-	public static void pesquisaUsuario() {
-		System.out.println("FrameInicial.pesquisaPessoas");
-		ControlaBotoes.limpaTodosBotoes();
-		limparTxtfPesquisa();
-		ControlaBotoes.desHabilitaEdicaoBotoes();
-		txtfPesquisa.grabFocus();
-		setTabela(contUsua.pesqNomeTabela(""));
-		setPainelVisualiza(new PainelPessoa(""));
-		atualizaTela();
-		getBtnEditar().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				PainelPessoa.habilitaEdicao();
-				ControlaBotoes.habilitaEdicaoBotoes();
-				contUsua.funcaoSobrescrever();
-			}
-		});
-		getBtnNovo().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ControlaBotoes.habilitaNovoBotoes();
-				PainelPessoa.habilitaNovo();
-				contUsua.funcaoSalvar();
-			}
-		});
-		getBtnCancelar().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ControlaBotoes.desHabilitaEdicaoBotoes();
-				contUsua.funcaoCancelar();
-			}
-		});
-		getBtnSalvar().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ControlaBotoes.desHabilitaEdicaoBotoes();
-				contUsua.funcaoSalvar();
-			}
-		});
-		getBtnExcluir().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ControlaBotoes.desHabilitaEdicaoBotoes();
-				contUsua.funcaoExcluir();
-			}
-		});
-		txtfPesquisa.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40) {
-					getTabela().grabFocus();
-					getTabela().changeSelection(0, 0, false, false);
-				} else if (tecla.getExtendedKeyCode() == 27) {
-					contUsua.funcaoCancelar();
-				} else {
-					String nome = txtfPesquisa.getText();
-					setTabela(contUsua.pesqNomeTabela(nome));
-					setPainelVisualiza(new PainelPessoa(nome));
-					atualizaTela();
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent tecla) {
-				String nome = txtfPesquisa.getText();
-				setTabela(contUsua.pesqNomeTabela(nome));
-				setPainelVisualiza(new PainelPessoa(nome));
-				atualizaTela();
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-		});
-	}
-
+	
 	// TODO Pesquisa usuario para realizar um pedido
 	public static void pesquisaUsuarioAdicionarAOPedido() {
 		limparTxtfPesquisa();

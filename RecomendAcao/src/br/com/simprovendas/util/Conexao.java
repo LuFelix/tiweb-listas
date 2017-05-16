@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import br.com.simprovendas.dao.ConfigS;
+
 public class Conexao {
 	private String local;
 	private String user;
@@ -14,20 +16,23 @@ public class Conexao {
 	private String str_conexao;
 	private String driverjdbc;
 
-	public Conexao(String bd, String local, String porta, String banco, String user, String senha) {
-		if (bd.equals("PostgreSql")) {
-			setStr_conexao("jdbc:postgresql://" + local + ":" + porta + "/" + banco);
-			setLocal(local);
-			setSenha(senha);
-			setUser(user);
+	public Conexao(String banco) {
+		if (banco.equals("PostgreSql")) {
+			setLocal(ConfigS.getLocal());
+			setSenha(ConfigS.getSenhaPgDB());
+			setUser(ConfigS.getUserPgDB());
 			setDriverjdbc("org.postgresql.Driver");
+			setStr_conexao("jdbc:postgresql://" + local + ":"
+					+ ConfigS.getPortaPgDB() + "/" + ConfigS.getBanco1());
+
 		} else {
-			if (bd.equals("MySql")) {
-				setStr_conexao("jdbc:mysql://" + local + ":" + porta + "/" + banco);
-				setLocal(local);
-				setSenha(senha);
-				setUser(user);
+			if (banco.equals("MySql")) {
+				setLocal(ConfigS.getLocal());
+				setSenha(ConfigS.getSenhaMDB());
+				setUser(ConfigS.getUserMDB());
 				setDriverjdbc("com.mysql.jdbc.Driver");
+				setStr_conexao("jdbc:mysql://" + local + ":"
+						+ ConfigS.getPortaMDB() + "/" + banco);
 			}
 		}
 	}
@@ -45,7 +50,8 @@ public class Conexao {
 	public boolean conectar() {
 		System.setProperty("jdbc.Drivers", getDriverjdbc());
 		try {
-			con = DriverManager.getConnection(getStr_conexao(), getUser(), getSenha());
+			con = DriverManager.getConnection(getStr_conexao(), getUser(),
+					getSenha());
 			// System.out.println("Conectado Conexao Util");
 			return true;
 		} catch (SQLException e) {

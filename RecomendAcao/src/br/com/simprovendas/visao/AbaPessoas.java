@@ -155,7 +155,7 @@ public class AbaPessoas extends JPanel implements TreeSelectionListener {
 			
 			if (node.isLeaf() & nomeNo.equals("Pessoas")) {
 				if (node.getAllowsChildren()) {
-					FrameInicial.getContUsua().iniciar();
+					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
 				}
 			}
 			if (!node.isLeaf() & nomeNo.equals("Grupos")) {
@@ -166,20 +166,20 @@ public class AbaPessoas extends JPanel implements TreeSelectionListener {
 			
 			if (node.isLeaf() & nomeNo.equals("Clientes")) {
 				if (node.getAllowsChildren()) {
-					FrameInicial.getContUsua().iniciar();
+					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
 
 				}
 			}
 			
 			if (node.isLeaf() & nomeNo.equals("Fornecedores")) {
 				if (node.getAllowsChildren()) {
-					FrameInicial.getContUsua().iniciar();
+					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
 
 				}
 			}
 			if (node.isLeaf() & nomeNo.equals("Funcionários")) {
 				if (node.getAllowsChildren()) {
-					FrameInicial.getContUsua().iniciar();
+					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
 				}
 			}
 			

@@ -20,12 +20,12 @@ public class DAOProdutosEstoque {
 
 	public DAOProdutosEstoque() {
 		System.out.println("DAOProdutosEstoque.construtor");
-		c = new Conexao(ConfigS.getBdPg(), ConfigS.getLocal(), ConfigS.getPortaPgDB(), ConfigS.getBanco1(), ConfigS.getUserPgDB(),
-				ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg());
 	}
 
-	public void novoMovProdEstoque(String codiEstoque, Date dataHoraMovimento, String codiProduto, int quantidade,
-			String codiPedido, String tipoMovimento) {
+	public void novoMovProdEstoque(String codiEstoque, Date dataHoraMovimento,
+			String codiProduto, int quantidade, String codiPedido,
+			String tipoMovimento) {
 		String sql = "insert into produtos_estoque ( codi_estoque, data_hora_movimento, codi_produto, quantidade, codi_pedido, tipo_movimento) "
 				+ "values (?,?,?,?,?,?);";
 		c.conectar();
@@ -45,7 +45,8 @@ public class DAOProdutosEstoque {
 		}
 	}
 
-	public void movimentoPedido(String codiPedi, Produto[] itensProduto, String tipoMovimento) throws SQLException {
+	public void movimentoPedido(String codiPedi, Produto[] itensProduto,
+			String tipoMovimento) throws SQLException {
 		// TODO Movimenta o estoque com os itens do pedido
 		c.conectar();
 		for (int i = 0; i < itensProduto.length; i++) {
@@ -65,19 +66,22 @@ public class DAOProdutosEstoque {
 
 	// TODO Movimentos do produto, retorna um array ordenado por sequencia asc
 	public List<ProdutoEstoque> conMovProdOrdSeqAscend(String codiProduto) {
-		String sql = "select * from produtos_estoque where codi_produto = '" + codiProduto
-				+ "' order by seq_movimento_estoque asc;";
+		String sql = "select * from produtos_estoque where codi_produto = '"
+				+ codiProduto + "' order by seq_movimento_estoque asc;";
 		listMov = new ArrayList<ProdutoEstoque>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			res = prepStm.executeQuery();
 			if (res.first()) {
 				do {
 					mov = new ProdutoEstoque();
 					mov.setSeqMovimento(res.getInt("seq_movimento_estoque"));
 					mov.setCodiPedido(res.getString("codi_estoque"));
-					mov.setDataHoraMovimento(res.getDate("data_hora_movimento"));
+					mov.setDataHoraMovimento(
+							res.getDate("data_hora_movimento"));
 					mov.setCodiProduto(res.getString("codi_produto"));
 					mov.setQuantidade(res.getInt("quantidade"));
 					mov.setCodiPedido(res.getString("codi_pedido"));
@@ -99,20 +103,25 @@ public class DAOProdutosEstoque {
 	}
 
 	// Consulta somente entradas ou somente saídas
-	public List<ProdutoEstoque> conEntrSaiProdOrdSeqAscend(Produto prod, String tipoMovimento) {
-		String sql = "select * from produtos_estoque where codi_produto = '" + prod.getCodi_prod_1()
-				+ "' and tipo_movimento='" + tipoMovimento + "' order by seq_movimento_estoque asc;";
+	public List<ProdutoEstoque> conEntrSaiProdOrdSeqAscend(Produto prod,
+			String tipoMovimento) {
+		String sql = "select * from produtos_estoque where codi_produto = '"
+				+ prod.getCodi_prod_1() + "' and tipo_movimento='"
+				+ tipoMovimento + "' order by seq_movimento_estoque asc;";
 		listMov = new ArrayList<ProdutoEstoque>();
 		try {
 			c.conectar();
-			prepStm = c.getCon().prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 			ResultSet res = prepStm.executeQuery();
 			if (res.first()) {
 				do {
 					mov = new ProdutoEstoque();
 					mov.setSeqMovimento(res.getInt("seq_movimento_estoque"));
 					mov.setCodiPedido(res.getString("codi_estoque"));
-					mov.setDataHoraMovimento(res.getDate("data_hora_movimento"));
+					mov.setDataHoraMovimento(
+							res.getDate("data_hora_movimento"));
 					mov.setCodiProduto(res.getString("codi_produto"));
 					mov.setQuantidade(res.getInt("quantidade"));
 					mov.setCodiPedido(res.getString("codi_pedido"));
