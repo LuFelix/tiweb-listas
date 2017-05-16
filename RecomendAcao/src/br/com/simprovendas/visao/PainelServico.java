@@ -20,10 +20,10 @@ import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import br.com.simprovendas.beans.Servico;
-import br.com.simprovendas.controle.ControlaListaServicos;
-import br.com.simprovendas.controle.ControlaServico;
-import br.com.simprovendas.dao.DAOServico;
+import br.com.recomendacao.beans.Servico;
+import br.com.recomendacao.controle.ControlaListaServicos;
+import br.com.recomendacao.controle.ControlaServico;
+import br.com.recomendacao.dao.DAOServico;
 
 public class PainelServico extends JPanel {
 

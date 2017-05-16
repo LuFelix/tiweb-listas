@@ -23,20 +23,20 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
-import br.com.adapter.ConstrutorGrafico;
-import br.com.simprovendas.bdi.AtualizaSistemaBDIBovespa;
-import br.com.simprovendas.beans.Ativo;
-import br.com.simprovendas.beans.AtivoYahoo;
-import br.com.simprovendas.beans.Indicadores;
-import br.com.simprovendas.beans.Operacao;
-import br.com.simprovendas.controle.ControlaAtivo;
-import br.com.simprovendas.controle.ControlaOperacao;
-import br.com.simprovendas.dao.DAOAtivo;
-import br.com.simprovendas.dao.DAOAtvYahoo;
-import br.com.simprovendas.mineradores.Minerador;
-import br.com.simprovendas.util.ModeloArvore;
-import br.com.simprovendas.util.MontaGrid;
-import br.com.simprovendas.zebra.ProgressBarFrame;
+import br.com.recomendacao.adapter.ConstrutorGrafico;
+import br.com.recomendacao.bdi.AtualizaSistemaBDIBovespa;
+import br.com.recomendacao.beans.Ativo;
+import br.com.recomendacao.beans.AtivoYahoo;
+import br.com.recomendacao.beans.Indicadores;
+import br.com.recomendacao.beans.Operacao;
+import br.com.recomendacao.controle.ControlaAtivo;
+import br.com.recomendacao.controle.ControlaOperacao;
+import br.com.recomendacao.dao.DAOAtivo;
+import br.com.recomendacao.dao.DAOAtvYahoo;
+import br.com.recomendacao.mineradores.Minerador;
+import br.com.recomendacao.util.ModeloArvore;
+import br.com.recomendacao.util.MontaGrid;
+import br.com.recomendacao.zebra.ProgressBarFrame;
 
 public class AbaFuse extends JPanel implements TreeSelectionListener {
 	public static JPanel painelPrincipal;

@@ -27,13 +27,13 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import br.com.simprovendas.beans.CondPagamento;
-import br.com.simprovendas.beans.Pedido;
-import br.com.simprovendas.beans.Servico;
-import br.com.simprovendas.beans.Pessoa;
-import br.com.simprovendas.controle.ControlaListaPedidos;
-import br.com.simprovendas.controle.ControlaPedido;
-import br.com.simprovendas.dao.DAOPedidoPrepSTM;
+import br.com.recomendacao.beans.CondPagamento;
+import br.com.recomendacao.beans.Pedido;
+import br.com.recomendacao.beans.Pessoa;
+import br.com.recomendacao.beans.Servico;
+import br.com.recomendacao.controle.ControlaListaPedidos;
+import br.com.recomendacao.controle.ControlaPedido;
+import br.com.recomendacao.dao.DAOPedidoPrepSTM;
 
 public class PainelOrdServicos extends JPanel {
 

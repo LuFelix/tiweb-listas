@@ -33,20 +33,20 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
-import br.com.simprovendas.beans.CondPagamento;
-import br.com.simprovendas.beans.Lancamento;
-import br.com.simprovendas.beans.Pedido;
-import br.com.simprovendas.beans.Produto;
-import br.com.simprovendas.beans.TabelaPreco;
-import br.com.simprovendas.beans.Pessoa;
-import br.com.simprovendas.controle.ControlaLancamento;
-import br.com.simprovendas.controle.ControlaListaPedidos;
-import br.com.simprovendas.controle.ControlaPedido;
-import br.com.simprovendas.controle.ControlaProduto;
-import br.com.simprovendas.dao.DAOCondPagamento;
-import br.com.simprovendas.dao.DAOPedidoPrepSTM;
-import br.com.simprovendas.dao.DAOProdutosEstoque;
-import br.com.simprovendas.dao.DAOTabelaPreco;
+import br.com.recomendacao.beans.CondPagamento;
+import br.com.recomendacao.beans.Lancamento;
+import br.com.recomendacao.beans.Pedido;
+import br.com.recomendacao.beans.Pessoa;
+import br.com.recomendacao.beans.Produto;
+import br.com.recomendacao.beans.TabelaPreco;
+import br.com.recomendacao.controle.ControlaLancamento;
+import br.com.recomendacao.controle.ControlaListaPedidos;
+import br.com.recomendacao.controle.ControlaPedido;
+import br.com.recomendacao.controle.ControlaProduto;
+import br.com.recomendacao.dao.DAOCondPagamento;
+import br.com.recomendacao.dao.DAOPedidoPrepSTM;
+import br.com.recomendacao.dao.DAOProdutosEstoque;
+import br.com.recomendacao.dao.DAOTabelaPreco;
 
 public class PainelPedidos extends JPanel {
 

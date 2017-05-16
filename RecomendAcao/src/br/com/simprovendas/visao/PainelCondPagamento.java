@@ -18,10 +18,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import br.com.simprovendas.beans.CondPagamento;
-import br.com.simprovendas.controle.ControlaCondPagamento;
-import br.com.simprovendas.controle.ControlaListaCondPag;
-import br.com.simprovendas.dao.DAOCondPagamento;
+import br.com.recomendacao.beans.CondPagamento;
+import br.com.recomendacao.controle.ControlaCondPagamento;
+import br.com.recomendacao.controle.ControlaListaCondPag;
+import br.com.recomendacao.dao.DAOCondPagamento;
 import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
 
 public class PainelCondPagamento extends JPanel {

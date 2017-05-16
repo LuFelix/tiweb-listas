@@ -9,14 +9,14 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import br.com.simprovendas.beans.Ativo;
-import br.com.simprovendas.beans.AtivoYahoo;
-import br.com.simprovendas.beans.CotacaoYahoo;
-import br.com.simprovendas.dao.DAOAtivo;
-import br.com.simprovendas.dao.DAOAtvYahoo;
-import br.com.simprovendas.dao.DAOCotacaoYahoo;
-import br.com.simprovendas.util.BaixarArquivos;
-import br.com.simprovendas.util.ManipulaData;
+import br.com.recomendacao.beans.Ativo;
+import br.com.recomendacao.beans.AtivoYahoo;
+import br.com.recomendacao.beans.CotacaoYahoo;
+import br.com.recomendacao.dao.DAOAtivo;
+import br.com.recomendacao.dao.DAOAtvYahoo;
+import br.com.recomendacao.dao.DAOCotacaoYahoo;
+import br.com.recomendacao.util.BaixarArquivos;
+import br.com.recomendacao.util.ManipulaData;
 
 public class AtualizaYahoo {
 

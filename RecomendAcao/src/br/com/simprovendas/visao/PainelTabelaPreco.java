@@ -19,12 +19,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import br.com.simprovendas.beans.Ativo;
-import br.com.simprovendas.beans.TabelaPreco;
-import br.com.simprovendas.controle.ControlaListaTabelaPreco;
-import br.com.simprovendas.controle.ControlaTabelaPreco;
-import br.com.simprovendas.dao.DAOTabelaPreco;
-import br.com.simprovendas.util.ManipulaData;
+import br.com.recomendacao.beans.Ativo;
+import br.com.recomendacao.beans.TabelaPreco;
+import br.com.recomendacao.controle.ControlaListaTabelaPreco;
+import br.com.recomendacao.controle.ControlaTabelaPreco;
+import br.com.recomendacao.dao.DAOTabelaPreco;
+import br.com.recomendacao.util.ManipulaData;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class PainelTabelaPreco extends JPanel {

@@ -19,9 +19,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import br.com.simprovendas.beans.Pessoa;
-import br.com.simprovendas.controle.ControlaListaUsuarios;
-import br.com.simprovendas.controle.ControlaUsuario;
+import br.com.recomendacao.beans.Pessoa;
+import br.com.recomendacao.controle.ControlaListaUsuarios;
+import br.com.recomendacao.controle.ControlaUsuario;
 
 public class PainelPessoa extends JPanel {
 	// Objetos de Controle

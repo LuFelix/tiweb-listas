@@ -18,17 +18,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
-import br.com.adapter.ConstrutorGrafico;
-
-//import br.com.simpro.controller.ControlaAtivo;
-//import br.com.simpro.dao.DaoCotacao;
-//import br.com.simpro.indicadoresAT.Indicadores;
-//import br.com.simpro.modelo.Ativo;
-//import br.com.simpro.modelo.Operacao;
-
-import br.com.simprovendas.controle.ControlaUsuario;
-import br.com.simprovendas.util.ModeloArvore;
-import br.com.simprovendas.util.MontaGrid;
+import br.com.recomendacao.adapter.ConstrutorGrafico;
+import br.com.recomendacao.controle.ControlaUsuario;
+import br.com.recomendacao.util.ModeloArvore;
+import br.com.recomendacao.util.MontaGrid;
 
 public class AbaFinancas extends JPanel implements TreeSelectionListener {
 	JPanel painelPrincipal;

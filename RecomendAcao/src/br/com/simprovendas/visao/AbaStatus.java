@@ -19,13 +19,13 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeSelectionModel;
 
-import br.com.adapter.ConstrutorGrafico;
-import br.com.simprovendas.beans.Ativo;
-import br.com.simprovendas.beans.Indicadores;
-import br.com.simprovendas.beans.Operacao;
-import br.com.simprovendas.controle.ControlaAtivo;
-import br.com.simprovendas.util.ModeloArvore;
-import br.com.simprovendas.util.MontaGrid;
+import br.com.recomendacao.adapter.ConstrutorGrafico;
+import br.com.recomendacao.beans.Ativo;
+import br.com.recomendacao.beans.Indicadores;
+import br.com.recomendacao.beans.Operacao;
+import br.com.recomendacao.controle.ControlaAtivo;
+import br.com.recomendacao.util.ModeloArvore;
+import br.com.recomendacao.util.MontaGrid;
 
 public class AbaStatus extends JPanel implements TreeSelectionListener {
 	JPanel painelPrincipal;

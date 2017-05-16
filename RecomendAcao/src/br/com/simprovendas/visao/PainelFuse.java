@@ -27,15 +27,15 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import br.com.simprovendas.beans.Fuse;
-import br.com.simprovendas.beans.Indicadores;
-import br.com.simprovendas.beans.ItensIndicadores;
-import br.com.simprovendas.beans.Operacao;
-import br.com.simprovendas.beans.OrdemBovespa;
-import br.com.simprovendas.beans.Pessoa;
-import br.com.simprovendas.controle.ControlaFuse;
-import br.com.simprovendas.controle.ControlaListaFuse;
-import br.com.simprovendas.dao.DAOFuse;
+import br.com.recomendacao.beans.Fuse;
+import br.com.recomendacao.beans.Indicadores;
+import br.com.recomendacao.beans.ItensIndicadores;
+import br.com.recomendacao.beans.Operacao;
+import br.com.recomendacao.beans.OrdemBovespa;
+import br.com.recomendacao.beans.Pessoa;
+import br.com.recomendacao.controle.ControlaFuse;
+import br.com.recomendacao.controle.ControlaListaFuse;
+import br.com.recomendacao.dao.DAOFuse;
 
 public class PainelFuse extends JPanel {
 

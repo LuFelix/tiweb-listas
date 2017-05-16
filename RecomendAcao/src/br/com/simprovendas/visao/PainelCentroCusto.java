@@ -15,9 +15,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import br.com.simprovendas.beans.CentroCusto;
-import br.com.simprovendas.controle.ControlaCentroCusto;
-import br.com.simprovendas.controle.ControlaListaCentroCusto;
+import br.com.recomendacao.beans.CentroCusto;
+import br.com.recomendacao.controle.ControlaCentroCusto;
+import br.com.recomendacao.controle.ControlaListaCentroCusto;
 
 public class PainelCentroCusto extends JPanel {
 

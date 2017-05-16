@@ -16,11 +16,11 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import br.com.simprovendas.beans.Produto;
-import br.com.simprovendas.controle.ControlaProduto;
-import br.com.simprovendas.controle.ControlaVendaACBR;
-import br.com.simprovendas.util.LeArquivoTxt;
-import br.com.simprovendas.util.ManipulaArquivoTxt;
+import br.com.recomendacao.beans.Produto;
+import br.com.recomendacao.controle.ControlaProduto;
+import br.com.recomendacao.controle.ControlaVendaACBR;
+import br.com.recomendacao.util.LeArquivoTxt;
+import br.com.recomendacao.util.ManipulaArquivoTxt;
 
 public class FramePedido001 extends JPanel {
 

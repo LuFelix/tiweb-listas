@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 
-import br.com.simprovendas.controle.ControlaSistema;
+import br.com.recomendacao.controle.ControlaSistema;
 
 public class PainelFuncoesBanco extends JPanel {
 	ControlaSistema contSis;

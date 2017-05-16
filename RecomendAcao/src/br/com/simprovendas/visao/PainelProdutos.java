@@ -28,12 +28,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
-import br.com.simprovendas.beans.Produto;
-import br.com.simprovendas.controle.ControlaListaProdutos;
-import br.com.simprovendas.controle.ControlaProduto;
-import br.com.simprovendas.controle.ControlaTabelaPreco;
-import br.com.simprovendas.dao.DAOProdutoPrepSTM;
-import br.com.simprovendas.dao.DAOTabelaPreco;
+import br.com.recomendacao.beans.Produto;
+import br.com.recomendacao.controle.ControlaListaProdutos;
+import br.com.recomendacao.controle.ControlaProduto;
+import br.com.recomendacao.controle.ControlaTabelaPreco;
+import br.com.recomendacao.dao.DAOProdutoPrepSTM;
+import br.com.recomendacao.dao.DAOTabelaPreco;
 
 public class PainelProdutos extends JPanel {
 

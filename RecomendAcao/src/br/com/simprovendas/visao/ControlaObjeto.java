@@ -2,7 +2,7 @@ package br.com.simprovendas.visao;
 
 import java.util.List;
 
-import br.com.simprovendas.beans.GrupoSubgrupo;
+import br.com.recomendacao.beans.GrupoSubgrupo;
 
 public abstract class ControlaObjeto {
 

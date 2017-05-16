@@ -17,10 +17,10 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import br.com.simprovendas.beans.Produto;
-import br.com.simprovendas.controle.ControlaListaProdutos;
-import br.com.simprovendas.controle.ControlaProduto;
-import br.com.simprovendas.dao.DAOProdutoPrepSTM;
+import br.com.recomendacao.beans.Produto;
+import br.com.recomendacao.controle.ControlaListaProdutos;
+import br.com.recomendacao.controle.ControlaProduto;
+import br.com.recomendacao.dao.DAOProdutoPrepSTM;
 
 public class FrameProdutos {
 

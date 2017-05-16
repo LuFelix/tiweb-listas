@@ -33,9 +33,9 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
-import br.com.adapter.ConstrutorGrafico;
-import br.com.simprovendas.util.ModeloArvore;
-import br.com.simprovendas.util.MontaGrid;
+import br.com.recomendacao.adapter.ConstrutorGrafico;
+import br.com.recomendacao.util.ModeloArvore;
+import br.com.recomendacao.util.MontaGrid;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class AbaAvancado extends JPanel implements TreeSelectionListener {

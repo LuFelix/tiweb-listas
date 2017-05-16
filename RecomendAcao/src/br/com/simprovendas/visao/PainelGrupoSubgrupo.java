@@ -16,9 +16,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import br.com.simprovendas.beans.GrupoSubgrupo;
-import br.com.simprovendas.controle.ControlaGrupoSubgrupo;
-import br.com.simprovendas.controle.ControlaListaGrupo;
+import br.com.recomendacao.beans.GrupoSubgrupo;
+import br.com.recomendacao.controle.ControlaGrupoSubgrupo;
+import br.com.recomendacao.controle.ControlaListaGrupo;
 
 public class PainelGrupoSubgrupo extends JPanel {
 	private JPanel painelPrincipal;

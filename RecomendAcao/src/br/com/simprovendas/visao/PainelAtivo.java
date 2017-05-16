@@ -21,13 +21,13 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
-import br.com.adapter.ConstrutorGrafico;
-import br.com.simprovendas.beans.Ativo;
-import br.com.simprovendas.beans.CotacaoAtivo;
-import br.com.simprovendas.controle.ControlaAtivo;
-import br.com.simprovendas.controle.ControlaListaAtivos;
-import br.com.simprovendas.dao.DAOAtivo;
-import br.com.simprovendas.dao.DAOCotacaoAtivo;
+import br.com.recomendacao.adapter.ConstrutorGrafico;
+import br.com.recomendacao.beans.Ativo;
+import br.com.recomendacao.beans.CotacaoAtivo;
+import br.com.recomendacao.controle.ControlaAtivo;
+import br.com.recomendacao.controle.ControlaListaAtivos;
+import br.com.recomendacao.dao.DAOAtivo;
+import br.com.recomendacao.dao.DAOCotacaoAtivo;
 
 public class PainelAtivo extends JPanel {
 

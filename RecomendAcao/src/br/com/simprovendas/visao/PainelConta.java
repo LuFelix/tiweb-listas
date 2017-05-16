@@ -20,13 +20,13 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
-import br.com.simprovendas.beans.CentroCusto;
-import br.com.simprovendas.beans.Conta;
-import br.com.simprovendas.controle.ControlaCentroCusto;
-import br.com.simprovendas.controle.ControlaConta;
-import br.com.simprovendas.controle.ControlaListaConta;
-import br.com.simprovendas.controle.ControlaTabelaPreco;
-import br.com.simprovendas.dao.DAOTabelaPreco;
+import br.com.recomendacao.beans.CentroCusto;
+import br.com.recomendacao.beans.Conta;
+import br.com.recomendacao.controle.ControlaCentroCusto;
+import br.com.recomendacao.controle.ControlaConta;
+import br.com.recomendacao.controle.ControlaListaConta;
+import br.com.recomendacao.controle.ControlaTabelaPreco;
+import br.com.recomendacao.dao.DAOTabelaPreco;
 
 public class PainelConta extends JPanel {
 

@@ -23,12 +23,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
-import br.com.simprovendas.beans.CentroCusto;
-import br.com.simprovendas.beans.Produto;
-import br.com.simprovendas.controle.ControlaConta;
-import br.com.simprovendas.controle.ControlaListaProdutos;
-import br.com.simprovendas.controle.ControlaTabelaPreco;
-import br.com.simprovendas.dao.DAOCentroCusto;
+import br.com.recomendacao.beans.CentroCusto;
+import br.com.recomendacao.beans.Produto;
+import br.com.recomendacao.controle.ControlaConta;
+import br.com.recomendacao.controle.ControlaListaProdutos;
+import br.com.recomendacao.controle.ControlaTabelaPreco;
+import br.com.recomendacao.dao.DAOCentroCusto;
 
 public class PainelStatus extends JPanel {
 

@@ -18,7 +18,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeSelectionModel;
 
-import br.com.simprovendas.util.ModeloArvore;
+import br.com.recomendacao.util.ModeloArvore;
 
 public class AbaPessoas extends JPanel implements TreeSelectionListener {
 	JPanel painelPrincipal;

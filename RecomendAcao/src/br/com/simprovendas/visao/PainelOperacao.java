@@ -16,11 +16,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import br.com.simprovendas.beans.Ativo;
-import br.com.simprovendas.beans.Operacao;
-import br.com.simprovendas.controle.ControlaListaOperacoes;
-import br.com.simprovendas.controle.ControlaOperacao;
-import br.com.simprovendas.dao.DAOOperacao;
+import br.com.recomendacao.beans.Ativo;
+import br.com.recomendacao.beans.Operacao;
+import br.com.recomendacao.controle.ControlaListaOperacoes;
+import br.com.recomendacao.controle.ControlaOperacao;
+import br.com.recomendacao.dao.DAOOperacao;
 
 public class PainelOperacao extends JPanel {
 

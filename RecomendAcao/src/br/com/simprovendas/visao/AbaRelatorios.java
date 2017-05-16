@@ -17,7 +17,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
-import br.com.simprovendas.util.ModeloArvore;
+import br.com.recomendacao.util.ModeloArvore;
 
 public class AbaRelatorios extends JPanel implements TreeSelectionListener {
 	JSplitPane sppPrincipal;

@@ -15,8 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import br.com.simprovendas.beans.Pessoa;
-import br.com.simprovendas.controle.ControlaUsuario;
+import br.com.recomendacao.beans.Pessoa;
+import br.com.recomendacao.controle.ControlaUsuario;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class FrameLogin {

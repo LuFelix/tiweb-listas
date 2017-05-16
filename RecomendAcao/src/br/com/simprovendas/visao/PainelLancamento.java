@@ -1,6 +1,6 @@
 package br.com.simprovendas.visao;
 
-import br.com.simprovendas.beans.Lancamento;
+import br.com.recomendacao.beans.Lancamento;
 
 public class PainelLancamento extends PainelObjetos {
 
