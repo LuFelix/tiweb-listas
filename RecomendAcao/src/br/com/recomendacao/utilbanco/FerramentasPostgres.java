@@ -29,7 +29,7 @@ public class FerramentasPostgres {
 	// FROM pg_stat_activity
 	// WHERE pid <> pg_backend_pid();
 	public List<Banco> listaUsuariosConectados() {
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "postgres");
 		comando = "select datname,  pid, usename, application_name, client_addr, client_hostname, backend_start  from pg_stat_activity;";
 		listConecBanco = new ArrayList<Banco>();
 		c.conectar();

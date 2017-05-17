@@ -18,7 +18,7 @@ public class DAOAtivo {
 
 	public DAOAtivo() {
 		System.out.println("DAOAtivo.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "simpro");
 	}
 
 	public boolean inserir(Ativo atv) {

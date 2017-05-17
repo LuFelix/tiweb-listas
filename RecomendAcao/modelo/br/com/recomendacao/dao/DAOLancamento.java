@@ -22,7 +22,7 @@ public class DAOLancamento {
 
 	public DAOLancamento() {
 		System.out.println("DAOContaLancamento.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 	}
 
 	public void novoLancamento(String codiConta, String codiCondPag,

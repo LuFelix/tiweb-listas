@@ -24,7 +24,7 @@ public class DAOIndicadoresFuse {
 
 	public DAOIndicadoresFuse() {
 		System.out.println("DAOIndicadoresFuse.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 	}
 
 	public void inserirArrayItens(String codiReco,

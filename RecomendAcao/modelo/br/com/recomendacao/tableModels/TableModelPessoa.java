@@ -7,7 +7,7 @@ import javax.swing.table.AbstractTableModel;
 
 import br.com.recomendacao.beans.Pessoa;
 import br.com.recomendacao.dao.DAOPessoaPG;
-import br.com.simprovendas.visao.PainelPessoa;
+import br.com.recomendacao.visao.PainelPessoa;
 
 public class TableModelPessoa extends AbstractTableModel {
 

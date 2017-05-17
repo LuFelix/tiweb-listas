@@ -21,7 +21,7 @@ public class DAOCentroCusto {
 	public DAOCentroCusto() {
 		super();
 		System.out.println("DAOCentroCusto.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
 				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
 				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());

@@ -13,16 +13,16 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/commons-dbcp2-2.1.1.jar"/>
-	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/jcalendar.jar"/>
-	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/jcalendar-0.8.1.jar"/>
-	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/jcalendarbutton-1.4.5.jar"/>
-	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/jgoodies-common-1.8.1.jar"/>
-	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/jgoodies-looks-2.7.0.jar"/>
-	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/lipstikLF-1.1.jar"/>
-	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/napkinlaf-alpha001.jar"/>
-	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/nimrodlf-1.2b.jar"/>
-	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/swag.jar"/>
-	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/swexpl.jar"/>
+	<classpathentry kind="lib" path="C:/SIMPRO/libs/commons-dbcp2-2.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/SIMPRO/libs/jcalendar.jar"/>
+	<classpathentry kind="lib" path="C:/SIMPRO/libs/jcalendar-0.8.1.jar"/>
+	<classpathentry kind="lib" path="C:/SIMPRO/libs/jcalendarbutton-1.4.5.jar"/>
+	<classpathentry kind="lib" path="C:/SIMPRO/libs/jgoodies-common-1.8.1.jar"/>
+	<classpathentry kind="lib" path="C:/SIMPRO/libs/jgoodies-looks-2.7.0.jar"/>
+	<classpathentry kind="lib" path="C:/SIMPRO/libs/lipstikLF-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/SIMPRO/libs/napkinlaf-alpha001.jar"/>
+	<classpathentry kind="lib" path="C:/SIMPRO/libs/nimrodlf-1.2b.jar"/>
+	<classpathentry kind="lib" path="C:/SIMPRO/libs/swag.jar"/>
+	<classpathentry kind="lib" path="C:/SIMPRO/libs/swexpl.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

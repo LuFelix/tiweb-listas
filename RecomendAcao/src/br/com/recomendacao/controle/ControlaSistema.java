@@ -10,8 +10,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import br.com.recomendacao.dao.DAOBanco;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.PainelFuncoesBanco;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelFuncoesBanco;
 
 public class ControlaSistema {
 	JTable tabela;

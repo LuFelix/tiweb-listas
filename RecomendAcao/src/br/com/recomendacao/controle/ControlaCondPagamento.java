@@ -15,10 +15,10 @@ import javax.swing.table.DefaultTableModel;
 
 import br.com.recomendacao.beans.CondPagamento;
 import br.com.recomendacao.dao.DAOCondPagamento;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
-import br.com.simprovendas.visao.PainelCondPagamento;
-import br.com.simprovendas.visao.PainelPedidos;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelCondPagamento;
+import br.com.recomendacao.visao.PainelPedidos;
+import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 
 public class ControlaCondPagamento {
 

@@ -16,9 +16,9 @@ import javax.swing.table.DefaultTableModel;
 
 import br.com.recomendacao.beans.CentroCusto;
 import br.com.recomendacao.dao.DAOCentroCusto;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
-import br.com.simprovendas.visao.PainelCentroCusto;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelCentroCusto;
+import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 
 public class ControlaCentroCusto {
 

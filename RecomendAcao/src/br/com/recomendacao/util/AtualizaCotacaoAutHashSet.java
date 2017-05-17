@@ -8,8 +8,8 @@ import br.com.recomendacao.beans.CotacaoYahoo;
 import br.com.recomendacao.controle.ControlaAtivo;
 import br.com.recomendacao.dao.DAOAtvYahoo;
 import br.com.recomendacao.dao.DAOCotacaoYahoo;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.yahoo.AtualizaYahoo;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.yahoo.AtualizaYahoo;
 
 public class AtualizaCotacaoAutHashSet implements Runnable {
 

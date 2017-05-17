@@ -16,23 +16,23 @@ public class Conexao {
 	private String str_conexao;
 	private String driverjdbc;
 
-	public Conexao(String banco) {
-		if (banco.equals("PostgreSql")) {
+	public Conexao(String SGBD, String nomeBanco) {
+		if (SGBD.equals("PostgreSql")) {
 			setLocal(ConfigS.getLocal());
 			setSenha(ConfigS.getSenhaPgDB());
 			setUser(ConfigS.getUserPgDB());
 			setDriverjdbc("org.postgresql.Driver");
 			setStr_conexao("jdbc:postgresql://" + local + ":"
-					+ ConfigS.getPortaPgDB() + "/" + ConfigS.getBanco1());
+					+ ConfigS.getPortaPgDB() + "/" + nomeBanco);
 
 		} else {
-			if (banco.equals("MySql")) {
+			if (SGBD.equals("MySql")) {
 				setLocal(ConfigS.getLocal());
 				setSenha(ConfigS.getSenhaMDB());
 				setUser(ConfigS.getUserMDB());
 				setDriverjdbc("com.mysql.jdbc.Driver");
 				setStr_conexao("jdbc:mysql://" + local + ":"
-						+ ConfigS.getPortaMDB() + "/" + banco);
+						+ ConfigS.getPortaMDB() + "/" + nomeBanco);
 			}
 		}
 	}

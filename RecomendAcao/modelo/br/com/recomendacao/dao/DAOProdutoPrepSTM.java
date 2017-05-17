@@ -9,7 +9,7 @@ import java.util.List;
 import br.com.recomendacao.beans.Produto;
 import br.com.recomendacao.util.Conexao;
 import br.com.recomendacao.util.ConexaoSTM;
-import br.com.simprovendas.visao.FrameInicial;
+import br.com.recomendacao.visao.FrameInicial;
 
 public class DAOProdutoPrepSTM {
 	private Conexao c;
@@ -38,7 +38,7 @@ public class DAOProdutoPrepSTM {
 	public DAOProdutoPrepSTM() {
 		System.out.println("DAOProduto.construtor");
 		daoCotProd = new DAOProdutosCotacao();
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
 				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
 				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());

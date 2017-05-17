@@ -21,7 +21,7 @@ import br.com.recomendacao.dao.DAOCotacaoAtivo;
 import br.com.recomendacao.util.BaixarArquivos;
 import br.com.recomendacao.util.ManipulaArquivoZip;
 import br.com.recomendacao.util.ManipulaData;
-import br.com.simprovendas.visao.FrameInicial;
+import br.com.recomendacao.visao.FrameInicial;
 
 public class AtualizaSistemaBDIBovespa extends Thread {
 

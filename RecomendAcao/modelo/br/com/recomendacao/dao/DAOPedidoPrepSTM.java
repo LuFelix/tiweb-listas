@@ -22,7 +22,7 @@ public class DAOPedidoPrepSTM {
 
 	public DAOPedidoPrepSTM() {
 		System.out.println("DAOPedido.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 		daoItPed = new DAOProdutosPedidos();
 		daoProdEstoque = new DAOProdutosEstoque();
 		daoContaLanc = new DAOLancamento();

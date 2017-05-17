@@ -18,7 +18,7 @@ public class DAOCotacaoAtivo {
 
 	public DAOCotacaoAtivo() {
 		System.out.println("DAOCotacaoAtivo.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "simpro");
 	}
 
 	/**
