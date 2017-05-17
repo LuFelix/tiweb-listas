@@ -13,16 +13,16 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Luciano Felix/git/RecomendAcao/libs/commons-dbcp2-2.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luciano Felix/git/RecomendAcao/libs/jcalendar.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luciano Felix/git/RecomendAcao/libs/jcalendar-0.8.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luciano Felix/git/RecomendAcao/libs/jcalendarbutton-1.4.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luciano Felix/git/RecomendAcao/libs/jgoodies-common-1.8.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luciano Felix/git/RecomendAcao/libs/jgoodies-looks-2.7.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luciano Felix/git/RecomendAcao/libs/lipstikLF-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luciano Felix/git/RecomendAcao/libs/napkinlaf-alpha001.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luciano Felix/git/RecomendAcao/libs/nimrodlf-1.2b.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luciano Felix/git/RecomendAcao/libs/swag.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luciano Felix/git/RecomendAcao/libs/swexpl.jar"/>
+	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/commons-dbcp2-2.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/jcalendar.jar"/>
+	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/jcalendar-0.8.1.jar"/>
+	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/jcalendarbutton-1.4.5.jar"/>
+	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/jgoodies-common-1.8.1.jar"/>
+	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/jgoodies-looks-2.7.0.jar"/>
+	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/lipstikLF-1.1.jar"/>
+	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/napkinlaf-alpha001.jar"/>
+	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/nimrodlf-1.2b.jar"/>
+	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/swag.jar"/>
+	<classpathentry kind="lib" path="D:/git/SimproNegociosNote/SimproNegociosNote/libs/swexpl.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
