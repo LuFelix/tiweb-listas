@@ -23,7 +23,7 @@ public class DAOProdutosPedidos {
 		System.out.println("DAOProdutosPedidos.construtor");
 		daoCotProd = new DAOProdutosCotacao();
 		daoProd = new DAOProdutoPrepSTM();
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 	}
 
 	public void inserirArrayItens(String codiPedi, Produto[] itensProduto)

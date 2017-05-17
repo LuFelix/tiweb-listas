@@ -13,7 +13,7 @@ public class DAOBanco {
 	Conexao c;
 
 	public DAOBanco() {
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 	}
 
 	public List<String> listaTabelas() {

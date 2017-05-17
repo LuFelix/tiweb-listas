@@ -21,10 +21,10 @@ import br.com.recomendacao.beans.ProdutoEstoque;
 import br.com.recomendacao.dao.DAOProdutoPrepSTM;
 import br.com.recomendacao.dao.DAOProdutosCotacao;
 import br.com.recomendacao.dao.DAOProdutosEstoque;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
-import br.com.simprovendas.visao.PainelPedidos;
-import br.com.simprovendas.visao.PainelProdutos;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelPedidos;
+import br.com.recomendacao.visao.PainelProdutos;
+import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 
 public class ControlaProduto {
 	String resposta;
@@ -44,11 +44,12 @@ public class ControlaProduto {
 	}
 
 	// TODO Novo Movimento
-	void novoMovimentoProduto(String codiEstoque, Date dataHoraMovimento, String codiProduto, int quantidade,
-			String codiPedido, String tipoMovimento) {
+	void novoMovimentoProduto(String codiEstoque, Date dataHoraMovimento,
+			String codiProduto, int quantidade, String codiPedido,
+			String tipoMovimento) {
 		System.out.println("ControlaProduto.novoMovimentoProduto");
-		daoProdEstoque.novoMovProdEstoque(codiEstoque, dataHoraMovimento, codiProduto, quantidade, codiPedido,
-				tipoMovimento);
+		daoProdEstoque.novoMovProdEstoque(codiEstoque, dataHoraMovimento,
+				codiProduto, quantidade, codiPedido, tipoMovimento);
 	}
 
 	// TODO Salvar
@@ -62,14 +63,17 @@ public class ControlaProduto {
 				prod = PainelProdutos.lerCampos();
 				if (!prod.equals(null) & daoProd.cadastrar(prod)) {
 					PainelProdutos.limparCampos();
-					FrameInicial.setTabela(pesqNomeTabela(prod.getCodi_prod_1()));
-					FrameInicial.setPainelVisualiza(new PainelProdutos(prod.getCodi_prod_1()));
+					FrameInicial
+							.setTabela(pesqNomeTabela(prod.getCodi_prod_1()));
+					FrameInicial.setPainelVisualiza(
+							new PainelProdutos(prod.getCodi_prod_1()));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito!");
 					FrameInicial.pesquisaProduto();
 				} else {
-					JOptionPane.showMessageDialog(null, "Problemas: Erro de acesso ao banco", "Erro ao Salvar",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Problemas: Erro de acesso ao banco",
+							"Erro ao Salvar", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -86,7 +90,8 @@ public class ControlaProduto {
 					FrameInicial.pesquisaProduto();
 					funcaoCancelar();
 				} else {
-					JOptionPane.showMessageDialog(null, "Problemas: Erro ao apagar a reserva de código",
+					JOptionPane.showMessageDialog(null,
+							"Problemas: Erro ao apagar a reserva de código",
 							"Erro ao Excluir", JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -97,8 +102,10 @@ public class ControlaProduto {
 	public String criaCodiProd() {
 		System.out.println("ControlaProduto.criarCodigo");
 		Calendar c = Calendar.getInstance();
-		String codiProd = String.valueOf(daoProd.consultaUltimo()) + String.valueOf(c.get(Calendar.YEAR))
-				+ String.valueOf(c.get(Calendar.MONTH)) + String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+		String codiProd = String.valueOf(daoProd.consultaUltimo())
+				+ String.valueOf(c.get(Calendar.YEAR))
+				+ String.valueOf(c.get(Calendar.MONTH))
+				+ String.valueOf(c.get(Calendar.DAY_OF_MONTH));
 		return codiProd;
 	}
 
@@ -106,7 +113,8 @@ public class ControlaProduto {
 		try {
 			daoProd.reservaCodigo(codigo);
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Erro de acesso ao banco", "Erro", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Erro de acesso ao banco",
+					"Erro", JOptionPane.ERROR_MESSAGE);
 			FrameInicial.pesquisaProduto();
 			e.printStackTrace();
 		}
@@ -123,14 +131,18 @@ public class ControlaProduto {
 				prod = PainelProdutos.lerCampos();
 				if (!prod.equals(null) & daoProd.alterar(prod)) {
 					PainelProdutos.limparCampos();
-					FrameInicial.setTabela(pesqNomeTabela(prod.getCodi_prod_1()));
-					FrameInicial.setPainelVisualiza(new PainelProdutos(prod.getCodi_prod_1()));
+					FrameInicial
+							.setTabela(pesqNomeTabela(prod.getCodi_prod_1()));
+					FrameInicial.setPainelVisualiza(
+							new PainelProdutos(prod.getCodi_prod_1()));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito!");
 					FrameInicial.pesquisaProduto();
 				} else {
-					JOptionPane.showMessageDialog(null, "Favor verificar os campos informados. ",
-							"Não foi possivel alterar o produto!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Favor verificar os campos informados. ",
+							"Não foi possivel alterar o produto!",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -146,8 +158,9 @@ public class ControlaProduto {
 			FrameInicial.pesquisaProduto();
 			return true;
 		} else {
-			JOptionPane.showMessageDialog(null, "Favor verificar os campos informados. ", "Não foi possivel excluir!",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"Favor verificar os campos informados. ",
+					"Não foi possivel excluir!", JOptionPane.ERROR_MESSAGE);
 		}
 		return false;
 	}
@@ -184,13 +197,14 @@ public class ControlaProduto {
 		return totalAtual;
 	}
 
-	public void novoPreco(String codiTabela, java.sql.Date dataHoraMarcaca, String codiProduto, float valor)
-			throws SQLException {
+	public void novoPreco(String codiTabela, java.sql.Date dataHoraMarcaca,
+			String codiProduto, float valor) throws SQLException {
 
 		// TODO Cadastra um novo preço para o produto na tabela selecionada;
 		// java.sql.Date dataSql = manData.sqlDate(dataHoraMarcaca);
 		System.out.println("ControlaProduto.novoPreço");
-		daoProdCota.novoPrecoProduto(codiTabela, dataHoraMarcaca, codiProduto, valor);
+		daoProdCota.novoPrecoProduto(codiTabela, dataHoraMarcaca, codiProduto,
+				valor);
 
 	}
 
@@ -220,7 +234,8 @@ public class ControlaProduto {
 		dados = daoProd.procurarTodos();
 		modelotabela.setColumnIdentifiers(colunas.toArray());
 		for (int i = 0; i < dados.size(); i++) {
-			Object linha[] = { dados.get(i).getNome_prod(), String.valueOf(dados.get(i).getDesc_prod()) };
+			Object linha[] = {dados.get(i).getNome_prod(),
+					String.valueOf(dados.get(i).getDesc_prod())};
 			modelotabela.addRow(linha);
 		}
 		tabela.setShowGrid(true);
@@ -253,7 +268,8 @@ public class ControlaProduto {
 
 			@Override
 			public void keyReleased(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 					int posicao = tabela.getSelectedRow();
 					PainelProdutos.irParaPoicao(posicao);
 				}
@@ -262,14 +278,16 @@ public class ControlaProduto {
 			@Override
 			public void keyPressed(KeyEvent tecla) {
 				int posicao = tabela.getSelectedRow();
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 					PainelProdutos.irParaPoicao(posicao);
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
 					FrameInicial.getTxtfPesquisa().grabFocus();
 				} else if (tecla.getExtendedKeyCode() == 10) {
 					PainelProdutos.irParaPoicao(posicao);
 					PainelProdutos.getBtnEditar().doClick();
-					FrameInicial.getTabela().changeSelection(--posicao, 0, false, false);
+					FrameInicial.getTabela().changeSelection(--posicao, 0,
+							false, false);
 					PainelProdutos.getTxtFNomeProd().grabFocus();
 				}
 			}
@@ -301,8 +319,7 @@ public class ControlaProduto {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				int posicao = tabela.getSelectedRow();
-				PainelProdutos.irParaPoicao(posicao);
+				PainelProdutos.irParaPoicao(tabela.getSelectedRow());
 
 			}
 		});
@@ -314,7 +331,8 @@ public class ControlaProduto {
 		modelotabela.setColumnIdentifiers(colunas.toArray());
 		for (int i = 0; i < listProd.size(); i++) {
 			prod = listProd.get(i);
-			Object linha[] = { prod.getCodi_prod_1(), String.valueOf(prod.getNome_prod()), prod.getPrec_prod_1() };
+			Object linha[] = {prod.getCodi_prod_1(),
+					String.valueOf(prod.getNome_prod()), prod.getPrec_prod_1()};
 			modelotabela.addRow(linha);
 		}
 		ajusta_tamanho_coluna();
@@ -339,7 +357,8 @@ public class ControlaProduto {
 			@Override
 			public void keyReleased(KeyEvent tecla) {
 
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 					int posicao = tabela.getSelectedRow();
 				}
 			}
@@ -348,7 +367,8 @@ public class ControlaProduto {
 			public void keyPressed(KeyEvent tecla) {
 				int posicao = tabela.getSelectedRow();
 				System.out.println(tecla.getExtendedKeyCode());
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
 					FrameInicial.getTxtfPesquisa().grabFocus();
 				} else if (tecla.getExtendedKeyCode() == 10) {
@@ -397,7 +417,8 @@ public class ControlaProduto {
 		modelotabela.setColumnIdentifiers(colunas.toArray());
 		for (int i = 0; i < listProd.size(); i++) {
 			prod = listProd.get(i);
-			Object linha[] = { prod.getCodi_prod_1(), prod.getNome_prod(), prod.getPrec_prod_1() };
+			Object linha[] = {prod.getCodi_prod_1(), prod.getNome_prod(),
+					prod.getPrec_prod_1()};
 			modelotabela.addRow(linha);
 		}
 		tabela.setShowGrid(true);

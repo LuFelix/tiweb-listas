@@ -18,10 +18,10 @@ import javax.swing.table.DefaultTableModel;
 import br.com.recomendacao.beans.TabelaPreco;
 import br.com.recomendacao.dao.DAOTabelaPreco;
 import br.com.recomendacao.util.ManipulaData;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
-import br.com.simprovendas.visao.PainelOperacao;
-import br.com.simprovendas.visao.PainelTabelaPreco;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelOperacao;
+import br.com.recomendacao.visao.PainelTabelaPreco;
+import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 
 public class ControlaTabelaPreco {
 

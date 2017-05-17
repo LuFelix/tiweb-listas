@@ -19,9 +19,9 @@ import br.com.recomendacao.beans.Lancamento;
 import br.com.recomendacao.dao.DAOCentroCusto;
 import br.com.recomendacao.dao.DAOConta;
 import br.com.recomendacao.dao.DAOLancamento;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
-import br.com.simprovendas.visao.PainelConta;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelConta;
+import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 
 public class ControlaConta {
 	private JTable tabela;

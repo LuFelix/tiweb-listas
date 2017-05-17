@@ -6,7 +6,7 @@ import br.com.recomendacao.beans.AtivoYahoo;
 import br.com.recomendacao.beans.CotacaoYahoo;
 import br.com.recomendacao.dao.DAOAtvYahoo;
 import br.com.recomendacao.dao.DAOCotacaoYahoo;
-import br.com.simprovendas.yahoo.AtualizaYahoo;
+import br.com.recomendacao.yahoo.AtualizaYahoo;
 
 public class AtualizaCotacaoAutList implements Runnable {
 

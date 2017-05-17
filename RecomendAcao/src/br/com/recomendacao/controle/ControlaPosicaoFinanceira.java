@@ -6,10 +6,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import br.com.recomendacao.adapter.ConstrutorGrafico;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
-import br.com.simprovendas.visao.PainelServico;
-import br.com.simprovendas.visao.PainelStatus;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelServico;
+import br.com.recomendacao.visao.PainelStatus;
+import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 
 public class ControlaPosicaoFinanceira {
 	private ConstrutorGrafico constGrafico;

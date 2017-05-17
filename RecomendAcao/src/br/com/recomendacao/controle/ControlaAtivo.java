@@ -20,9 +20,9 @@ import br.com.recomendacao.dao.DAOAtivo;
 import br.com.recomendacao.dao.DAOCotacaoAtivo;
 import br.com.recomendacao.dao.DAOCotacaoYahoo;
 import br.com.recomendacao.util.ManipulaData;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.PainelAtivo;
-import br.com.simprovendas.visao.PainelOperacao;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelAtivo;
+import br.com.recomendacao.visao.PainelOperacao;
 
 public class ControlaAtivo {
 	String resposta;

@@ -21,7 +21,7 @@ public class DAOCondPagamento {
 
 	public DAOCondPagamento() {
 		System.out.println("DAOCondicaoPagamento.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
 				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
 				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());

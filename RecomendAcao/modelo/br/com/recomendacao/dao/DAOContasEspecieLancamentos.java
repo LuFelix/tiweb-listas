@@ -18,7 +18,7 @@ public class DAOContasEspecieLancamentos {
 	private EspecieLancamento espLanc;
 
 	public DAOContasEspecieLancamentos() {
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 	}
 
 	public void cadastrar(EspecieLancamento espLanc) throws SQLException {

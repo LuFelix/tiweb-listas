@@ -1,4 +1,4 @@
-import br.com.simprovendas.visao.FrameInicial;
+import br.com.recomendacao.visao.FrameInicial;
 
 /**
  * 

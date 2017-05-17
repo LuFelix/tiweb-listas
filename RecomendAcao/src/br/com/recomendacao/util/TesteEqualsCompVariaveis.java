@@ -7,7 +7,7 @@ import java.util.List;
 
 import br.com.recomendacao.beans.CotacaoYahoo;
 import br.com.recomendacao.dao.DAOCotacaoYahoo;
-import br.com.simprovendas.yahoo.AtualizaYahoo;
+import br.com.recomendacao.yahoo.AtualizaYahoo;
 
 /**
  * 

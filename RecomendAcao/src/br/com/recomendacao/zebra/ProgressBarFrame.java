@@ -15,7 +15,7 @@ import br.com.recomendacao.beans.AtivoYahoo;
 import br.com.recomendacao.beans.CotacaoYahoo;
 import br.com.recomendacao.dao.DAOAtvYahoo;
 import br.com.recomendacao.dao.DAOCotacaoYahoo;
-import br.com.simprovendas.visao.AbaFuse;
+import br.com.recomendacao.visao.AbaFuse;
 
 /**
  * This program demonstrates the use of a progress bar to monitor the progress of a thread.

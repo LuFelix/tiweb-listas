@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.recomendacao.beans.AtivoYahoo;
 import br.com.recomendacao.beans.CotacaoYahoo;
-import br.com.simprovendas.yahoo.AtualizaYahoo;
+import br.com.recomendacao.yahoo.AtualizaYahoo;
 
 public class ConsultaTodosAtivosComListaDiario implements Runnable{
 	private List<AtivoYahoo> listAtvYahoo;

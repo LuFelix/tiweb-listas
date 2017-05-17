@@ -21,10 +21,10 @@ import br.com.recomendacao.dao.DAOLancamento;
 import br.com.recomendacao.dao.DAOPedidoPrepSTM;
 import br.com.recomendacao.dao.DAOProdutosEstoque;
 import br.com.recomendacao.dao.DAOProdutosPedidos;
-import br.com.simprovendas.visao.AbaNegocios;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
-import br.com.simprovendas.visao.PainelPedidos;
+import br.com.recomendacao.visao.AbaNegocios;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelPedidos;
+import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 
 public class ControlaPedido {
 	Pedido pedi;

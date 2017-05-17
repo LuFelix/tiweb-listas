@@ -18,7 +18,7 @@ import br.com.recomendacao.dao.DAOFuse;
 import br.com.recomendacao.dao.DAOOperacao;
 import br.com.recomendacao.dao.DAOOrdemBovespa;
 import br.com.recomendacao.indicadoresAT.MediaMovelSimples;
-import br.com.simprovendas.visao.FrameInicial;
+import br.com.recomendacao.visao.FrameInicial;
 
 public class Minerador implements Runnable {
 

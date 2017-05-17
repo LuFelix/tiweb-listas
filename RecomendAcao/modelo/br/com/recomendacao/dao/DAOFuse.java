@@ -22,7 +22,7 @@ public class DAOFuse {
 
 	public DAOFuse() {
 		System.out.println("DAOFuse.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "simpro");
 	}
 
 	public boolean cadastrar(Fuse fuse) {

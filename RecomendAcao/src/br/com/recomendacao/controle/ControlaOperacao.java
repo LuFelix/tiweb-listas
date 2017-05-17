@@ -17,9 +17,9 @@ import javax.swing.table.DefaultTableModel;
 
 import br.com.recomendacao.beans.Operacao;
 import br.com.recomendacao.dao.DAOOperacao;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
-import br.com.simprovendas.visao.PainelOperacao;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelOperacao;
+import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 
 public class ControlaOperacao {
 	String resposta;

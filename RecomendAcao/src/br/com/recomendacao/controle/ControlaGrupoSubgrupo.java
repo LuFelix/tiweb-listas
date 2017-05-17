@@ -16,10 +16,10 @@ import javax.swing.table.DefaultTableModel;
 
 import br.com.recomendacao.beans.GrupoSubgrupo;
 import br.com.recomendacao.dao.DAOGrupoSubgrupo;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
-import br.com.simprovendas.visao.PainelConta;
-import br.com.simprovendas.visao.PainelGrupoSubgrupo;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelConta;
+import br.com.recomendacao.visao.PainelGrupoSubgrupo;
+import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 
 public class ControlaGrupoSubgrupo {
 	private JTable tabela;

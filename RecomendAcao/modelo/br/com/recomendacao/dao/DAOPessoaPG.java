@@ -21,7 +21,7 @@ public class DAOPessoaPG implements InterDaoPessoa {
 
 	public DAOPessoaPG() {
 		System.out.println("DAOUsuario.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
 				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
 				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());

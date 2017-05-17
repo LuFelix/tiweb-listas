@@ -19,10 +19,10 @@ import br.com.recomendacao.beans.Fuse;
 import br.com.recomendacao.dao.DAOFuse;
 import br.com.recomendacao.dao.DAOOperacao;
 import br.com.recomendacao.util.ManipulaData;
-import br.com.simprovendas.visao.FrameInicial;
-import br.com.simprovendas.visao.FrameInicial.ControlaBotoes;
-import br.com.simprovendas.visao.PainelConta;
-import br.com.simprovendas.visao.PainelFuse;
+import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.PainelConta;
+import br.com.recomendacao.visao.PainelFuse;
+import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 
 public class ControlaFuse {
 

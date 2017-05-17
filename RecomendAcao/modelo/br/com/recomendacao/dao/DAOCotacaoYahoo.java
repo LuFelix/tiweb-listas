@@ -23,7 +23,7 @@ public class DAOCotacaoYahoo {
 
 	public DAOCotacaoYahoo() {
 		System.out.println("DAOCotacaoYahoo.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 	}
 
 	// "ano-mês-dia horas:minutos:segundos"

@@ -25,7 +25,7 @@ public class DAOServico {
 	// TODO Construtor
 	public DAOServico() {
 		System.out.println("DAOServico.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 	}
 
 	// TODO Cadastrar/ Inserir

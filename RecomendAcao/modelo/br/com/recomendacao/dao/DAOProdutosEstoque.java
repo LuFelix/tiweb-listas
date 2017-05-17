@@ -20,7 +20,7 @@ public class DAOProdutosEstoque {
 
 	public DAOProdutosEstoque() {
 		System.out.println("DAOProdutosEstoque.construtor");
-		c = new Conexao(ConfigS.getBdPg());
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 	}
 
 	public void novoMovProdEstoque(String codiEstoque, Date dataHoraMovimento,
