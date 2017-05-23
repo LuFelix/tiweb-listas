@@ -38,12 +38,8 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 	private DefaultMutableTreeNode posicaoFinanceira;
 	private DefaultMutableTreeNode pedidos;
 	private DefaultMutableTreeNode venda;
-	private DefaultMutableTreeNode clientes;
-	private DefaultMutableTreeNode fornecedores;
-	private DefaultMutableTreeNode funcionarios;
 	private DefaultMutableTreeNode compra;
 	private DefaultMutableTreeNode ordServicos;
-	private DefaultMutableTreeNode pessoas;
 	private DefaultMutableTreeNode produtos;
 	private DefaultMutableTreeNode cadastros;
 	private DefaultMutableTreeNode tabelasPrecos;
@@ -64,42 +60,17 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 		pedidos = new DefaultMutableTreeNode("Pedidos");
 		venda = new DefaultMutableTreeNode("Venda");
 		compra = new DefaultMutableTreeNode("Compra");
-		clientes = new DefaultMutableTreeNode("Clientes");
-		fornecedores = new DefaultMutableTreeNode("Fornecedores");
-		funcionarios = new DefaultMutableTreeNode("Funcionários");
 		pedidos.add(compra);
 		pedidos.add(venda);
 		ordServicos = new DefaultMutableTreeNode("Ordens de Serviços");
-		pessoas = new DefaultMutableTreeNode("Pessoas");
-		pessoas.add(clientes);
-		pessoas.add(fornecedores);
-		pessoas.add(funcionarios);
 
 		produtos = new DefaultMutableTreeNode("Produtos");
 		posicaoFinanceira = new DefaultMutableTreeNode("Status Financeiro");
 
-		cadastros = new DefaultMutableTreeNode("Cadastros");
-		centroCusto = new DefaultMutableTreeNode("Centros de Custo");
-		condPagamento = new DefaultMutableTreeNode("Cond. Pagamento");
-		contas = new DefaultMutableTreeNode("Contas");
-		grupo = new DefaultMutableTreeNode("Grupos");
-		servicos = new DefaultMutableTreeNode("Serviços");
-		tabelasPrecos = new DefaultMutableTreeNode("Tabelas de Preços");
-
-		cadastros.add(centroCusto);
-		cadastros.add(condPagamento);
-		cadastros.add(contas);
-		cadastros.add(grupo);
-		cadastros.add(servicos);
-		cadastros.add(tabelasPrecos);
-
 		negocios = new DefaultMutableTreeNode("Simpro");
 		negocios.add(pedidos);
 		negocios.add(ordServicos);
-		// negocios.add(pessoas);
-		negocios.add(produtos);
 		negocios.add(posicaoFinanceira);
-		negocios.add(cadastros);
 
 		modArvoreNegocios = new DefaultTreeModel(negocios);
 		modArvoreNegocios.addTreeModelListener(new ModeloArvore());
@@ -114,7 +85,7 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 		arvoreNegocios.setCellRenderer(new RenderizarTreeNegocios());
 		arvoreNegocios.setShowsRootHandles(true);
 		arvoreNegocios.setRootVisible(false);
-		arvoreNegocios.setRowHeight(35);
+		arvoreNegocios.setRowHeight(50);
 
 		// TODO Posicionamento e ações botões
 		scrArvNegocios = new JScrollPane(arvoreNegocios);
@@ -125,7 +96,6 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 		sppPrincipal.add(scrArvNegocios);
 		setLayout(new GridLayout());
 		add(sppPrincipal);
-
 	}
 
 	// TODO Eventos de Mouse
@@ -179,21 +149,22 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 					leaf, row, hasFocus);
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 			if (node.toString().equals("Pedidos")) {
-				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\order.png"));
+				setIcon(new ImageIcon(
+						"C:\\SIMPRO\\img\\order\\order32x32.png"));
+			}
+			if (node.toString().equals("Compra")) {
+				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\down24x24.png"));
+			}
+			if (node.toString().equals("Venda")) {
+				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\up24x24.png"));
 			}
 			if (node.toString().equals("Ordens de Serviços")) {
-				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\Equipment.png"));
-			}
-			if (node.toString().equals("Produtos")) {
-				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\store.png"));
-			}
-			if (node.toString().equals("Pessoas")) {
 				setIcon(new ImageIcon(
-						"C:\\SIMPRO\\img\\order\\personfolder_32x32.png"));
+						"C:\\SIMPRO\\img\\order\\config32x32.png"));
 			}
 			if (node.toString().equals("Status Financeiro")) {
 				setIcon(new ImageIcon(
-						"C:\\SIMPRO\\img\\order\\money_32x32.png"));
+						"C:\\SIMPRO\\img\\order\\3dbarchart32x32.png"));
 			}
 			if (node.toString().equals("Cadastros")) {
 				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\cadastros.png"));
@@ -213,56 +184,22 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 				.getLastSelectedPathComponent();
 		Object nodeInfo = node.getUserObject();
 		nomeNo = nodeInfo.toString();
+
 		if (node != null) {
-			if (node.isLeaf() & node.isNodeAncestor(pedidos)) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContPedi().iniciar(nomeNo);
-				}
+			if (nomeNo.equals("Pedidos")) {
+				FrameInicial.getContPedi().iniciar(nomeNo);
 			}
-			if (node.isLeaf() & nomeNo.equals("Ordens de Serviços")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContServ().iniciar();
-				}
+			if (nomeNo.equals("Compra")) {
+				FrameInicial.getContPedi().iniciar(nomeNo);
 			}
-			if (node.isLeaf() & nomeNo.equals("Produtos")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.pesquisaProduto();
-				}
+			if (nomeNo.equals("Venda")) {
+				FrameInicial.getContPedi().iniciar(nomeNo);
 			}
-			if (node.isLeaf() & nomeNo.equals("Cond. Pagamento")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContCondPag().iniciar();
-				}
+			if (nomeNo.equals("Ordens de Serviços")) {
+				FrameInicial.getContServ().iniciar();
 			}
-			if (node.isLeaf() & nomeNo.equals("Oredens de Serviços")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContServ().iniciar();
-				}
-			}
-			if (node.isLeaf() & nomeNo.equals("Contas")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContConta().iniciar();
-				}
-			}
-			if (node.isLeaf() & nomeNo.equals("Status Financeiro")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContPosiFin().iniciar();
-				}
-			}
-			if (node.isLeaf() & nomeNo.equals("Tabelas de Preços")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContTabPreco().iniciar();
-				}
-			}
-			if (node.isLeaf() & nomeNo.equals("Grupos")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContGrupo().iniciar();
-				}
-			}
-			if (node.isLeaf() & nomeNo.equals("Centros de Custo")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContCentroCusto().iniciar();
-				}
+			if (nomeNo.equals("Status Financeiro")) {
+				FrameInicial.getContPosiFin().iniciar();
 			}
 		}
 	}

@@ -27,9 +27,7 @@ public class DAOOperacao {
 	public DAOOperacao() {
 		System.out.println("DAOOperacao.construtor");
 		c = new Conexao(ConfigS.getBdPg(), "simpro");
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
-				ConfigS.getPortaPgDB(), ConfigS.getBanco2(),
-				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), "siacecf");
 	}
 
 	// TODO Alterar - Não há como alterar uma operação realizada.

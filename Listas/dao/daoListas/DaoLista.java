@@ -1,14 +1,10 @@
 package daoListas;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.mysql.jdbc.Connection;
 
 import beansListas.CheckList;
@@ -27,17 +23,18 @@ public class DaoLista {
 
 	public DaoLista() {
 		c = new Conexao();
-		FirebaseOptions options = null;
-		try {
-			options = new FirebaseOptions.Builder()
-					.setServiceAccount(new FileInputStream("path/to/serviceAccountCredentials.json"))
-					.setDatabaseUrl("https://CheckList.firebaseio.com/").build();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		FirebaseApp.initializeApp(options);
+		// FirebaseOptions options = null;
+		// try {
+		// options = new FirebaseOptions.Builder()
+		// .setServiceAccount(new
+		// FileInputStream("path/to/serviceAccountCredentials.json"))
+		// .setDatabaseUrl("https://CheckList.firebaseio.com/").build();
+		// } catch (FileNotFoundException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		//
+		// FirebaseApp.initializeApp(options);
 
 	}
 

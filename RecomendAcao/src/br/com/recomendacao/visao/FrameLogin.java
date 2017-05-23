@@ -16,7 +16,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import br.com.recomendacao.beans.Pessoa;
-import br.com.recomendacao.controle.ControlaUsuario;
+import br.com.recomendacao.controle.ControlaPessoa;
 import de.wannawork.jcalendar.JCalendarComboBox;
 
 public class FrameLogin {
@@ -57,7 +57,7 @@ public class FrameLogin {
 	private ButtonGroup grpSex;
 	// Objetos de Controle
 	private Pessoa u;
-	private ControlaUsuario conU;
+	private ControlaPessoa conU;
 
 	public FrameLogin() {
 		try {
@@ -202,7 +202,7 @@ public class FrameLogin {
 
 		if (txtfNome.getText() != null) {
 			u = new Pessoa();
-			conU = new ControlaUsuario();
+			conU = new ControlaPessoa();
 			u.setNome(txtfNome.getText());
 			u.setEmail(txtfEmailCadastrar.getText());
 			u.setSenha(txtfSenhaCadastrar.getText());
@@ -220,7 +220,7 @@ public class FrameLogin {
 	// TODO Logar ++++++++++++++++++++++
 	public boolean leCamposLogar() {
 		u = new Pessoa();
-		conU = new ControlaUsuario();
+		conU = new ControlaPessoa();
 		u.setEmail(txtfEmailEntrar.getText());
 		u.setSenha(txtfSenhaEntrar.getText());
 		if (conU.logar(u)) {

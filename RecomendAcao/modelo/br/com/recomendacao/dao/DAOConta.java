@@ -25,9 +25,7 @@ public class DAOConta {
 	public DAOConta() {
 		System.out.println("DAOConta.construtor");
 		c = new Conexao(ConfigS.getBdPg(), "siacecf");
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
-				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
-				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), "siacecf");
 	}
 
 	public void reservaCodigo(String codigo) throws SQLException {

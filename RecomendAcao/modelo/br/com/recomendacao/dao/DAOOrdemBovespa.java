@@ -26,10 +26,8 @@ public class DAOOrdemBovespa {
 
 	public DAOOrdemBovespa() {
 		System.out.println("DAOOrdemBovespa.construtor");
-		c = new Conexao(ConfigS.getBdPg(), "siacecf");
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
-				ConfigS.getPortaPgDB(), ConfigS.getBanco2(),
-				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
+		c = new Conexao(ConfigS.getBdPg(), "simpro");
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), "simpro");
 	}
 
 	// TODO Cadastrar/ Inserir

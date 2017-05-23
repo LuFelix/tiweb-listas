@@ -21,13 +21,13 @@ import javax.swing.UIManager;
 
 import br.com.recomendacao.beans.Pessoa;
 import br.com.recomendacao.controle.ControlaListaUsuarios;
-import br.com.recomendacao.controle.ControlaUsuario;
+import br.com.recomendacao.controle.ControlaPessoa;
 
 public class PainelPessoa extends JPanel {
 	// Objetos de Controle
 	private static Pessoa p;
 	private static ControlaListaUsuarios controledaLista;
-	private static ControlaUsuario contP;
+	private static ControlaPessoa contP;
 
 	// Labels
 	private JLabel lblTituloTela;
@@ -87,7 +87,7 @@ public class PainelPessoa extends JPanel {
 
 		lblCodiPessoa = new JLabel("Código:");
 		txtFCodiPessoa = new JTextField();
-		contP = new ControlaUsuario();
+		contP = new ControlaPessoa();
 
 		lblNome = new JLabel("Nome:");
 		txtfNome = new JTextField();

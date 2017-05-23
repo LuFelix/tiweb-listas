@@ -23,9 +23,7 @@ public class DAOProdutosCotacao {
 	public DAOProdutosCotacao() {
 		System.out.println("DAOProdutosCotacao.construtor");
 		c = new Conexao(ConfigS.getBdPg(), "siacecf");
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
-				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
-				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), "siacecf");
 	}
 
 	public void novoPrecoProduto(String codiTabela, Date dataHoraMarcaca,

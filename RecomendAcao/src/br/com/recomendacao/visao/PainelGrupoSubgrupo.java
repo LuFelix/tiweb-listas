@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,7 +24,7 @@ import br.com.recomendacao.controle.ControlaListaGrupo;
 public class PainelGrupoSubgrupo extends JPanel {
 	private JPanel painelPrincipal;
 
-	private JLabel lblImagem;
+	private static JLabel lblImagem;
 	private JLabel lbl01;
 	private JLabel lbl02;
 	private JLabel lbl03;
@@ -46,7 +47,7 @@ public class PainelGrupoSubgrupo extends JPanel {
 	private static JTextField txtF10;
 
 	private JSplitPane sppImagem;
-	private JScrollPane scrImagem;
+	private static JScrollPane scrImagem;
 	private JSplitPane sppPrincipal;
 	private JSplitPane sppSuperior;
 	private JPanel pnlInferior;
@@ -64,9 +65,11 @@ public class PainelGrupoSubgrupo extends JPanel {
 	private static List<GrupoSubgrupo> listGrupo;
 
 	public PainelGrupoSubgrupo(String str) {
-		UIManager.put("TextField.font", new Font("Times New Roman", Font.BOLD, 12));
+		UIManager.put("TextField.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 		UIManager.put("Label.font", new Font("Times New Roman", Font.BOLD, 12));
-		UIManager.put("Button.font", new Font("Times New Roman", Font.BOLD, 12));
+		UIManager.put("Button.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 		setLayout(null);
 		painelPrincipal = new JPanel();
 		painelPrincipal.setBorder(BorderFactory.createEtchedBorder());
@@ -91,8 +94,10 @@ public class PainelGrupoSubgrupo extends JPanel {
 		txtF05 = new JTextField();
 
 		scrImagem = new JScrollPane(lblImagem);
-		scrImagem.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-		scrImagem.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrImagem.setVerticalScrollBarPolicy(
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		scrImagem.setHorizontalScrollBarPolicy(
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		sppImagem = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		sppImagem.add(lbl01);
 		sppImagem.add(scrImagem);
@@ -147,7 +152,8 @@ public class PainelGrupoSubgrupo extends JPanel {
 		tam--;
 		if (tam < 0) {
 			FrameInicial.setPainelVisualiza(null);
-			FrameInicial.getScrVisualiza().setViewportView(FrameInicial.getPainelVisualiza());
+			FrameInicial.getScrVisualiza()
+					.setViewportView(FrameInicial.getPainelVisualiza());
 		} else {
 			controledaLista = new ControlaListaGrupo(listGrupo);
 			grupo = controledaLista.first();
@@ -180,8 +186,10 @@ public class PainelGrupoSubgrupo extends JPanel {
 		if (!txtF04.getText().equals(null) & !txtF04.getText().equals("")) {
 			grupo.setNomeGrupo(txtF04.getText());
 		} else {
-			JOptionPane.showMessageDialog(null, "Problemas: Verifique as informações preenchidas",
-					"Erro ao Salvar. Campos com * são necessários", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"Problemas: Verifique as informações preenchidas",
+					"Erro ao Salvar. Campos com * são necessários",
+					JOptionPane.ERROR_MESSAGE);
 		}
 		if (!txtF05.getText().equals(null) & !txtF05.getText().equals("")) {
 			grupo.setNoAncora(txtF05.getText());
@@ -199,10 +207,17 @@ public class PainelGrupoSubgrupo extends JPanel {
 			txtF03.setText(grupo.getCodiGrupo());
 			txtF04.setText(grupo.getNomeGrupo());
 			txtF05.setText(grupo.getNoAncora());
+			carregarImagem(grupo.getCodiGrupo());
 		} else {
 			limparCampos();
 		}
 
+	}
+	public static void carregarImagem(String codiGrupo) {
+		lblImagem = new JLabel(
+				new ImageIcon("C:\\SIMPRO\\img\\order\\Grupos200x200\\"
+						+ "grupo02" + ".jpg "));
+		scrImagem.setViewportView(lblImagem);
 	}
 
 	public static void irParaPoicao(int posicao) {

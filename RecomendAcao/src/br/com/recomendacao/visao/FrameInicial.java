@@ -52,12 +52,12 @@ import br.com.recomendacao.controle.ControlaFuse;
 import br.com.recomendacao.controle.ControlaGrupoSubgrupo;
 import br.com.recomendacao.controle.ControlaOperacao;
 import br.com.recomendacao.controle.ControlaPedido;
+import br.com.recomendacao.controle.ControlaPessoa;
 import br.com.recomendacao.controle.ControlaPosicaoFinanceira;
 import br.com.recomendacao.controle.ControlaProduto;
 import br.com.recomendacao.controle.ControlaServico;
 import br.com.recomendacao.controle.ControlaSistema;
 import br.com.recomendacao.controle.ControlaTabelaPreco;
-import br.com.recomendacao.controle.ControlaUsuario;
 import br.com.recomendacao.util.AtualizaCotacaoAutHashSet;
 import br.com.recomendacao.util.ManipulaArquivoTxt;
 import br.com.recomendacao.util.SelecionaArquivo;
@@ -102,7 +102,7 @@ public class FrameInicial {
 
 	// +++++Objetos de Controle+++++++++++
 	private static ControlaPosicaoFinanceira contPosiFin;
-	private static ControlaUsuario contUsua;
+	private static ControlaPessoa contPess;
 	private static ControlaServico contServ;
 	private static ControlaCondPagamento contCondPag;
 	private static ControlaProduto contProd;
@@ -259,7 +259,7 @@ public class FrameInicial {
 
 		// TODO Objetos de Controle
 		setContConta(new ControlaConta());
-		contUsua = new ControlaUsuario();
+		contPess = new ControlaPessoa();
 		contProd = new ControlaProduto();
 		contPedi = new ControlaPedido();
 		contFuse = new ControlaFuse();
@@ -705,7 +705,7 @@ public class FrameInicial {
 
 		// Configuração das abas
 
-		painelTab1 = new AbaPessoas();
+		painelTab1 = new AbaCadastros();
 		painelTab2 = new AbaNegocios();
 		painelTab3 = new AbaFuse();
 		painelTab4 = new AbaRelatorios();
@@ -720,12 +720,11 @@ public class FrameInicial {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
 				if (painelTabulado1.getSelectedIndex() == 0) {
-					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
-					AbaPessoas.getArvoreNegocios().setSelectionRow(0);
+					AbaCadastros.getArvoreNegocios().setSelectionRow(0);
+
 				}
 				if (painelTabulado1.getSelectedIndex() == 1) {
-					FrameInicial.pesquisaProduto();
-					AbaNegocios.getArvoreNegocios().setSelectionRow(2);
+					AbaNegocios.getArvoreNegocios().setSelectionRow(0);
 				}
 				if (painelTabulado1.getSelectedIndex() == 2) {
 					FrameInicial.pesquisaAtivo();
@@ -736,7 +735,7 @@ public class FrameInicial {
 			}
 		});
 		painelTabulado1.setBounds(5, 10, 250, 540);
-		painelTabulado1.add("Pessoas", painelTab1);
+		painelTabulado1.add("Cadastros", painelTab1);
 		painelTabulado1.add("Negócios", painelTab2);
 		painelTabulado1.add("Fuse", painelTab3);
 		painelTabulado1.add("Relatórios", painelTab4);
@@ -789,6 +788,14 @@ public class FrameInicial {
 		ControlaBotoes.desHabilitaEdicaoBotoes();
 	} // Fim
 		// Construtor
+
+	public static ControlaPessoa getContPess() {
+		return contPess;
+	}
+
+	public static void setContPess(ControlaPessoa contPess) {
+		FrameInicial.contPess = contPess;
+	}
 
 	public static void disparaThread() {
 		t1 = new Thread(atuBdi);
@@ -1053,7 +1060,7 @@ public class FrameInicial {
 	public static void pesquisaUsuarioAdicionarAOPedido() {
 		limparTxtfPesquisa();
 		txtfPesquisa.grabFocus();
-		setTabela(contUsua.pesqNomeTabelaAdicionaUsuarioAopedido(""));
+		setTabela(contPess.pesqNomeTabelaAdicionaUsuarioAopedido(""));
 		scrLista.setViewportView(getTabela());
 		txtfPesquisa.addKeyListener(new KeyListener() {
 			@Override
@@ -1073,7 +1080,7 @@ public class FrameInicial {
 					getTabela().changeSelection(0, 0, false, false);
 				} else {
 					nome = txtfPesquisa.getText();
-					setTabela(contUsua
+					setTabela(contPess
 							.pesqNomeTabelaAdicionaUsuarioAopedido(nome));
 					scrLista.setViewportView(getTabela());
 				}
@@ -1082,7 +1089,7 @@ public class FrameInicial {
 			@Override
 			public void keyReleased(KeyEvent tecla) {
 				String nome = txtfPesquisa.getText();
-				setTabela(contUsua.pesqNomeTabelaAdicionaUsuarioAopedido(nome));
+				setTabela(contPess.pesqNomeTabelaAdicionaUsuarioAopedido(nome));
 				scrLista.setViewportView(getTabela());
 			}
 
@@ -1456,14 +1463,6 @@ public class FrameInicial {
 
 	public static void setContPedi(ControlaPedido contPedi) {
 		FrameInicial.contPedi = contPedi;
-	}
-
-	public static ControlaUsuario getContUsua() {
-		return contUsua;
-	}
-
-	public static void setContUsua(ControlaUsuario contUsua) {
-		FrameInicial.contUsua = contUsua;
 	}
 
 	public static ControlaFuse getContFuse() {

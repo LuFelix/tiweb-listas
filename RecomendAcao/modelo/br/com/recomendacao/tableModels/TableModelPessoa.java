@@ -18,12 +18,12 @@ public class TableModelPessoa extends AbstractTableModel {
 	DAOPessoaPG daoPessoa;
 
 	public TableModelPessoa() {
-		daoPessoa = new DAOPessoaPG();
+		daoPessoa = new DAOPessoaPG("siacecf");
 		linhas = new ArrayList<Pessoa>();
 	}
 
 	public TableModelPessoa(List<Pessoa> listPessoa) {
-		daoPessoa = new DAOPessoaPG();
+		daoPessoa = new DAOPessoaPG("siacecf");
 		linhas = new ArrayList<Pessoa>(listPessoa);
 	}
 
@@ -73,7 +73,6 @@ public class TableModelPessoa extends AbstractTableModel {
 		Pessoa p = linhas.get(rowIndex);
 		p.setNome((String) aValue);
 		fireTableCellUpdated(rowIndex, columnIndex);
-		daoPessoa.alterar(p);
 		PainelPessoa.carregarCampos(p);
 	}
 

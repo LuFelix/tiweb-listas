@@ -24,8 +24,8 @@ import javax.swing.tree.TreeSelectionModel;
 
 import br.com.recomendacao.adapter.ConstrutorGrafico;
 import br.com.recomendacao.controle.ControlaPedido;
+import br.com.recomendacao.controle.ControlaPessoa;
 import br.com.recomendacao.controle.ControlaProduto;
-import br.com.recomendacao.controle.ControlaUsuario;
 import br.com.recomendacao.util.ModeloArvore;
 import br.com.recomendacao.util.MontaGrid;
 
@@ -72,7 +72,7 @@ public class AbaServicos extends JPanel implements TreeSelectionListener {
 	private MontaGrid montaGrid;
 	private DefaultTreeModel modArvore;
 	private ConstrutorGrafico constG;
-	private ControlaUsuario contUsua;
+	private ControlaPessoa contUsua;
 	private ControlaProduto contProd;
 	private ControlaPedido contPedi;
 
@@ -132,7 +132,8 @@ public class AbaServicos extends JPanel implements TreeSelectionListener {
 		scrArvSistema.setBounds(0, 28, 200, 480);
 
 		// Where the tree is initialized:
-		arvoreSistema.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		arvoreSistema.getSelectionModel()
+				.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
 		// Listen for when the selection changes.
 		arvoreSistema.addTreeSelectionListener(this);
@@ -306,25 +307,33 @@ public class AbaServicos extends JPanel implements TreeSelectionListener {
 	// }
 	// });
 	// TODO Renderizar a árvore
-	private class RenderizarTree extends DefaultTreeCellRenderer implements TreeCellRenderer {
+	private class RenderizarTree extends DefaultTreeCellRenderer
+			implements
+				TreeCellRenderer {
 		private Font plainFont, italicFont;
 
 		@Override
-		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
-				boolean leaf, int row, boolean hasFocus) {
-			super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
+		public Component getTreeCellRendererComponent(JTree tree, Object value,
+				boolean selected, boolean expanded, boolean leaf, int row,
+				boolean hasFocus) {
+			super.getTreeCellRendererComponent(tree, value, selected, expanded,
+					leaf, row, hasFocus);
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 			if (node.toString().equals("Contatos")) {
-				setIcon(new ImageIcon("//home//luciano//SIMPRO//SIMPRO//images//sort_by_groups_32Lime.png"));
+				setIcon(new ImageIcon(
+						"//home//luciano//SIMPRO//SIMPRO//images//sort_by_groups_32Lime.png"));
 			}
 			if (node.toString().equals("Serviços")) {
-				setIcon(new ImageIcon("//home//luciano//SIMPRO//SIMPRO//images//product_32Lime.png"));
+				setIcon(new ImageIcon(
+						"//home//luciano//SIMPRO//SIMPRO//images//product_32Lime.png"));
 			}
 			if (node.toString().equals("Chamados")) {
-				setIcon(new ImageIcon("//home//luciano//SIMPRO//SIMPRO//images//shopping_basket_32Lime.png"));
+				setIcon(new ImageIcon(
+						"//home//luciano//SIMPRO//SIMPRO//images//shopping_basket_32Lime.png"));
 			}
 			if (node.toString().equals("Venda")) {
-				setIcon(new ImageIcon("//home//luciano//SIMPRO//SIMPRO//images//ic_attach_money_24.png"));
+				setIcon(new ImageIcon(
+						"//home//luciano//SIMPRO//SIMPRO//images//ic_attach_money_24.png"));
 			}
 			return this;
 		}
@@ -336,7 +345,8 @@ public class AbaServicos extends JPanel implements TreeSelectionListener {
 		// Returns the last path element of the selection.
 		// This method is useful only when the selection model allows a single
 		// selection.
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) arvoreSistema.getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) arvoreSistema
+				.getLastSelectedPathComponent();
 		if (node == null) {
 			// Nothing is selected.
 		}

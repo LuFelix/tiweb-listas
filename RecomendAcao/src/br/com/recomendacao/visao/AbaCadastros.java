@@ -20,7 +20,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import br.com.recomendacao.util.ModeloArvore;
 
-public class AbaPessoas extends JPanel implements TreeSelectionListener {
+public class AbaCadastros extends JPanel implements TreeSelectionListener {
 	JPanel painelPrincipal;
 	private JLabel lblTituloTela;
 	// Labels e text fields
@@ -34,42 +34,66 @@ public class AbaPessoas extends JPanel implements TreeSelectionListener {
 	private DefaultMutableTreeNode fornecedores;
 	private DefaultMutableTreeNode funcionarios;
 	private DefaultMutableTreeNode pessoas;
-	private DefaultMutableTreeNode grupo;
+	private DefaultMutableTreeNode produtos;
 
 	private JScrollPane scrArvNegocios;
 	private DefaultTreeModel modArvore;
 	private JSplitPane sppPrincipal;
+	private DefaultMutableTreeNode grupos;
+	private DefaultMutableTreeNode contas;
+	private DefaultMutableTreeNode centroCusto;
+	private DefaultMutableTreeNode tabelasPrecos;
+	private DefaultMutableTreeNode condPagamento;
+	private DefaultMutableTreeNode servicos;
 
-	public AbaPessoas() {
+	public AbaCadastros() {
 
 		// TODO Configuração dos Labels e text fields e árvore de negócios
 		lblTituloTela = new JLabel("Pessoas");
 		lblTituloTela.setFont(new Font("Times new roman", Font.BOLD, 18));
+		produtos = new DefaultMutableTreeNode("Produtos");
+
+		// Subgrupos para pessoas
 		clientes = new DefaultMutableTreeNode("Clientes");
 		fornecedores = new DefaultMutableTreeNode("Fornecedores");
 		funcionarios = new DefaultMutableTreeNode("Funcionários");
 		root = new DefaultMutableTreeNode("Root");
+
 		pessoas = new DefaultMutableTreeNode("Pessoas");
-		grupo = new DefaultMutableTreeNode("Grupos");
-		grupo.add(clientes);
-		grupo.add(fornecedores);
-		grupo.add(funcionarios);
-		
+		pessoas.add(clientes);
+		pessoas.add(fornecedores);
+		pessoas.add(funcionarios);
+		produtos = new DefaultMutableTreeNode("Produtos");
+		grupos = new DefaultMutableTreeNode("Grupos");
+		centroCusto = new DefaultMutableTreeNode("Centros de Custo");
+		condPagamento = new DefaultMutableTreeNode("Condições de Pagamento");
+		contas = new DefaultMutableTreeNode("Contas");
+		servicos = new DefaultMutableTreeNode("Serviços");
+		tabelasPrecos = new DefaultMutableTreeNode("Tabelas de Preços");
+
 		root.add(pessoas);
-		root.add(grupo);
+		root.add(produtos);
+		root.add(servicos);
+		root.add(grupos);
+		root.add(centroCusto);
+		root.add(condPagamento);
+		root.add(contas);
+		root.add(tabelasPrecos);
+
 		modArvore = new DefaultTreeModel(root);
 		modArvore.addTreeModelListener(new ModeloArvore());
 		arvore = new JTree(modArvore);
 
 		// Where the tree is initialized:
-		arvore.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		arvore.getSelectionModel()
+				.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
 		// Listen for when the selection changes.
 		arvore.addTreeSelectionListener(this);
 		arvore.setCellRenderer(new RenderizarTreeNegocios());
 		arvore.setShowsRootHandles(true);
 		arvore.setRootVisible(false);
-		arvore.setRowHeight(35);
+		arvore.setRowHeight(50);
 
 		// TODO Posicionamento e ações botões
 		scrArvNegocios = new JScrollPane(arvore);
@@ -121,22 +145,49 @@ public class AbaPessoas extends JPanel implements TreeSelectionListener {
 	// });
 
 	// TODO Renderizar a árvore negócios
-	private class RenderizarTreeNegocios extends DefaultTreeCellRenderer implements TreeCellRenderer {
+	private class RenderizarTreeNegocios extends DefaultTreeCellRenderer
+			implements
+				TreeCellRenderer {
 		private Font plainFont, italicFont;
 
 		@Override
-		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
-				boolean leaf, int row, boolean hasFocus) {
-			super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
+		public Component getTreeCellRendererComponent(JTree tree, Object value,
+				boolean selected, boolean expanded, boolean leaf, int row,
+				boolean hasFocus) {
+			super.getTreeCellRendererComponent(tree, value, selected, expanded,
+					leaf, row, hasFocus);
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-			
+
 			if (node.toString().equals("Pessoas")) {
-				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\personfolder_32x32.png"));
+				setIcon(new ImageIcon(
+						"C:\\SIMPRO\\img\\order\\personfolder_32x32.png"));
+			}
+			if (node.toString().equals("Produtos")) {
+				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\store.png"));
+			}
+			if (node.toString().equals("Serviços")) {
+				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\Equipment.png"));
 			}
 			if (node.toString().equals("Grupos")) {
 				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\workarea.png"));
 			}
-			
+			if (node.toString().equals("Contas")) {
+				setIcon(new ImageIcon(
+						"C:\\SIMPRO\\img\\order\\money32x32.png"));
+			}
+			if (node.toString().equals("Centros de Custo")) {
+				setIcon(new ImageIcon(
+						"C:\\SIMPRO\\img\\order\\flowblock32x32.png"));
+			}
+			if (node.toString().equals("Condições de Pagamento")) {
+				setIcon(new ImageIcon(
+						"C:\\SIMPRO\\img\\order\\credit32x32.png"));
+			}
+			if (node.toString().equals("Tabelas de Preços")) {
+				setIcon(new ImageIcon(
+						"C:\\SIMPRO\\img\\order\\billing32x32.png"));
+			}
+
 			return this;
 		}
 	}
@@ -148,45 +199,47 @@ public class AbaPessoas extends JPanel implements TreeSelectionListener {
 		// This method is useful only when the selection model allows a single
 		// selection.
 
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) arvore.getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) arvore
+				.getLastSelectedPathComponent();
 		Object nodeInfo = node.getUserObject();
 		nomeNo = nodeInfo.toString();
 		if (node != null) {
-			
-			if (node.isLeaf() & nomeNo.equals("Pessoas")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
-				}
+			if (nomeNo.equals("Pessoas")) {
+				FrameInicial.getContPess().iniciar(AbaCadastros.getNomeNo());
 			}
-			if (!node.isLeaf() & nomeNo.equals("Grupos")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContGrupo().iniciar();
-				}
+			if (nomeNo.equals("Clientes")) {
+				FrameInicial.getContPess().iniciar(AbaCadastros.getNomeNo());
 			}
-			
-			if (node.isLeaf() & nomeNo.equals("Clientes")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
+			if (nomeNo.equals("Fornecedores")) {
+				FrameInicial.getContPess().iniciar(AbaCadastros.getNomeNo());
+			}
+			if (nomeNo.equals("Funcionários")) {
+				FrameInicial.getContPess().iniciar(AbaCadastros.getNomeNo());
+			}
+			if (nomeNo.equals("Produtos")) {
+				FrameInicial.pesquisaProduto();
+			}
+			if (nomeNo.equals("Serviços")) {
+				FrameInicial.getContServ().iniciar();
+			}
+			if (nomeNo.equals("Grupos")) {
+				FrameInicial.getContGrupo().iniciar();
+			}
+			if (nomeNo.equals("Centros de Custo")) {
+				FrameInicial.getContCentroCusto().iniciar();
+			}
+			if (nomeNo.equals("Condições de Pagamento")) {
+				FrameInicial.getContCondPag().iniciar();
+			}
+			if (nomeNo.equals("Contas")) {
+				FrameInicial.getContConta().iniciar();
+			}
+			if (nomeNo.equals("Tabelas de Preços")) {
+				FrameInicial.getContTabPreco().iniciar();
+			}
 
-				}
-			}
-			
-			if (node.isLeaf() & nomeNo.equals("Fornecedores")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
-
-				}
-			}
-			if (node.isLeaf() & nomeNo.equals("Funcionários")) {
-				if (node.getAllowsChildren()) {
-					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
-				}
-			}
-			
-			
 		}
 	}
-	
 
 	public static void expandirrArvore(JTree tree) {
 		try {
@@ -203,7 +256,7 @@ public class AbaPessoas extends JPanel implements TreeSelectionListener {
 	}
 
 	public static void setNomeNo(String nomeNo) {
-		AbaPessoas.nomeNo = nomeNo;
+		AbaCadastros.nomeNo = nomeNo;
 	}
 
 	public static JTree getArvoreNegocios() {
@@ -211,6 +264,6 @@ public class AbaPessoas extends JPanel implements TreeSelectionListener {
 	}
 
 	public static void setArvoreNegocios(JTree arvoreNegocios) {
-		AbaPessoas.arvore = arvoreNegocios;
+		AbaCadastros.arvore = arvoreNegocios;
 	}
 }

@@ -21,33 +21,34 @@ import javax.swing.table.DefaultTableModel;
 import br.com.recomendacao.beans.GrupoSubgrupo;
 import br.com.recomendacao.beans.Pessoa;
 import br.com.recomendacao.dao.DAOGrupoSubgrupo;
+import br.com.recomendacao.dao.DAOPessoa;
 import br.com.recomendacao.dao.DAOPessoaPG;
 import br.com.recomendacao.tableModels.TableModelPessoa;
-import br.com.recomendacao.visao.AbaPessoas;
+import br.com.recomendacao.visao.AbaCadastros;
 import br.com.recomendacao.visao.FrameInicial;
 import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 import br.com.recomendacao.visao.PainelPedidos;
 import br.com.recomendacao.visao.PainelPessoa;
 
-public class ControlaUsuario {
+public class ControlaPessoa {
 
 	private List<Pessoa> arrayPessoa;
 	private List<GrupoSubgrupo> listGrupo;
-	static DAOPessoaPG daoP;
+	static DAOPessoa daoP;
 	static DAOGrupoSubgrupo daoG;
 	static JTable tabela;
 	static TableModelPessoa tblMdPessoa;
 	private JComboBox<String> cmbGrupos;
 	static Pessoa p;
 
-	public ControlaUsuario() {
-		daoP = new DAOPessoaPG();
+	public ControlaPessoa() {
+		daoP = new DAOPessoaPG("siacecf");
 		daoG = new DAOGrupoSubgrupo();
 		listGrupo = daoG.pesquisarString("");
 	}
 
 	public JTable tblPessoas(String str) {
-		tblMdPessoa = new TableModelPessoa(daoP.pesquisarString(str));
+		tblMdPessoa = new TableModelPessoa(daoP.pesquisaString(str));
 		tabela = new JTable(tblMdPessoa);
 		tabela.addKeyListener(new KeyListener() {
 
@@ -189,7 +190,7 @@ public class ControlaUsuario {
 		colunas.add("CPF");
 		colunas.add("Email");
 		List<Pessoa> dados = new ArrayList<>();
-		dados = daoP.pesquisarString(nome);
+		dados = daoP.pesquisaString(nome);
 		modelotabela.setColumnIdentifiers(colunas.toArray());
 		for (int i = 0; i < dados.size(); i++) {
 			Object linha[] = {dados.get(i).getNome(),
@@ -203,123 +204,13 @@ public class ControlaUsuario {
 	}
 	public void iniciar(String tipo) {
 		System.out.println("FrameInicial.controlePessoasIniciar");
-		ControlaBotoes.limpaTodosBotoes();
-		FrameInicial.limparTxtfPesquisa();
-		ControlaBotoes.desHabilitaEdicaoBotoes();
+		configuraBotoes();
+		configuraTxtPesquisa();
 		FrameInicial.setTabela(tblPessoas(""));
 		FrameInicial.getTabela().setRowSelectionInterval(0, 0);
 		p = tblMdPessoa.getPessoa(FrameInicial.getTabela().getSelectedRow());
 		FrameInicial.setPainelVisualiza(new PainelPessoa(p));
 		carregaDetalhes(p);
-		FrameInicial.getTxtfPesquisa().grabFocus();
-		FrameInicial.getTxtfPesquisa().addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40) {
-					if (FrameInicial.getTabela().getRowCount() > 0) {
-						FrameInicial.getTabela().grabFocus();
-						FrameInicial.getScrFluxo().setViewportView(null);
-					}
-				} else if (tecla.getExtendedKeyCode() == 27) {
-					funcaoCancelar();
-				} else {
-					String str = FrameInicial.getTxtfPesquisa().getText();
-					FrameInicial.setTabela(tblPessoas(str));
-					if (tabela.getRowCount() > 0) {
-						FrameInicial.getTabela().setRowSelectionInterval(0, 0);
-						p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
-						carregaDetalhes(p);
-						FrameInicial.getScrFluxo().setViewportView(null);
-					} else {
-						FrameInicial.setTabela(new JTable());
-						p = new Pessoa();
-						carregaDetalhes(p);
-						JLabel label = new JLabel("Nada encontrado!!");
-						label.setFont(
-								new Font("Times New Roman", Font.BOLD, 36));
-						label.setForeground(Color.RED);
-						FrameInicial.getScrFluxo().setViewportView(label);
-					}
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40) {
-					if (tabela.getRowCount() > 0) {
-						FrameInicial.getTabela().setRowSelectionInterval(0, 0);
-						p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
-						carregaDetalhes(p);
-						FrameInicial.getScrFluxo().setViewportView(null);
-					}
-
-				} else if (tecla.getExtendedKeyCode() == 27) {
-					funcaoCancelar();
-				} else {
-					String str = FrameInicial.getTxtfPesquisa().getText();
-					FrameInicial.setTabela(tblPessoas(str));
-					if (FrameInicial.getTabela().getRowCount() > 0) {
-						FrameInicial.getTabela().setRowSelectionInterval(0, 0);
-						p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
-						carregaDetalhes(p);
-						FrameInicial.getScrFluxo().setViewportView(null);
-					} else {
-						FrameInicial.setTabela(new JTable());
-						p = new Pessoa();
-						carregaDetalhes(p);
-						JLabel label = new JLabel("Nada encontrado!!");
-						label.setFont(
-								new Font("Times New Roman", Font.BOLD, 36));
-						label.setForeground(Color.RED);
-						FrameInicial.getScrFluxo().setViewportView(label);
-					}
-				}
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-		});
-
-		FrameInicial.getBtnEditar().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				PainelPessoa.habilitaEdicao();
-				ControlaBotoes.habilitaEdicaoBotoes();
-				funcaoSobrescrever();
-			}
-		});
-		FrameInicial.getBtnNovo().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				FrameInicial.setTabela(new JTable());
-				ControlaBotoes.habilitaNovoBotoes();
-				PainelPessoa.habilitaNovo();
-				FrameInicial.atualizaTela();
-				funcaoSalvar();
-			}
-		});
-		FrameInicial.getBtnCancelar().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ControlaBotoes.desHabilitaEdicaoBotoes();
-				funcaoCancelar();
-			}
-		});
-		FrameInicial.getBtnSalvar().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ControlaBotoes.desHabilitaEdicaoBotoes();
-				funcaoSalvar();
-			}
-		});
-		FrameInicial.getBtnExcluir().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ControlaBotoes.desHabilitaEdicaoBotoes();
-				funcaoExcluir();
-			}
-		});
 
 	}
 
@@ -391,7 +282,7 @@ public class ControlaUsuario {
 		colunas.add("CPF");
 		colunas.add("Email");
 		arrayPessoa = new ArrayList<>();
-		arrayPessoa = daoP.pesquisarString(str);
+		arrayPessoa = daoP.pesquisaString(str);
 		modelotabela.setColumnIdentifiers(colunas.toArray());
 		for (int i = 0; i < arrayPessoa.size(); i++) {
 			Object linha[] = {arrayPessoa.get(i).getNome(),
@@ -405,19 +296,12 @@ public class ControlaUsuario {
 
 	public List<Pessoa> pesquisar() {
 		arrayPessoa = new ArrayList<Pessoa>();
-		arrayPessoa = daoP.listarTodos();
+		arrayPessoa = daoP.listaPessoas();
 		for (int i = 0; i < arrayPessoa.size(); i++) {
 			System.out.println(arrayPessoa.get(i).getCpf() + "Nome"
 					+ arrayPessoa.get(i).getNome());
 		}
 		return arrayPessoa;
-
-	}
-
-	public Pessoa pesquisar(String nome) {
-		p = new Pessoa();
-		p = daoP.pesquisar(nome);
-		return p;
 
 	}
 
@@ -467,12 +351,13 @@ public class ControlaUsuario {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				p = PainelPessoa.lerCampos();
-				if (!p.equals(null) & daoP.alterar(p)) {
+				if (!p.equals(null) & daoP.altera(p)) {
 					FrameInicial.setTabela(pesqNomeTabela(p.getCodiPessoa()));
 					FrameInicial.setPainelVisualiza(new PainelPessoa(p));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito!");
-					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
+					FrameInicial.getContPess()
+							.iniciar(AbaCadastros.getNomeNo());
 				} else {
 					JOptionPane.showMessageDialog(null,
 							"Favor verificar os campos informados. ",
@@ -491,13 +376,14 @@ public class ControlaUsuario {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				p = PainelPessoa.lerCampos();
-				if (!p.equals(null) & daoP.cadastrar(p)) {
+				if (!p.equals(null) & daoP.cadastra(p)) {
 					PainelPessoa.limparCampos();
 					FrameInicial.setTabela(pesqNomeTabela(p.getCodiPessoa()));
 					FrameInicial.setPainelVisualiza(new PainelPessoa(p));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito");
-					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
+					FrameInicial.getContPess()
+							.iniciar(AbaCadastros.getNomeNo());
 				} else {
 					JOptionPane.showMessageDialog(null,
 							"Problemas: Erro de acesso ao banco",
@@ -509,14 +395,14 @@ public class ControlaUsuario {
 
 	public static void funcaoCancelar() {
 		System.out.println("ControlaUsuario.cancelar");
-		FrameInicial.getContUsua().iniciar("");
+		FrameInicial.getContPess().iniciar("");
 	}
 
 	// TODO Funcao excluir
 	public static boolean funcaoExcluir() {
 		System.out.println("ControlaProduto.excluir");
 		p = PainelPessoa.lerCampos();
-		if (daoP.excluir(p)) {
+		if (daoP.exclui(p)) {
 			FrameInicial.limpaTela();
 			funcaoCancelar();
 			return true;
@@ -526,6 +412,123 @@ public class ControlaUsuario {
 		}
 	}
 
+	void configuraBotoes() {
+		ControlaBotoes.limpaTodosBotoes();
+		ControlaBotoes.desHabilitaEdicaoBotoes();
+		FrameInicial.getBtnEditar().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PainelPessoa.habilitaEdicao();
+				ControlaBotoes.habilitaEdicaoBotoes();
+				funcaoSobrescrever();
+			}
+		});
+		FrameInicial.getBtnNovo().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				FrameInicial.setTabela(new JTable());
+				ControlaBotoes.habilitaNovoBotoes();
+				PainelPessoa.habilitaNovo();
+				FrameInicial.atualizaTela();
+				funcaoSalvar();
+			}
+		});
+		FrameInicial.getBtnCancelar().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ControlaBotoes.desHabilitaEdicaoBotoes();
+				funcaoCancelar();
+			}
+		});
+		FrameInicial.getBtnSalvar().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ControlaBotoes.desHabilitaEdicaoBotoes();
+				funcaoSalvar();
+			}
+		});
+		FrameInicial.getBtnExcluir().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ControlaBotoes.desHabilitaEdicaoBotoes();
+				funcaoExcluir();
+			}
+		});
+
+	}
+	void configuraTxtPesquisa() {
+		FrameInicial.limparTxtfPesquisa();
+		FrameInicial.getTxtfPesquisa().grabFocus();
+		FrameInicial.getTxtfPesquisa().addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent tecla) {
+				if (tecla.getExtendedKeyCode() == 40) {
+					if (FrameInicial.getTabela().getRowCount() > 0) {
+						FrameInicial.getTabela().grabFocus();
+						FrameInicial.getScrFluxo().setViewportView(null);
+					}
+				} else if (tecla.getExtendedKeyCode() == 27) {
+					funcaoCancelar();
+				} else {
+					String str = FrameInicial.getTxtfPesquisa().getText();
+					FrameInicial.setTabela(tblPessoas(str));
+					if (tabela.getRowCount() > 0) {
+						FrameInicial.getTabela().setRowSelectionInterval(0, 0);
+						p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+						carregaDetalhes(p);
+						FrameInicial.getScrFluxo().setViewportView(null);
+					} else {
+						FrameInicial.setTabela(new JTable());
+						p = new Pessoa();
+						carregaDetalhes(p);
+						JLabel label = new JLabel("Nada encontrado!!");
+						label.setFont(
+								new Font("Times New Roman", Font.BOLD, 48));
+						label.setForeground(Color.RED);
+						FrameInicial.getScrFluxo().setViewportView(label);
+					}
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent tecla) {
+				if (tecla.getExtendedKeyCode() == 40) {
+					if (tabela.getRowCount() > 0) {
+						FrameInicial.getTabela().setRowSelectionInterval(0, 0);
+						p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+						carregaDetalhes(p);
+						FrameInicial.getScrFluxo().setViewportView(null);
+					}
+
+				} else if (tecla.getExtendedKeyCode() == 27) {
+					funcaoCancelar();
+				} else {
+					String str = FrameInicial.getTxtfPesquisa().getText();
+					FrameInicial.setTabela(tblPessoas(str));
+					if (FrameInicial.getTabela().getRowCount() > 0) {
+						FrameInicial.getTabela().setRowSelectionInterval(0, 0);
+						p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+						carregaDetalhes(p);
+						FrameInicial.getScrFluxo().setViewportView(null);
+					} else {
+						FrameInicial.setTabela(new JTable());
+						p = new Pessoa();
+						carregaDetalhes(p);
+						JLabel label = new JLabel("Nada encontrado!!");
+						label.setFont(
+								new Font("Times New Roman", Font.BOLD, 48));
+						label.setForeground(Color.RED);
+						FrameInicial.getScrFluxo().setViewportView(label);
+					}
+				}
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+		});
+
+	}
 	public void carregaDetalhes(Pessoa p) {
 		PainelPessoa.carregarCampos(p);
 		FrameInicial.atualizaTela();

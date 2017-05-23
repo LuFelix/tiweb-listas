@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import br.com.recomendacao.dao.ConfigS;
+
 public class ConexaoSTM {
 
 	private String local;
@@ -17,21 +19,24 @@ public class ConexaoSTM {
 	private Statement stmt;
 	private Statement statment;
 
-	public ConexaoSTM(String bd, String local, String porta, String banco, String user, String senha) {
+	public ConexaoSTM(String SGBD, String nomeBanco) {
 
-		if (bd.equals("PostgreSql")) {
-			setStr_conexao("jdbc:postgresql://" + local + ":" + porta + "/" + banco);
-			setLocal(local);
-			setSenha(senha);
-			setUser(user);
+		if (SGBD.equals("PostgreSql")) {
+			setLocal(ConfigS.getLocal());
+			setSenha(ConfigS.getSenhaPgDB());
+			setUser(ConfigS.getUserPgDB());
 			setDriverjdbc("org.postgresql.Driver");
+			setStr_conexao("jdbc:postgresql://" + local + ":"
+					+ ConfigS.getPortaPgDB() + "/" + nomeBanco);
+
 		} else {
-			if (bd.equals("MySql")) {
-				setStr_conexao("jdbc:mysql://" + local + ":" + porta + "/" + banco);
-				setLocal(local);
-				setSenha(senha);
-				setUser(user);
+			if (SGBD.equals("MySql")) {
+				setLocal(ConfigS.getLocal());
+				setSenha(ConfigS.getSenhaMDB());
+				setUser(ConfigS.getUserMDB());
 				setDriverjdbc("com.mysql.jdbc.Driver");
+				setStr_conexao("jdbc:mysql://" + local + ":"
+						+ ConfigS.getPortaMDB() + "/" + nomeBanco);
 			}
 		}
 	}
@@ -64,7 +69,8 @@ public class ConexaoSTM {
 	public void conectStm() {
 		try {
 			Class.forName(getDriverjdbc());
-			setCon(DriverManager.getConnection(getStr_conexao(), getUser(), getSenha()));
+			setCon(DriverManager.getConnection(getStr_conexao(), getUser(),
+					getSenha()));
 			setStatment(getCon().createStatement());
 		} catch (Exception e) {
 			System.err.println(e);
@@ -76,7 +82,8 @@ public class ConexaoSTM {
 	public void conectSTMScroll() {
 		try {
 			Class.forName(getDriverjdbc());
-			setCon(DriverManager.getConnection(getStr_conexao(), getUser(), getSenha()));
+			setCon(DriverManager.getConnection(getStr_conexao(), getUser(),
+					getSenha()));
 			setStmt(getCon().createStatement());
 		} catch (Exception e) {
 			System.err.println(e);
@@ -165,7 +172,9 @@ public class ConexaoSTM {
 	public void setStmt(Statement stmt) {
 		try {
 
-			this.stmt = getCon().createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			this.stmt = getCon().createStatement(
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

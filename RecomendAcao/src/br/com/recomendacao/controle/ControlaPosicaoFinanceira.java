@@ -7,9 +7,9 @@ import java.awt.event.KeyListener;
 
 import br.com.recomendacao.adapter.ConstrutorGrafico;
 import br.com.recomendacao.visao.FrameInicial;
+import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 import br.com.recomendacao.visao.PainelServico;
 import br.com.recomendacao.visao.PainelStatus;
-import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
 
 public class ControlaPosicaoFinanceira {
 	private ConstrutorGrafico constGrafico;
@@ -24,9 +24,10 @@ public class ControlaPosicaoFinanceira {
 		ControlaBotoes.desHabilitaEdicaoBotoes();
 		FrameInicial.limparTxtfPesquisa();
 		FrameInicial.getTxtfPesquisa().grabFocus();
-		FrameInicial.getTabela().add(constGrafico.graficoBarrasDespCentroCusto());
 		FrameInicial.setPainelVisualiza(new PainelStatus(""));
 		FrameInicial.atualizaTela();
+		FrameInicial.getScrLista()
+				.setViewportView(constGrafico.graficoBarrasDespCentroCusto());
 		FrameInicial.getBtnNovo().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

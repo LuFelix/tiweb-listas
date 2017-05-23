@@ -132,7 +132,8 @@ public class AbaRelatorios extends JPanel implements TreeSelectionListener {
 		scrArvNegocios = new JScrollPane(arvoreNegocios);
 		scrArvNegocios.setBounds(0, 28, 250, 400);
 		// Where the tree is initialized:
-		arvoreNegocios.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		arvoreNegocios.getSelectionModel()
+				.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
 		// Listen for when the selection changes.
 		arvoreNegocios.addTreeSelectionListener(this);
@@ -195,7 +196,8 @@ public class AbaRelatorios extends JPanel implements TreeSelectionListener {
 		// Returns the last path element of the selection.
 		// This method is useful only when the selection model allows a single
 		// selection.
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) arvoreNegocios.getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) arvoreNegocios
+				.getLastSelectedPathComponent();
 		Object nodeInfo = node.getUserObject();
 		String nomeNo = nodeInfo.toString();
 		if (node != null) {
@@ -221,7 +223,8 @@ public class AbaRelatorios extends JPanel implements TreeSelectionListener {
 			}
 			if (node.isLeaf() & node.isNodeAncestor(contatos)) {
 				if (node.getAllowsChildren()) {
-					FrameInicial.getContUsua().iniciar(AbaPessoas.getNomeNo());
+					FrameInicial.getContPess()
+							.iniciar(AbaCadastros.getNomeNo());
 				}
 			}
 			if (node.isLeaf() & nomeNo.equals("Cond. Pagamento")) {

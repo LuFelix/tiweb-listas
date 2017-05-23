@@ -1,8 +1,8 @@
 package br.com.recomendacao.dao;
 
-public class DAOPessoaPG extends DAOPessoa {
+public class DAOPessoaMDB extends DAOPessoa {
 
-	public DAOPessoaPG(String nomeBanco) {
+	public DAOPessoaMDB(String nomeBanco) {
 		super(nomeBanco);
 		// TODO Auto-generated constructor stub
 	}

@@ -17,9 +17,8 @@ import javax.swing.table.DefaultTableModel;
 import br.com.recomendacao.beans.GrupoSubgrupo;
 import br.com.recomendacao.dao.DAOGrupoSubgrupo;
 import br.com.recomendacao.visao.FrameInicial;
-import br.com.recomendacao.visao.PainelConta;
-import br.com.recomendacao.visao.PainelGrupoSubgrupo;
 import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
+import br.com.recomendacao.visao.PainelGrupoSubgrupo;
 
 public class ControlaGrupoSubgrupo {
 	private JTable tabela;
@@ -44,14 +43,17 @@ public class ControlaGrupoSubgrupo {
 
 				if (!grupo.equals(null) & daoGrupo.cadastrar(grupo)) {
 					PainelGrupoSubgrupo.limparCampos();
-					FrameInicial.setTabela(pesqNomeTabela(grupo.getCodiGrupo()));
-					FrameInicial.setPainelVisualiza(new PainelGrupoSubgrupo(grupo.getCodiGrupo()));
+					FrameInicial
+							.setTabela(pesqNomeTabela(grupo.getCodiGrupo()));
+					FrameInicial.setPainelVisualiza(
+							new PainelGrupoSubgrupo(grupo.getCodiGrupo()));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito");
 					iniciar();
 				} else {
-					JOptionPane.showMessageDialog(null, "Problemas: Erro de acesso ao banco", "Erro ao Salvar",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Problemas: Erro de acesso ao banco",
+							"Erro ao Salvar", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -61,8 +63,10 @@ public class ControlaGrupoSubgrupo {
 	public String criaCodigo() {
 		System.out.println("ControlaGrupoSubgrupo.criarCodigo");
 		Calendar c = Calendar.getInstance();
-		String codigo = String.valueOf(daoGrupo.consultaUltimo()) + String.valueOf(c.get(Calendar.YEAR))
-				+ String.valueOf(c.get(Calendar.MONTH)) + String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+		String codigo = String.valueOf(daoGrupo.consultaUltimo())
+				+ String.valueOf(c.get(Calendar.YEAR))
+				+ String.valueOf(c.get(Calendar.MONTH))
+				+ String.valueOf(c.get(Calendar.DAY_OF_MONTH));
 		return codigo;
 	}
 
@@ -70,7 +74,8 @@ public class ControlaGrupoSubgrupo {
 		int tam = daoGrupo.consultaUltimo();
 		if (tam == 0) {
 			FrameInicial.setPainelVisualiza(new PainelGrupoSubgrupo(null));
-			FrameInicial.getScrVisualiza().setViewportView(FrameInicial.getPainelVisualiza());
+			FrameInicial.getScrVisualiza()
+					.setViewportView(FrameInicial.getPainelVisualiza());
 			return null;
 		} else {
 			return daoGrupo.pesquisarString("").get(0);
@@ -100,7 +105,8 @@ public class ControlaGrupoSubgrupo {
 
 			@Override
 			public void keyReleased(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 					int posicao = tabela.getSelectedRow();
 					grupo = listGrupo.get(posicao);
 					PainelGrupoSubgrupo.carregarCampos(grupo);
@@ -112,14 +118,16 @@ public class ControlaGrupoSubgrupo {
 			@Override
 			public void keyPressed(KeyEvent tecla) {
 				int posicao = tabela.getSelectedRow();
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 					PainelGrupoSubgrupo.carregarCampos(grupo);
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
 					FrameInicial.getTxtfPesquisa().grabFocus();
 				} else if (tecla.getExtendedKeyCode() == 10) {
 					PainelGrupoSubgrupo.carregarCampos(grupo);
 					funcaoSobrescrever();
-					FrameInicial.getTabela().changeSelection(--posicao, 0, false, false);
+					FrameInicial.getTabela().changeSelection(--posicao, 0,
+							false, false);
 					PainelGrupoSubgrupo.getTxtFNomeGrupo().grabFocus();
 				}
 			}
@@ -157,8 +165,9 @@ public class ControlaGrupoSubgrupo {
 		colunas.add("Subgrupo");
 		modelotabela.setColumnIdentifiers(colunas.toArray());
 		for (int i = 0; i < listGrupo.size(); i++) {
-			Object linha[] = { listGrupo.get(i).getSeqGrupo(), listGrupo.get(i).getNomeGrupo(),
-					listGrupo.get(i).getNoAncora() };
+			Object linha[] = {listGrupo.get(i).getSeqGrupo(),
+					listGrupo.get(i).getNoAncora(),
+					listGrupo.get(i).getNomeGrupo()};
 			modelotabela.addRow(linha);
 		}
 		tabela.setShowGrid(true);
@@ -175,14 +184,18 @@ public class ControlaGrupoSubgrupo {
 			public void actionPerformed(ActionEvent e) {
 				grupo = PainelGrupoSubgrupo.lerCampos();
 				if (!grupo.equals(null) & daoGrupo.alterar(grupo)) {
-					FrameInicial.setTabela(pesqNomeTabela(grupo.getCodiGrupo()));
-					FrameInicial.setPainelVisualiza(new PainelConta(grupo.getCodiGrupo()));
+					FrameInicial
+							.setTabela(pesqNomeTabela(grupo.getCodiGrupo()));
+					FrameInicial.setPainelVisualiza(
+							new PainelGrupoSubgrupo(grupo.getCodiGrupo()));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito!");
 					iniciar();
 				} else {
-					JOptionPane.showMessageDialog(null, "Favor verificar os campos informados. ",
-							"Não foi possivel alterar!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Favor verificar os campos informados. ",
+							"Não foi possivel alterar!",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -271,7 +284,8 @@ public class ControlaGrupoSubgrupo {
 					// System.out.println(tecla.getExtendedKeyCode());
 					nome = FrameInicial.getTxtfPesquisa().getText();
 					setTabela(pesqNomeTabela(nome));
-					FrameInicial.setPainelVisualiza(new PainelGrupoSubgrupo(nome));
+					FrameInicial
+							.setPainelVisualiza(new PainelGrupoSubgrupo(nome));
 					FrameInicial.atualizaTela();
 				}
 			}

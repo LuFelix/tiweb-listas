@@ -19,7 +19,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 import br.com.recomendacao.adapter.ConstrutorGrafico;
-import br.com.recomendacao.controle.ControlaUsuario;
+import br.com.recomendacao.controle.ControlaPessoa;
 import br.com.recomendacao.util.ModeloArvore;
 import br.com.recomendacao.util.MontaGrid;
 
@@ -68,9 +68,11 @@ public class AbaFinancas extends JPanel implements TreeSelectionListener {
 
 		// TODO +++++Construtor da Tela de
 		// Operacaos+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-		UIManager.put("TextField.font", new Font("times new roman", Font.BOLD, 13));
+		UIManager.put("TextField.font",
+				new Font("times new roman", Font.BOLD, 13));
 		UIManager.put("Label.font", new Font("times new roman", Font.BOLD, 13));
-		UIManager.put("Button.font", new Font("times new roman", Font.BOLD, 12));
+		UIManager.put("Button.font",
+				new Font("times new roman", Font.BOLD, 12));
 
 		painelPrincipal = new JPanel();
 		painelPrincipal.setLayout(null);
@@ -116,7 +118,8 @@ public class AbaFinancas extends JPanel implements TreeSelectionListener {
 		scrMineracao.setBounds(5, 40, 225, 440);
 
 		// Where the tree is initialized:
-		arvoreSistema.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+		arvoreSistema.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
 
 		// Listen for when the selection changes.
 		arvoreSistema.addTreeSelectionListener(this);
@@ -305,7 +308,8 @@ public class AbaFinancas extends JPanel implements TreeSelectionListener {
 		// Returns the last path element of the selection.
 		// This method is useful only when the selection model allows a single
 		// selection.
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) arvoreSistema.getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) arvoreSistema
+				.getLastSelectedPathComponent();
 
 		if (node == null)
 			// Nothing is selected.
@@ -318,7 +322,7 @@ public class AbaFinancas extends JPanel implements TreeSelectionListener {
 			// indicador.setNome(nodeInfo.toString());
 			if (node.getAllowsChildren()) {
 				String item = nodeInfo.toString();
-				ControlaUsuario contU = new ControlaUsuario();
+				ControlaPessoa contU = new ControlaPessoa();
 				// ArrayList<Object> col = new ArrayList<>();
 				// col.add("Abe");
 				// col.add("Fec");
@@ -329,7 +333,8 @@ public class AbaFinancas extends JPanel implements TreeSelectionListener {
 				FrameInicial.getTabela().setBackground(getBackground().WHITE);
 				FrameInicial.scrLista.setViewportView(FrameInicial.getTabela());
 				// FrameInicial.setPainelVisualiza(new PainelUsuarios());
-				FrameInicial.scrVisualiza.setViewportView(FrameInicial.getPainelVisualiza());
+				FrameInicial.scrVisualiza
+						.setViewportView(FrameInicial.getPainelVisualiza());
 
 			}
 		} else {

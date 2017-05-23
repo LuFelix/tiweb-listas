@@ -22,9 +22,7 @@ public class DAOGrupoSubgrupo {
 		super();
 		System.out.println("DAOGrupoSubgrupo.construtor");
 		c = new Conexao(ConfigS.getBdPg(), "siacecf");
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), ConfigS.getLocal(),
-				ConfigS.getPortaPgDB(), ConfigS.getBanco1(),
-				ConfigS.getUserPgDB(), ConfigS.getSenhaPgDB());
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), "siacecf");
 	}
 
 	public void reservaCodigo(String codigo) throws SQLException {
@@ -128,7 +126,7 @@ public class DAOGrupoSubgrupo {
 	}
 	public List<GrupoSubgrupo> pesquisarString(String str) {
 		System.out.println("DAOGrupo.pesquisarString");
-		String sql = "select * from grupos where codi_grupo ~* ? or nome_grupo ~* ? or no_ancora ~* ? order by nome_grupo;";
+		String sql = "select * from grupos where codi_grupo ~* ? or nome_grupo ~* ? or no_ancora ~* ? order by no_ancora;";
 		listGrupo = new ArrayList<GrupoSubgrupo>();
 		c.conectar();
 		try {
