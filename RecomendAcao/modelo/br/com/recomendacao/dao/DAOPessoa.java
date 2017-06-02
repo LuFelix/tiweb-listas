@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.recomendacao.beans.Pessoa;
+import br.com.recomendacao.beans.PessoaProfissional;
 import br.com.recomendacao.util.Conexao;
 import br.com.recomendacao.util.ConexaoSTM;
 
@@ -20,10 +21,10 @@ public abstract class DAOPessoa {
 
 	private List<Pessoa> listP;
 
-	public DAOPessoa(String nomeBanco) {
+	public DAOPessoa() {
 		System.out.println("DAOUsuario.construtor");
-		c = new Conexao(ConfigS.getBdPg(), nomeBanco);
-		c2 = new ConexaoSTM(ConfigS.getBdPg(), nomeBanco);
+		c = new Conexao(ConfigS.getBdPg(), "siacecf");
+		c2 = new ConexaoSTM(ConfigS.getBdPg(), "siacecf");
 	}
 
 	public int consultaUltimo() {
@@ -152,6 +153,7 @@ public abstract class DAOPessoa {
 			while (result.next()) {
 				p = new Pessoa();
 				p.setSeqUsuario(result.getInt("seq_pessoa"));
+				p.setCodiPessoa(result.getString("codi_pessoa"));
 				p.setNome(result.getString("nome_pessoa"));
 				p.setCpf(result.getString("cnpj_cpf_pessoa"));
 				p.setEmail(result.getString("email_pessoa"));
@@ -204,10 +206,11 @@ public abstract class DAOPessoa {
 		}
 	}
 
-	public Pessoa carregaDetalhes(Pessoa p) {
+	public List<PessoaProfissional> carregaDetalhesProfissionais(Pessoa p) {
 
 		return null;
 	}
+
 	public String getSql() {
 		return sql;
 	}

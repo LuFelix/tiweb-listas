@@ -3,6 +3,7 @@ package br.com.recomendacao.dao;
 public class ConfigS {
 
 	private static String bdPg = "PostgreSql";
+
 	public static String getBdPg() {
 		return bdPg;
 	}
@@ -85,7 +86,6 @@ public class ConfigS {
 	private static String userPgDB = "postgres";
 	private static String senhaPgDB = "Lu123!@#";
 	private static String userMDB = "root";
-	private static String senhaMDB = "Lu123!@#";
+	private static String senhaMDB = "tec2005";
 
-	
 }

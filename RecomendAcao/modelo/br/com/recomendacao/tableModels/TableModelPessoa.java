@@ -18,12 +18,12 @@ public class TableModelPessoa extends AbstractTableModel {
 	DAOPessoaPG daoPessoa;
 
 	public TableModelPessoa() {
-		daoPessoa = new DAOPessoaPG("siacecf");
+		daoPessoa = new DAOPessoaPG();
 		linhas = new ArrayList<Pessoa>();
 	}
 
 	public TableModelPessoa(List<Pessoa> listPessoa) {
-		daoPessoa = new DAOPessoaPG("siacecf");
+		daoPessoa = new DAOPessoaPG();
 		linhas = new ArrayList<Pessoa>(listPessoa);
 	}
 

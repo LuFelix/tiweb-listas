@@ -67,6 +67,8 @@ public class PainelPessoa extends JPanel {
 	private static JScrollPane scrImagem;
 	private static JScrollPane scrDetalhes;
 	private static JScrollPane scrUltPedidos;
+	private static JTable tbl01;
+	private static JTable tbl02;
 
 	public PainelPessoa(Pessoa p) {
 		UIManager.put("TextField.font",
@@ -122,8 +124,15 @@ public class PainelPessoa extends JPanel {
 			}
 		});
 
+		lblImagem = new JLabel("Image not Found");
+		scrImagem = new JScrollPane(lblImagem);
+		scrImagem.setVerticalScrollBarPolicy(
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		scrImagem.setHorizontalScrollBarPolicy(
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrDetalhes = new JScrollPane();
 		tabVisualiza = new JTabbedPane();
-		tabVisualiza.addTab("Detalhes", scrDetalhes);
+		tabVisualiza.addTab("Ocupações / Detalhes", scrDetalhes);
 		tabVisualiza.add("Últimos Pedidos", scrUltPedidos);
 
 		painelMovimento = new JPanel();
@@ -150,13 +159,6 @@ public class PainelPessoa extends JPanel {
 		painelGrid.add(txtfEmail);
 		painelGrid.add(cmbTipoPessoa);
 		painelGrid.add(cmbRelPessoa);
-
-		lblImagem = new JLabel("Image not Found");
-		scrImagem = new JScrollPane(lblImagem);
-		scrImagem.setVerticalScrollBarPolicy(
-				JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-		scrImagem.setHorizontalScrollBarPolicy(
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		sppImagem = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		sppImagem.add(lblTituloTela);
@@ -268,10 +270,16 @@ public class PainelPessoa extends JPanel {
 			txtfCpf.setText(String.valueOf(p.getCpf()));
 			txtfEmail.setText(p.getEmail());
 			carregarImagem(p.getCodiPessoa());
+			carregaProf(p);
 
 		} else {
 
 		}
+
+	}
+	public static void carregaProf(Pessoa p) {
+		System.out.println("PainelPessoa.carregarProf " + p.getCodiPessoa());
+		scrDetalhes.setViewportView(contP.tblProfissoes(p));
 
 	}
 

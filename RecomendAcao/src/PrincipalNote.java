@@ -17,7 +17,7 @@ import br.com.recomendacao.visao.FrameInicial;
  * carregar uma agenda para auxiliar a marcação desse agendamento. Construir o
  * sistema de gerenciamento das notas.
  * 
- * @author DesenvJavaDesk
+ * @author Luciano Felix
  *
  */
 public class PrincipalNote {
@@ -25,6 +25,26 @@ public class PrincipalNote {
 	public static void main(String[] args) {
 
 		new FrameInicial();
+		// DAOPessoaProfissional daopro = new DAOPessoaProfissional();
+		// DAOPessoaPG daop = new DAOPessoaPG();
+		// PessoaProfissional pp = new PessoaProfissional();
+		// Pessoa p = daop.listaPessoas().get(1);
+		//
+		// pp.setCodiPess(p.getCodiPessoa());
+		// pp.setCodiProf("6776555");
+		// pp.setNomeProf("Marceneiro");
+		// pp.setDocFunc("66645555");
+		// pp.setPis(78365438);
+		// pp.setOptante(true);
+		//
+		// daopro.cadastraFuncao(pp);
+		//
+		// pp = new PessoaProfissional();
+		// pp = daopro.listaEmpregosCodigo(p.getCodiPessoa()).get(0);
+		//
+		// System.out.println(
+		// pp.getCodiPess() + " " + pp.getNomeProf() + " " + pp.getPis());
+
 		// AtualizaSistemaBDIBovespa atuBov = new AtualizaSistemaBDIBovespa();
 		// atuBov.atualizaBancoManual();
 		// ManipulaArquivoTxt manTxt = new ManipulaArquivoTxt();

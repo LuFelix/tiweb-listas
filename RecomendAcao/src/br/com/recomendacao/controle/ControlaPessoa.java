@@ -20,10 +20,13 @@ import javax.swing.table.DefaultTableModel;
 
 import br.com.recomendacao.beans.GrupoSubgrupo;
 import br.com.recomendacao.beans.Pessoa;
+import br.com.recomendacao.beans.PessoaProfissional;
 import br.com.recomendacao.dao.DAOGrupoSubgrupo;
 import br.com.recomendacao.dao.DAOPessoa;
 import br.com.recomendacao.dao.DAOPessoaPG;
+import br.com.recomendacao.dao.DAOPessoaProfissional;
 import br.com.recomendacao.tableModels.TableModelPessoa;
+import br.com.recomendacao.tableModels.TableModelProfissao;
 import br.com.recomendacao.visao.AbaCadastros;
 import br.com.recomendacao.visao.FrameInicial;
 import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
@@ -36,21 +39,26 @@ public class ControlaPessoa {
 	private List<GrupoSubgrupo> listGrupo;
 	static DAOPessoa daoP;
 	static DAOGrupoSubgrupo daoG;
-	static JTable tabela;
+	static DAOPessoaProfissional daoPP;
+	static JTable tbl01;
+	static JTable tbl02;
 	static TableModelPessoa tblMdPessoa;
+	static TableModelProfissao tblMdProf;
 	private JComboBox<String> cmbGrupos;
 	static Pessoa p;
 
 	public ControlaPessoa() {
-		daoP = new DAOPessoaPG("siacecf");
+		daoP = new DAOPessoaPG();
 		daoG = new DAOGrupoSubgrupo();
+		daoPP = new DAOPessoaProfissional();
 		listGrupo = daoG.pesquisarString("");
+
 	}
 
 	public JTable tblPessoas(String str) {
 		tblMdPessoa = new TableModelPessoa(daoP.pesquisaString(str));
-		tabela = new JTable(tblMdPessoa);
-		tabela.addKeyListener(new KeyListener() {
+		tbl01 = new JTable(tblMdPessoa);
+		tbl01.addKeyListener(new KeyListener() {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -62,9 +70,9 @@ public class ControlaPessoa {
 			public void keyReleased(KeyEvent e) {
 				if (e.getExtendedKeyCode() == 40
 						|| e.getExtendedKeyCode() == 38) {
-					p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+					p = tblMdPessoa.getPessoa(tbl01.getSelectedRow());
 					carregaDetalhes(p);
-					tabela.grabFocus();
+					tbl01.grabFocus();
 
 				} else if (e.getExtendedKeyCode() == 27) {// esc
 					funcaoCancelar();
@@ -74,27 +82,27 @@ public class ControlaPessoa {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == 40 || e.getKeyCode() == 38) {
-					p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+					p = tblMdPessoa.getPessoa(tbl01.getSelectedRow());
 					carregaDetalhes(p);
-					tabela.grabFocus();
+					tbl01.grabFocus();
 				}
 
 			}
 		});
-		tabela.addMouseListener(new MouseListener() {
+		tbl01.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+				p = tblMdPessoa.getPessoa(tbl01.getSelectedRow());
 				carregaDetalhes(p);
-				tabela.grabFocus();
+				tbl01.grabFocus();
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+				p = tblMdPessoa.getPessoa(tbl01.getSelectedRow());
 				carregaDetalhes(p);
-				tabela.grabFocus();
+				tbl01.grabFocus();
 			}
 
 			@Override
@@ -109,22 +117,22 @@ public class ControlaPessoa {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+				p = tblMdPessoa.getPessoa(tbl01.getSelectedRow());
 				carregaDetalhes(p);
 			}
 		});
 
-		tabela.setShowGrid(true);
-		return tabela;
+		tbl01.setShowGrid(true);
+		return tbl01;
 	}
 
 	// TODO Tabela Ligada ao painel de Contatos/ Pessoas
 	public static JTable pesqNomeTabela(String nome) {
-		tabela = new JTable();
+		tbl01 = new JTable();
 		ArrayList<String> colunas = new ArrayList<>();
 		DefaultTableModel modelotabela = new DefaultTableModel();
-		modelotabela = (DefaultTableModel) tabela.getModel();
-		tabela.addKeyListener(new KeyListener() {
+		modelotabela = (DefaultTableModel) tbl01.getModel();
+		tbl01.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				// TODO Auto-generated method stub
@@ -134,7 +142,7 @@ public class ControlaPessoa {
 			public void keyReleased(KeyEvent tecla) {
 				if (tecla.getExtendedKeyCode() == 40
 						|| tecla.getExtendedKeyCode() == 38) {
-					int posicao = tabela.getSelectedRow();
+					int posicao = tbl01.getSelectedRow();
 					// PainelPessoa.irParaPoicao(posicao);
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
 					FrameInicial.getTxtfPesquisa().grabFocus();
@@ -143,7 +151,7 @@ public class ControlaPessoa {
 
 			@Override
 			public void keyPressed(KeyEvent tecla) {
-				int posicao = tabela.getSelectedRow();
+				int posicao = tbl01.getSelectedRow();
 				if (tecla.getExtendedKeyCode() == 40
 						|| tecla.getExtendedKeyCode() == 38) {
 					// PainelPessoa.irParaPoicao(posicao);
@@ -158,7 +166,7 @@ public class ControlaPessoa {
 				}
 			}
 		});
-		tabela.addMouseListener(new MouseListener() {
+		tbl01.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				// TODO Auto-generated method stub
@@ -181,9 +189,9 @@ public class ControlaPessoa {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				int posicao = tabela.getSelectedRow();
+				int posicao = tbl01.getSelectedRow();
 				// PainelPessoa.irParaPoicao(posicao);
-				System.out.println(tabela.getMouseListeners());
+				System.out.println(tbl01.getMouseListeners());
 			}
 		});
 		colunas.add("Nome");
@@ -198,9 +206,9 @@ public class ControlaPessoa {
 					dados.get(i).getEmail()};
 			modelotabela.addRow(linha);
 		}
-		tabela.setShowGrid(true);
-		tabela.setModel(modelotabela);
-		return tabela;
+		tbl01.setShowGrid(true);
+		tbl01.setModel(modelotabela);
+		return tbl01;
 	}
 	public void iniciar(String tipo) {
 		System.out.println("FrameInicial.controlePessoasIniciar");
@@ -217,10 +225,10 @@ public class ControlaPessoa {
 	// TODO Tabela que adiciona usu·rios ao pedido
 	public JTable pesqNomeTabelaAdicionaUsuarioAopedido(String str) {
 		ArrayList<String> colunas = new ArrayList<>();
-		tabela = new JTable();
+		tbl01 = new JTable();
 		DefaultTableModel modelotabela = new DefaultTableModel();
-		modelotabela = (DefaultTableModel) tabela.getModel();
-		tabela.addKeyListener(new KeyListener() {
+		modelotabela = (DefaultTableModel) tbl01.getModel();
+		tbl01.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				// TODO Ao escrever
@@ -231,14 +239,14 @@ public class ControlaPessoa {
 				// TODO Ao Soltar a tecla
 				if (tecla.getExtendedKeyCode() == 40
 						|| tecla.getExtendedKeyCode() == 38) {
-					int posicao = tabela.getSelectedRow();
+					int posicao = tbl01.getSelectedRow();
 				}
 			}
 
 			@Override
 			public void keyPressed(KeyEvent tecla) {
 				// TODO Ao Pressionar Tecla
-				int posicao = tabela.getSelectedRow();
+				int posicao = tbl01.getSelectedRow();
 				if (tecla.getExtendedKeyCode() == 40
 						|| tecla.getExtendedKeyCode() == 38) {
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
@@ -250,7 +258,7 @@ public class ControlaPessoa {
 				}
 			}
 		});
-		tabela.addMouseListener(new MouseListener() {
+		tbl01.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				// TODO Ao soltar o bot√£o do mouse
@@ -274,7 +282,7 @@ public class ControlaPessoa {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO Ao Clicar
-				int posicao = tabela.getSelectedRow();
+				int posicao = tbl01.getSelectedRow();
 				PainelPedidos.adicionaUsuario(arrayPessoa.get(posicao));
 			}
 		});
@@ -289,9 +297,9 @@ public class ControlaPessoa {
 					arrayPessoa.get(i).getCpf(), arrayPessoa.get(i).getEmail()};
 			modelotabela.addRow(linha);
 		}
-		tabela.setShowGrid(true);
-		tabela.setModel(modelotabela);
-		return tabela;
+		tbl01.setShowGrid(true);
+		tbl01.setModel(modelotabela);
+		return tbl01;
 	}
 
 	public List<Pessoa> pesquisar() {
@@ -398,6 +406,19 @@ public class ControlaPessoa {
 		FrameInicial.getContPess().iniciar("");
 	}
 
+	public List<PessoaProfissional> listProf(Pessoa p) {
+		List<PessoaProfissional> listEmpregos = daoPP
+				.leFuncaoCodigo(p.getCodiPessoa());
+
+		return listEmpregos;
+
+	}
+	public JTable tblProfissoes(Pessoa p) {
+		tblMdProf = new TableModelProfissao(
+				daoPP.leFuncaoCodigo(p.getCodiPessoa()));
+		tbl02 = new JTable(tblMdProf);
+		return tbl02;
+	}
 	// TODO Funcao excluir
 	public static boolean funcaoExcluir() {
 		System.out.println("ControlaProduto.excluir");
@@ -472,9 +493,9 @@ public class ControlaPessoa {
 				} else {
 					String str = FrameInicial.getTxtfPesquisa().getText();
 					FrameInicial.setTabela(tblPessoas(str));
-					if (tabela.getRowCount() > 0) {
+					if (tbl01.getRowCount() > 0) {
 						FrameInicial.getTabela().setRowSelectionInterval(0, 0);
-						p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+						p = tblMdPessoa.getPessoa(tbl01.getSelectedRow());
 						carregaDetalhes(p);
 						FrameInicial.getScrFluxo().setViewportView(null);
 					} else {
@@ -493,9 +514,9 @@ public class ControlaPessoa {
 			@Override
 			public void keyReleased(KeyEvent tecla) {
 				if (tecla.getExtendedKeyCode() == 40) {
-					if (tabela.getRowCount() > 0) {
+					if (tbl01.getRowCount() > 0) {
 						FrameInicial.getTabela().setRowSelectionInterval(0, 0);
-						p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+						p = tblMdPessoa.getPessoa(tbl01.getSelectedRow());
 						carregaDetalhes(p);
 						FrameInicial.getScrFluxo().setViewportView(null);
 					}
@@ -507,7 +528,7 @@ public class ControlaPessoa {
 					FrameInicial.setTabela(tblPessoas(str));
 					if (FrameInicial.getTabela().getRowCount() > 0) {
 						FrameInicial.getTabela().setRowSelectionInterval(0, 0);
-						p = tblMdPessoa.getPessoa(tabela.getSelectedRow());
+						p = tblMdPessoa.getPessoa(tbl01.getSelectedRow());
 						carregaDetalhes(p);
 						FrameInicial.getScrFluxo().setViewportView(null);
 					} else {

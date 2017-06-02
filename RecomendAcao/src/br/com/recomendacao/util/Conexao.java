@@ -25,15 +25,13 @@ public class Conexao {
 			setStr_conexao("jdbc:postgresql://" + local + ":"
 					+ ConfigS.getPortaPgDB() + "/" + nomeBanco);
 
-		} else {
-			if (SGBD.equals("MySql")) {
-				setLocal(ConfigS.getLocal());
-				setSenha(ConfigS.getSenhaMDB());
-				setUser(ConfigS.getUserMDB());
-				setDriverjdbc("com.mysql.jdbc.Driver");
-				setStr_conexao("jdbc:mysql://" + local + ":"
-						+ ConfigS.getPortaMDB() + "/" + nomeBanco);
-			}
+		} else if (SGBD.equals("MariaDB")) {
+			setLocal(ConfigS.getLocal());
+			setSenha(ConfigS.getSenhaMDB());
+			setUser(ConfigS.getUserMDB());
+			setDriverjdbc("com.mysql.jdbc.Driver");
+			setStr_conexao("jdbc:mysql://" + local + ":" + ConfigS.getPortaMDB()
+					+ "/" + nomeBanco);
 		}
 	}
 
