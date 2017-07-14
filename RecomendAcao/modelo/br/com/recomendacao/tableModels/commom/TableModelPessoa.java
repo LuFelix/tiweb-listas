@@ -1,4 +1,4 @@
-package br.com.recomendacao.tableModels;
+package br.com.recomendacao.tableModels.commom;
 
 import java.util.ArrayList;
 import java.util.List;

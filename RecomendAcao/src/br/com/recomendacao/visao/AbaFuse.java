@@ -34,7 +34,7 @@ import br.com.recomendacao.controle.ControlaOperacao;
 import br.com.recomendacao.dao.DAOAtivo;
 import br.com.recomendacao.dao.DAOAtvYahoo;
 import br.com.recomendacao.mineradores.Minerador;
-import br.com.recomendacao.util.ModeloArvore;
+import br.com.recomendacao.util.ModeloListenerArvore;
 import br.com.recomendacao.util.MontaGrid;
 import br.com.recomendacao.zebra.ProgressBarFrame;
 
@@ -97,9 +97,11 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 
 	// TODO Construtor
 	public AbaFuse() {
-		UIManager.put("TextField.font", new Font("times new roman", Font.BOLD, 13));
+		UIManager.put("TextField.font",
+				new Font("times new roman", Font.BOLD, 13));
 		UIManager.put("Label.font", new Font("times new roman", Font.BOLD, 11));
-		UIManager.put("Button.font", new Font("times new roman", Font.BOLD, 12));
+		UIManager.put("Button.font",
+				new Font("times new roman", Font.BOLD, 12));
 
 		// objetos de controle
 		cAtv = new ControlaAtivo();
@@ -140,10 +142,11 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 		sistema.add(ativosMercVista);
 
 		modArvore = new DefaultTreeModel(sistema);
-		modArvore.addTreeModelListener(new ModeloArvore());
+		modArvore.addTreeModelListener(new ModeloListenerArvore());
 		arvoreSistema = new JTree(modArvore);
 		// Where the tree is initialized:
-		arvoreSistema.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+		arvoreSistema.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
 
 		// Listen for when the selection changes.
 		arvoreSistema.addTreeSelectionListener(this);
@@ -169,14 +172,17 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 			public void actionPerformed(ActionEvent e) {
 				atuBov = new AtualizaSistemaBDIBovespa();
 				try {
-					String ano = JOptionPane.showInputDialog("Digite o ano para a atualização:");
+					String ano = JOptionPane.showInputDialog(
+							"Digite o ano para a atualização:");
 					if (atuBov.baixarBdiAnual(ano)) {
-						FrameInicial.getScrLista().setViewportView(atuBov.datasSistemaFuse());
-						JOptionPane.showMessageDialog(null, "Baixado com sucesso para o ano: " + ano);
+						FrameInicial.getScrLista()
+								.setViewportView(atuBov.datasSistemaFuse());
+						JOptionPane.showMessageDialog(null,
+								"Baixado com sucesso para o ano: " + ano);
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro na atualização!", e1.getMessage(),
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Erro na atualização!",
+							e1.getMessage(), JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 			}
@@ -202,8 +208,10 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 		btnMinerar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int dias = Integer.parseInt(JOptionPane.showInputDialog("Deseja a média de quantos dias?"));
-				String idNeg = JOptionPane.showInputDialog("Digite o Cod Bovespa: \nEX.: PETR4, CIEL3, BRKM5... ");
+				int dias = Integer.parseInt(JOptionPane
+						.showInputDialog("Deseja a média de quantos dias?"));
+				String idNeg = JOptionPane.showInputDialog(
+						"Digite o Cod Bovespa: \nEX.: PETR4, CIEL3, BRKM5... ");
 				Minerador min = new Minerador();
 				try {
 					min.recomendaVenda(idNeg, dias);
@@ -246,14 +254,18 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 			public void actionPerformed(ActionEvent e) {
 				atuBov = new AtualizaSistemaBDIBovespa();
 				try {
-					String mesDia = JOptionPane.showInputDialog("Digite a data para a atualização:");
+					String mesDia = JOptionPane.showInputDialog(
+							"Digite a data para a atualização:");
 					if (atuBov.baixarBdiWebManual(mesDia)) {
-						FrameInicial.getScrLista().setViewportView(atuBov.datasSistemaFuse());
-						JOptionPane.showMessageDialog(null, "Atualizado com sucesso para a data: " + mesDia);
+						FrameInicial.getScrLista()
+								.setViewportView(atuBov.datasSistemaFuse());
+						JOptionPane.showMessageDialog(null,
+								"Atualizado com sucesso para a data: "
+										+ mesDia);
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Erro na atualização!", e1.getMessage(),
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Erro na atualização!",
+							e1.getMessage(), JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
 				}
 			}
@@ -331,7 +343,8 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 		listAtvYahoo = daoAtvYahoo.todosMercadoVistaCompl();
 		for (int i = 0; i < listAtvYahoo.size(); i++) {
 			if (listAtvYahoo.get(i).getListCotComp().get(0).getTotNeg() > 100) {
-				mineracoes.add(new DefaultMutableTreeNode(listAtvYahoo.get(i).getIdYahoo()));
+				mineracoes.add(new DefaultMutableTreeNode(
+						listAtvYahoo.get(i).getIdYahoo()));
 			}
 		}
 	}
@@ -342,7 +355,8 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 		if (node.isLeaf() & node.isNodeAncestor(ativosMercVista)) {
 			if (node.getAllowsChildren()) {
 				String idNeg = nodeInfo.toString();
-				JOptionPane.showConfirmDialog(null, "Mineração avançada para:" + idNeg);
+				JOptionPane.showConfirmDialog(null,
+						"Mineração avançada para:" + idNeg);
 
 			}
 
@@ -350,7 +364,8 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 		if (node.isLeaf() & node.isNodeAncestor(mineracoes)) {
 			if (node.getAllowsChildren()) {
 				String idNeg = nodeInfo.toString();
-				JOptionPane.showConfirmDialog(null, "Mineração avançada para:" + idNeg);
+				JOptionPane.showConfirmDialog(null,
+						"Mineração avançada para:" + idNeg);
 
 			}
 
@@ -364,7 +379,8 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 		frameCarregaCotacao.setVisible(true);
 		for (int i = 0; i < listAtvYahoo.size(); i++) {
 			if (listAtvYahoo.get(i).getListCotComp().get(0).getTotNeg() > 100) {
-				mineracoes.add(new DefaultMutableTreeNode(listAtvYahoo.get(i).getIdYahoo()));
+				mineracoes.add(new DefaultMutableTreeNode(
+						listAtvYahoo.get(i).getIdYahoo()));
 			}
 
 		}
@@ -379,7 +395,8 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 		// Returns the last path element of the selection.
 		// This method is useful only when the selection model allows a single
 		// selection.
-		node = (DefaultMutableTreeNode) arvoreSistema.getLastSelectedPathComponent();
+		node = (DefaultMutableTreeNode) arvoreSistema
+				.getLastSelectedPathComponent();
 		Object nodeInfo = node.getUserObject();
 		nomeNo = nodeInfo.toString();
 		if (node == null) {
@@ -435,8 +452,10 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 				// e selecionando visualizar grafico (Alguns poderï¿½o ser
 				// visualizados simultaneamente)
 				FrameInicial.getScrLista().setViewportView(null);
-				FrameInicial.setPainelVisualiza(constGrafico.graficoLinhaPrecFech(idNeg));
-				FrameInicial.scrVisualiza.setViewportView(FrameInicial.getPainelVisualiza());
+				FrameInicial.setPainelVisualiza(
+						constGrafico.graficoLinhaPrecFech(idNeg));
+				FrameInicial.scrVisualiza
+						.setViewportView(FrameInicial.getPainelVisualiza());
 
 			}
 			if (node.isLeaf() & node.isNodeAncestor(ativosUltimas)) {
@@ -485,16 +504,18 @@ public class AbaFuse extends JPanel implements TreeSelectionListener {
 	// });
 	public static JTree criaArvore() {
 		modArvore = new DefaultTreeModel(sistema);
-		modArvore.addTreeModelListener(new ModeloArvore());
+		modArvore.addTreeModelListener(new ModeloListenerArvore());
 
 		arvoreSistema = new JTree(modArvore);
 		arvoreSistema.setBounds(5, 5, 225, 440);
 
 		// Where the tree is initialized:
-		arvoreSistema.getSelectionModel().setSelectionMode(TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+		arvoreSistema.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
 
 		// Listen for when the selection changes.
-		arvoreSistema.addTreeSelectionListener((TreeSelectionListener) AbaFuse.arvoreSistema);
+		arvoreSistema.addTreeSelectionListener(
+				(TreeSelectionListener) AbaFuse.arvoreSistema);
 		arvoreSistema.setShowsRootHandles(true);
 		return arvoreSistema;
 	}

@@ -6,10 +6,9 @@ public class CheckList {
 
 	String nomeLista;
 	String nota;
+	Grupo grupo;
 	int numLista;
 	List<ItemCheckList> listItens;
-
-	
 
 	public CheckList() {
 
@@ -44,6 +43,12 @@ public class CheckList {
 
 	public void setNota(String nota) {
 		this.nota = nota;
+	}
+	public Grupo getGrupo() {
+		return grupo;
+	}
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
 	}
 
 }

@@ -18,7 +18,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeSelectionModel;
 
-import br.com.recomendacao.util.ModeloArvore;
+import br.com.recomendacao.util.ModeloListenerArvore;
 
 public class AbaNegocios extends JPanel implements TreeSelectionListener {
 	JPanel painelPrincipal;
@@ -30,18 +30,14 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 	private static JTree arvoreStatus;
 	private static String nomeNo;
 	private DefaultMutableTreeNode negocios;
-	private DefaultMutableTreeNode financas;
-	private DefaultMutableTreeNode contas;
-	private DefaultMutableTreeNode centroCusto;
 	private DefaultMutableTreeNode lancamentos;
-	private DefaultMutableTreeNode anotacoes;
 	private DefaultMutableTreeNode posicaoFinanceira;
 	private DefaultMutableTreeNode pedidos;
 	private DefaultMutableTreeNode venda;
 	private DefaultMutableTreeNode compra;
 	private DefaultMutableTreeNode ordServicos;
-	private DefaultMutableTreeNode produtos;
-	private DefaultMutableTreeNode cadastros;
+	private DefaultMutableTreeNode despesas;
+	private DefaultMutableTreeNode receitas;
 	private DefaultMutableTreeNode tabelasPrecos;
 	private DefaultMutableTreeNode condPagamento;
 	private DefaultMutableTreeNode servicos;
@@ -56,7 +52,7 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 		// TODO Configuração dos Labels e text fields e árvore de negócios
 		lblTituloTela = new JLabel("Negócios");
 		lblTituloTela.setFont(new Font("Times new roman", Font.BOLD, 18));
-		anotacoes = new DefaultMutableTreeNode("Anotações");
+
 		pedidos = new DefaultMutableTreeNode("Pedidos");
 		venda = new DefaultMutableTreeNode("Venda");
 		compra = new DefaultMutableTreeNode("Compra");
@@ -64,16 +60,22 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 		pedidos.add(venda);
 		ordServicos = new DefaultMutableTreeNode("Ordens de Serviços");
 
-		produtos = new DefaultMutableTreeNode("Produtos");
-		posicaoFinanceira = new DefaultMutableTreeNode("Status Financeiro");
-
+		lancamentos = new DefaultMutableTreeNode("Movimentos Financeiros");
+		receitas = new DefaultMutableTreeNode("Receitas");
+		despesas = new DefaultMutableTreeNode("Despesas");
+		lancamentos.add(receitas);
+		lancamentos.add(despesas);
+		posicaoFinanceira = new DefaultMutableTreeNode(
+				"Resumos e Provisionamentos");
 		negocios = new DefaultMutableTreeNode("Simpro");
+
 		negocios.add(pedidos);
 		negocios.add(ordServicos);
+		negocios.add(lancamentos);
 		negocios.add(posicaoFinanceira);
 
 		modArvoreNegocios = new DefaultTreeModel(negocios);
-		modArvoreNegocios.addTreeModelListener(new ModeloArvore());
+		modArvoreNegocios.addTreeModelListener(new ModeloListenerArvore());
 		arvoreNegocios = new JTree(modArvoreNegocios);
 
 		// Where the tree is initialized:
@@ -162,12 +164,20 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 				setIcon(new ImageIcon(
 						"C:\\SIMPRO\\img\\order\\config32x32.png"));
 			}
-			if (node.toString().equals("Status Financeiro")) {
+			if (node.toString().equals("Movimentos Financeiros")) {
+				setIcon(new ImageIcon(
+						"C:\\SIMPRO\\img\\order\\Cashregister32x32.png"));
+			}
+			if (node.toString().equals("Receitas")) {
+				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\Plus32x32.png"));
+			}
+			if (node.toString().equals("Despesas")) {
+				setIcon(new ImageIcon(
+						"C:\\SIMPRO\\img\\order\\Minus32x32.png"));
+			}
+			if (node.toString().equals("Resumos e Provisionamentos")) {
 				setIcon(new ImageIcon(
 						"C:\\SIMPRO\\img\\order\\3dbarchart32x32.png"));
-			}
-			if (node.toString().equals("Cadastros")) {
-				setIcon(new ImageIcon("C:\\SIMPRO\\img\\order\\cadastros.png"));
 			}
 			return this;
 		}
@@ -198,7 +208,10 @@ public class AbaNegocios extends JPanel implements TreeSelectionListener {
 			if (nomeNo.equals("Ordens de Serviços")) {
 				FrameInicial.getContServ().iniciar();
 			}
-			if (nomeNo.equals("Status Financeiro")) {
+			if (nomeNo.equals("Movimentos Financeiros")) {
+				FrameInicial.getContLanc().iniciar();
+			}
+			if (nomeNo.equals("Resumos e Provisionamentos")) {
 				FrameInicial.getContPosiFin().iniciar();
 			}
 		}

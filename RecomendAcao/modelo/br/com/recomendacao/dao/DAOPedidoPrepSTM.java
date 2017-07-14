@@ -112,6 +112,40 @@ public class DAOPedidoPrepSTM {
 			return null;
 		}
 	}
+	public ArrayList<Pedido> carregaPedCliente(String codiCliente) {
+		String sql = "select * from pedidos where codi_pessoa_cliente = ? order by seq_pedido;";
+		arraypedi = new ArrayList<Pedido>();
+		c.conectar();
+		try {
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+			prepStm.setString(1, codiCliente);
+			result = prepStm.executeQuery();
+			while (result.next()) {
+				pedi = new Pedido();
+				pedi.setSeqPedi(result.getInt("seq_pedido"));
+				pedi.setCodiPedi(result.getString("codi_pedido"));
+				pedi.setQuantItens(result.getInt("quant_itens"));
+				pedi.setDataHoraPedi(result.getTimestamp("data_hora_pedido"));
+				pedi.setxNome(result.getString("xnome_cliente"));
+				pedi.setCodiCondPag(result.getString("codi_cond_pagamento"));
+				pedi.setTotalPedi(result.getFloat("total_pedido"));
+				pedi.setTipoPedido(result.getString("tipo_pedido"));
+				pedi.setCodiPessoaCliente(
+						result.getString("codi_pessoa_cliente"));
+				pedi.setCodiTabPreco(result.getString("codi_tabela_preco"));
+				pedi.setObsPedi1(result.getString("obs_pedido_1"));
+				arraypedi.add(pedi);
+			}
+			c.desconectar();
+			return arraypedi;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			c.desconectar();
+			return null;
+		}
+	}
 
 	public boolean alterar(Pedido pedi) {
 		String sql = "update pedidos set quant_itens=?, total_pedido=?, obs_pedido_1=?, obs_pedido_2=?,"
@@ -181,10 +215,6 @@ public class DAOPedidoPrepSTM {
 			e.printStackTrace();
 			return false;
 		}
-	}
-
-	public Pedido procurarProximo(int codipedi) {
-		return pedi;
 	}
 
 	public int consultaUltimo() {

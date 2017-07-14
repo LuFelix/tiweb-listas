@@ -17,7 +17,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
-import br.com.recomendacao.util.ModeloArvore;
+import br.com.recomendacao.beans.CentroCusto;
+import br.com.recomendacao.util.ModeloListenerArvore;
 
 public class AbaRelatorios extends JPanel implements TreeSelectionListener {
 	JSplitPane sppPrincipal;
@@ -126,7 +127,7 @@ public class AbaRelatorios extends JPanel implements TreeSelectionListener {
 		});
 
 		modArvoreNegocios = new DefaultTreeModel(negocios);
-		modArvoreNegocios.addTreeModelListener(new ModeloArvore());
+		modArvoreNegocios.addTreeModelListener(new ModeloListenerArvore());
 		arvoreNegocios = new JTree(modArvoreNegocios);
 		arvoreNegocios.setBounds(5, 28, 225, 200);
 		scrArvNegocios = new JScrollPane(arvoreNegocios);
@@ -150,7 +151,7 @@ public class AbaRelatorios extends JPanel implements TreeSelectionListener {
 		sppPrincipal.add(btnGerRelat);
 		setLayout(new GridLayout());
 		add(sppPrincipal);
-		add(sppPrincipal);
+
 	}
 
 	// TODO Eventos de Mouse
@@ -239,7 +240,7 @@ public class AbaRelatorios extends JPanel implements TreeSelectionListener {
 			}
 			if (node.isLeaf() & nomeNo.equals("Contas")) {
 				if (node.getAllowsChildren()) {
-					FrameInicial.getContConta().iniciar();
+
 				}
 			}
 			if (node.isLeaf() & nomeNo.equals("Posição Financeira")) {
@@ -259,7 +260,8 @@ public class AbaRelatorios extends JPanel implements TreeSelectionListener {
 			}
 			if (node.isLeaf() & nomeNo.equals("Centros de Custo")) {
 				if (node.getAllowsChildren()) {
-					FrameInicial.getContCentroCusto().iniciar();
+					FrameInicial.getContCentroCusto()
+							.iniciar(new CentroCusto());
 				}
 			}
 		}

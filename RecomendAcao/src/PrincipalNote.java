@@ -25,6 +25,7 @@ public class PrincipalNote {
 	public static void main(String[] args) {
 
 		new FrameInicial();
+
 		// DAOPessoaProfissional daopro = new DAOPessoaProfissional();
 		// DAOPessoaPG daop = new DAOPessoaPG();
 		// PessoaProfissional pp = new PessoaProfissional();

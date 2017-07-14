@@ -1,5 +1,4 @@
 import commomVision.FrmPrincipal;
-import controllerListas.Lista;
 
 /**
  * 
@@ -22,9 +21,6 @@ public class Start {
 	 */
 	public static void main(String[] args) {
 		new FrmPrincipal();
-		
-		
-		
 
 	}
 

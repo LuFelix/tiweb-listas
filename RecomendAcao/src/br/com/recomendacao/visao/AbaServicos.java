@@ -26,7 +26,7 @@ import br.com.recomendacao.adapter.ConstrutorGrafico;
 import br.com.recomendacao.controle.ControlaPedido;
 import br.com.recomendacao.controle.ControlaPessoa;
 import br.com.recomendacao.controle.ControlaProduto;
-import br.com.recomendacao.util.ModeloArvore;
+import br.com.recomendacao.util.ModeloListenerArvore;
 import br.com.recomendacao.util.MontaGrid;
 
 public class AbaServicos extends JPanel implements TreeSelectionListener {
@@ -123,7 +123,7 @@ public class AbaServicos extends JPanel implements TreeSelectionListener {
 		sistema.add(contatos);
 		sistema.add(servicos);
 		modArvore = new DefaultTreeModel(sistema);
-		modArvore.addTreeModelListener(new ModeloArvore());
+		modArvore.addTreeModelListener(new ModeloListenerArvore());
 		arvoreSistema = new JTree(modArvore);
 		arvoreSistema.setBounds(0, 28, 225, 440);
 

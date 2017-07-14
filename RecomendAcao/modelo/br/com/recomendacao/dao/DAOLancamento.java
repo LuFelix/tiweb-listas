@@ -25,6 +25,59 @@ public class DAOLancamento {
 		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 	}
 
+	public boolean inserirLancamento(Lancamento lanc) {
+		Date dataHoraMovimento = new Date(
+				Calendar.getInstance().getTimeInMillis());
+		String sql = "insert into contas_lancamentos ( codi_conta, codi_cond_pag, codi_pedido, codi_pessoa, "
+				+ "data_hora_lancamento,valor, obs_lancamento, data_hora_recebimento, tipo_lanc) values (?,?,?,?,?,?,?,?,?);";
+		c.conectar();
+
+		try {
+			prepStm = c.getCon().prepareStatement(sql);
+			prepStm.setString(1, lanc.getCodiConta());
+			prepStm.setString(2, lanc.getCodiCondPag());
+			prepStm.setString(3, lanc.getCodiPedido());
+			prepStm.setString(4, lanc.getCodiPessoa());
+			prepStm.setDate(5, dataHoraMovimento);
+			prepStm.setFloat(6, lanc.getValor());
+			prepStm.setString(7, lanc.getObsLancamento());
+			prepStm.setDate(8, lanc.getDataHoraLancamento());
+			prepStm.setString(9, lanc.getTipoLancamento());
+			prepStm.executeUpdate();
+			c.desconectar();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+
+		}
+
+	}
+	public boolean alterar(Lancamento lanc) {
+		System.out.println("DAOLancamento.alterar");
+		String sql = "update contas_lancamentos set  codi_conta=?, codi_cond_pag=?, "
+				+ "codi_pedido=?, codi_pessoa=?,valor=?,obs_lancamento=?,tipo=? where seq_conta_lanc =?;";
+		c.conectar();
+		try {
+			prepStm = c.getCon().prepareStatement(sql);
+			prepStm.setString(1, lanc.getCodiConta());
+			prepStm.setString(2, lanc.getCodiCondPag());
+			prepStm.setString(3, lanc.getCodiPedido());
+			prepStm.setString(4, lanc.getCodiPessoa());
+			prepStm.setFloat(5, lanc.getValor());
+			prepStm.setString(6, lanc.getObsLancamento());
+			prepStm.setString(7, lanc.getTipoLancamento());
+			prepStm.setInt(8, lanc.getSequencia());
+			prepStm.executeUpdate();
+			c.desconectar();
+			return true;
+		} catch (Exception e) {
+			c.desconectar();
+			e.printStackTrace();
+			return false;
+		}
+	}
 	public void novoLancamento(String codiConta, String codiCondPag,
 			String codiPedido, String codiPessoa, Date dataHoraMovimento,
 			float valor, String obsLanc, Date dataHoraReceb, String tipoLanc)
@@ -158,7 +211,59 @@ public class DAOLancamento {
 			return null;
 		}
 	}
+	public List<Lancamento> listUltLancamentos() {
+		String sql = "select * from contas_lancamentos ;";
+		listMov = new ArrayList<Lancamento>();
+		try {
+			c.conectar();
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+			res = prepStm.executeQuery();
+			if (res.first()) {
+				do {
+					lanc = new Lancamento();
+					lanc.setSequencia(res.getInt("seq_conta_lancamento"));
+					lanc.setCodiConta(res.getString("codi_conta"));
+					lanc.setCodiCondPag(res.getString("codi_cond_pag"));
+					lanc.setCodiPedido(res.getString("codi_pedido"));
+					lanc.setCodiPessoa(res.getString("codi_pessoa"));
+					lanc.setDataHoraLancamento(
+							res.getDate("data_hora_lancamento"));
+					lanc.setValor(res.getFloat("valor"));
+					lanc.setTipoLancamento(res.getString("tipo_lanc"));
+					listMov.add(lanc);
+				} while (res.next());
+			} else {
+				lanc = new Lancamento();
+				lanc.setCodiConta("Nulo");
+				listMov.add(lanc);
+			}
+			c.desconectar();
+			return listMov;
+		} catch (SQLException e) {
+			c.desconectar();
+			e.printStackTrace();
+			return null;
+		}
 
+	}
+	public boolean excluir(Lancamento lanc) {
+		c.conectar();
+		String sql = "delete from contas_lancamentos where codi_lanc=? and codi_cond_pag=?;";
+		try {
+			prepStm = c.getCon().prepareStatement(sql);
+			prepStm.setString(2, lanc.getCodiCondPag());
+			prepStm.executeUpdate();
+			c.desconectar();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			c.desconectar();
+			return false;
+		}
+
+	}
 	public boolean removerItem(Pedido pedi, Lancamento lanc) {
 		c.conectar();
 		String sql = "delete from contas_lancamentos where codi_pedido=? and codi_cond_pag=?;";

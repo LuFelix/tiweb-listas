@@ -25,8 +25,6 @@ import br.com.recomendacao.beans.Conta;
 import br.com.recomendacao.controle.ControlaCentroCusto;
 import br.com.recomendacao.controle.ControlaConta;
 import br.com.recomendacao.controle.ControlaListaConta;
-import br.com.recomendacao.controle.ControlaTabelaPreco;
-import br.com.recomendacao.dao.DAOTabelaPreco;
 
 public class PainelConta extends JPanel {
 
@@ -42,6 +40,7 @@ public class PainelConta extends JPanel {
 	private JLabel lbl08;
 	private JLabel lbl09;
 	private JLabel lbl10;
+	private JLabel lbl11;
 
 	private static JTextField txtF02;
 	private static JTextField txtF03;
@@ -52,7 +51,7 @@ public class PainelConta extends JPanel {
 	private static JTextField txtF08;
 	private static JTextField txtF09;
 	private static JTextField txtF10;
-
+	private static JTextField txtF11;
 	private JScrollPane scrImagem;
 	private static JScrollPane scrP01;
 	private static JScrollPane scrP02;
@@ -75,29 +74,30 @@ public class PainelConta extends JPanel {
 
 	private static ControlaListaConta controledaLista;
 	private static ControlaConta contConta;
-	private ControlaTabelaPreco contTabPreco;
 	private static ControlaCentroCusto contCentroCusto;
 	private static Conta conta;
 	private List<Conta> listConta;
 	private static List<CentroCusto> listCentroCusto;
-	int tam;
-	private DAOTabelaPreco daoTabPreco;
 	private static CentroCusto centroCusto;
 	// TODO Construtor
 
-	public PainelConta(String str) {
-		UIManager.put("TextField.font", new Font("Times New Roman", Font.BOLD, 12));
+	public PainelConta() {
+		UIManager.put("TextField.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 		UIManager.put("Label.font", new Font("Times New Roman", Font.BOLD, 12));
-		UIManager.put("Button.font", new Font("Times New Roman", Font.BOLD, 12));
+		UIManager.put("Button.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 		// Controle
 		contConta = new ControlaConta();
-		contTabPreco = new ControlaTabelaPreco();
 		contCentroCusto = new ControlaCentroCusto();
 		// Dados
-		daoTabPreco = new DAOTabelaPreco();
-		setLayout(null);
 
-		// TODO Configuração dos Labels e text fields
+		inciaComponentes();
+		desHabilitaEdicao();
+
+	}
+
+	void inciaComponentes() {
 
 		lbl01 = new JLabel("Conta");
 		lbl01.setFont(new Font("Times New Roman", Font.BOLD, 28));
@@ -113,7 +113,7 @@ public class PainelConta extends JPanel {
 		txtF06 = new JTextField();
 		lbl07 = new JLabel("Agência: ");
 		txtF07 = new JTextField();
-		lbl08 = new JLabel("Núm.Conta:");
+		lbl08 = new JLabel("Núm. Conta|Cartão:");
 		txtF08 = new JTextField();
 		lbl09 = new JLabel("Banco:");
 		txtF09 = new JTextField();
@@ -129,9 +129,7 @@ public class PainelConta extends JPanel {
 		cmbTipoConta.addItem("Receita");
 		cmbTipoConta.setToolTipText("Selecione o plano de contas para a conta");
 
-		cmbCentroCusto = new JComboBox<String>();
-		cmbCentroCusto.addItem("Centro de Custo");
-		cmbCentroCusto.setToolTipText("Selecione o centro de custo para a conta.");
+		cmbCentroCusto = contCentroCusto.cmbCentrosCusto();
 
 		tbl01 = new JTable();
 		scrP01 = new JScrollPane();
@@ -151,8 +149,10 @@ public class PainelConta extends JPanel {
 			}
 		});
 		scrImagem = new JScrollPane(lblImagem);
-		scrImagem.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-		scrImagem.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrImagem.setVerticalScrollBarPolicy(
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		scrImagem.setHorizontalScrollBarPolicy(
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		sppImagem = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		sppImagem.add(lbl01);
@@ -203,19 +203,6 @@ public class PainelConta extends JPanel {
 		pnlInferior.setBackground(Color.WHITE);
 		pnlInferior.add(tabVisualiza);
 
-		desHabilitaEdicao();
-		listConta = contConta.pesqNomeArray(str);
-		tam = listConta.size();
-		tam--;
-		if (tam < 0) {
-			FrameInicial.setPainelVisualiza(null);
-			FrameInicial.getScrVisualiza().setViewportView(FrameInicial.getPainelVisualiza());
-		} else {
-			controledaLista = new ControlaListaConta(listConta);
-			conta = controledaLista.first();
-			contConta.consultaSaldo(conta);
-			carregarCampos(conta);
-		}
 		sppPrincipal = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		sppPrincipal.setDividerSize(3);
 		sppPrincipal.setDividerLocation(250);
@@ -229,20 +216,7 @@ public class PainelConta extends JPanel {
 
 	}
 
-	public static void irParaPoicao(int posicao) {
-		controledaLista.setCurrentPosition(posicao);
-		conta = controledaLista.getAt(posicao);
-		carregarCampos(conta);
-	}
-
 	// TODO Ler Campos.
-
-	static void carregarCentrosCusto() {
-		listCentroCusto = contCentroCusto.pesqNomeArray("");
-		for (CentroCusto centroCusto : listCentroCusto) {
-			cmbCentroCusto.addItem(centroCusto.getNomeCentroCusto());
-		}
-	}
 
 	public static Conta lerCampos() {
 		conta = new Conta();
@@ -254,8 +228,8 @@ public class PainelConta extends JPanel {
 		} else {
 			conta.setCodiConta(contConta.criaCodigo());
 		}
-		if (!txtF03.getText().equals(null) & !txtF03.getText().equals("")) {
-			conta.setNomeConta(txtF03.getText());
+		if (!txtF04.getText().equals(null) & !txtF04.getText().equals("")) {
+			conta.setNomeConta(txtF04.getText());
 		} else {
 			erroLeitura();
 			return null;
@@ -268,18 +242,21 @@ public class PainelConta extends JPanel {
 			erroLeitura();
 			return null;
 		}
-		conta.setAgencia(txtF06.getText());
-		conta.setConta(txtF07.getText());
-		conta.setBanco(txtF08.getText());
-		if (!cmbTipoConta.getSelectedItem().toString().equals("Plano de Contas")) {
+		conta.setAgencia(txtF07.getText());
+		conta.setConta(txtF08.getText());
+		conta.setBanco(txtF09.getText());
+		if (!cmbTipoConta.getSelectedItem().toString()
+				.equals("Plano de Contas")) {
 			conta.setTipoConta(cmbTipoConta.getSelectedItem().toString());
 		} else {
 			System.out.println("Erro tipo");
 			erroLeitura();
 			return null;
 		}
-		if (!cmbCentroCusto.getSelectedItem().toString().equals("Centro de Custo")) {
-			centroCusto = contCentroCusto.buscaNome(cmbCentroCusto.getSelectedItem().toString());
+		if (!cmbCentroCusto.getSelectedItem().toString()
+				.equals("Centro de Custo")) {
+			centroCusto = contCentroCusto
+					.buscaNome(cmbCentroCusto.getSelectedItem().toString());
 			conta.setCentroCusto(centroCusto.getCodiCentroCusto());
 		} else {
 			erroLeitura();
@@ -289,23 +266,22 @@ public class PainelConta extends JPanel {
 	}
 
 	// TODO Carregar campos
-	public static void carregarCampos(Conta conta) {
-		if (!conta.equals(null)) {
-			txtF02.setText(String.valueOf(conta.getSeqConta()));
-			txtF03.setText(conta.getCodiConta());
-			txtF04.setText(conta.getNomeConta());
-			txtF05.setText(conta.getDescConta());
-			txtF05.setText(String.valueOf(conta.getAgencia()));
-			txtF06.setText(conta.getTiular());
-			txtF07.setText(String.valueOf(conta.getAgencia()));
-			txtF08.setText(conta.getNumCartao());
-			txtF09.setText(conta.getBanco());
-			txtF10.setText(String.valueOf(contConta.consultaSaldo(conta)));
-			cmbTipoConta.setSelectedItem(conta.getTipoConta());
-			carregarCentrosCusto();
-			centroCusto = contCentroCusto.buscaCodigo(conta.getCentroCusto());
-			cmbCentroCusto.setSelectedItem(centroCusto.getNomeCentroCusto());
-			habilitaTabelaMovimentos();
+	public static void carregarCampos(Conta c) {
+		limparCampos();
+		if (!c.equals(null)) {
+			txtF02.setText(String.valueOf(c.getSeqConta()));
+			txtF03.setText(c.getCodiConta());
+			txtF04.setText(c.getNomeConta());
+			txtF05.setText(c.getDescConta());
+			txtF06.setText(c.getTiular());
+			txtF07.setText(c.getAgencia());
+			txtF08.setText(c.getConta());
+			txtF09.setText(c.getBanco());
+			txtF10.setText(String.valueOf(contConta.consultaSaldo(c)));
+			cmbTipoConta.setSelectedItem(c.getTipoConta());
+			cmbCentroCusto.setSelectedItem(
+					contConta.nomeCentCustCodi(c.getCentroCusto()));
+
 		}
 
 	}
@@ -319,8 +295,10 @@ public class PainelConta extends JPanel {
 	}
 
 	private static void erroLeitura() {
-		JOptionPane.showMessageDialog(null, "Problemas: Verifique as informações preenchidas",
-				"Erro ao Salvar. Campos com * são necessários", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null,
+				"Problemas: Verifique as informações preenchidas",
+				"Erro ao Salvar. Campos com * são necessários",
+				JOptionPane.ERROR_MESSAGE);
 	}
 
 	// TODO Habilitar tabela de movimentos
@@ -332,7 +310,7 @@ public class PainelConta extends JPanel {
 		modeloTabelaSai = new DefaultTableModel();
 		modeloTabelaSai = (DefaultTableModel) tbl02.getModel();
 		contConta.carregarEntradas(conta);
-		Object colunas[] = { "Conta", "Pedido", "Valor" };
+		Object colunas[] = {"Conta", "Pedido", "Valor"};
 		modeloTabelaEntra.setColumnIdentifiers(colunas);
 		modeloTabelaSai.setColumnIdentifiers(colunas);
 		tbl01.setModel(modeloTabelaEntra);
@@ -340,8 +318,9 @@ public class PainelConta extends JPanel {
 		tbl02.setModel(modeloTabelaSai);
 		tbl02.setShowHorizontalLines(true);
 		for (int i = 0; i < conta.getListEntradas().size(); i++) {
-			Object linha[] = { conta.getNomeConta(), conta.getListEntradas().get(i).getCodiPedido(),
-					conta.getListEntradas().get(i).getValor() };
+			Object linha[] = {conta.getNomeConta(),
+					conta.getListEntradas().get(i).getCodiPedido(),
+					conta.getListEntradas().get(i).getValor()};
 			modeloTabelaEntra.addRow(linha);
 		}
 		getScrEntradas().setViewportView(tbl01);
@@ -407,15 +386,14 @@ public class PainelConta extends JPanel {
 
 		txtF02.setText(null);
 		txtF03.setText(null);
-		txtF03.setText(null);
+		txtF04.setText(null);
 		txtF05.setText(null);
 		txtF06.setText(null);
 		txtF06.setText(null);
 		txtF07.setText(null);
 		txtF08.setText(null);
-
 		cmbTipoConta.setSelectedIndex(0);
-		cmbCentroCusto.setSelectedIndex(0);
+		cmbCentroCusto.setSelectedItem(0);
 	}
 
 	public static JTable getTabelaEntradas() {

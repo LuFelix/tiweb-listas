@@ -24,7 +24,7 @@ import br.com.recomendacao.beans.Ativo;
 import br.com.recomendacao.beans.Indicadores;
 import br.com.recomendacao.beans.Operacao;
 import br.com.recomendacao.controle.ControlaAtivo;
-import br.com.recomendacao.util.ModeloArvore;
+import br.com.recomendacao.util.ModeloListenerArvore;
 import br.com.recomendacao.util.MontaGrid;
 
 public class AbaStatus extends JPanel implements TreeSelectionListener {
@@ -59,9 +59,11 @@ public class AbaStatus extends JPanel implements TreeSelectionListener {
 	// TODO +++++Construtor da Tela
 	public AbaStatus() {
 
-		UIManager.put("TextField.font", new Font("times new roman", Font.BOLD, 13));
+		UIManager.put("TextField.font",
+				new Font("times new roman", Font.BOLD, 13));
 		UIManager.put("Label.font", new Font("times new roman", Font.BOLD, 13));
-		UIManager.put("Button.font", new Font("times new roman", Font.BOLD, 12));
+		UIManager.put("Button.font",
+				new Font("times new roman", Font.BOLD, 12));
 
 		painelPrincipal = new JPanel();
 		painelPrincipal.setLayout(null);
@@ -100,7 +102,7 @@ public class AbaStatus extends JPanel implements TreeSelectionListener {
 		sistema.add(cadastros);
 
 		modArvore = new DefaultTreeModel(sistema);
-		modArvore.addTreeModelListener(new ModeloArvore());
+		modArvore.addTreeModelListener(new ModeloListenerArvore());
 		arvoreSistema = new JTree(modArvore);
 		arvoreSistema.setBounds(5, 28, 225, 480);
 
@@ -108,7 +110,8 @@ public class AbaStatus extends JPanel implements TreeSelectionListener {
 		scrMineracao.setBounds(0, 28, 200, 480);
 
 		// Where the tree is initialized:
-		arvoreSistema.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		arvoreSistema.getSelectionModel()
+				.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
 		// Listen for when the selection changes.
 		arvoreSistema.addTreeSelectionListener(this);
@@ -163,22 +166,29 @@ public class AbaStatus extends JPanel implements TreeSelectionListener {
 	// }
 	// });
 	// TODO Renderizar Árvore
-	private class RenderizarTree extends DefaultTreeCellRenderer implements TreeCellRenderer {
+	private class RenderizarTree extends DefaultTreeCellRenderer
+			implements
+				TreeCellRenderer {
 		private Font plainFont, italicFont;
 
 		@Override
-		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
-				boolean leaf, int row, boolean hasFocus) {
-			super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
+		public Component getTreeCellRendererComponent(JTree tree, Object value,
+				boolean selected, boolean expanded, boolean leaf, int row,
+				boolean hasFocus) {
+			super.getTreeCellRendererComponent(tree, value, selected, expanded,
+					leaf, row, hasFocus);
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 			if (node.toString().equals("Tabelas")) {
-				setIcon(new ImageIcon("//home//luciano//SIMPRO//SIMPRO//images//shopping_basket_32Lime.png"));
+				setIcon(new ImageIcon(
+						"//home//luciano//SIMPRO//SIMPRO//images//shopping_basket_32Lime.png"));
 			}
 			if (node.toString().equals("Cond. Pagamento")) {
-				setIcon(new ImageIcon("//home//luciano//SIMPRO//SIMPRO//images//shopping_basket_32Lime.png"));
+				setIcon(new ImageIcon(
+						"//home//luciano//SIMPRO//SIMPRO//images//shopping_basket_32Lime.png"));
 			}
 			if (node.toString().equals("Serviços")) {
-				setIcon(new ImageIcon("//home//luciano//SIMPRO//SIMPRO//images//sort_by_groups_32Lime.png"));
+				setIcon(new ImageIcon(
+						"//home//luciano//SIMPRO//SIMPRO//images//sort_by_groups_32Lime.png"));
 			}
 			return this;
 		}
@@ -190,7 +200,8 @@ public class AbaStatus extends JPanel implements TreeSelectionListener {
 		// Returns the last path element of the selection.
 		// This method is useful only when the selection model allows a single
 		// selection.
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) arvoreSistema.getLastSelectedPathComponent();
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) arvoreSistema
+				.getLastSelectedPathComponent();
 		Object nodeInfo = node.getUserObject();
 		String nomeNo = nodeInfo.toString();
 		// System.out.println(nomeNo);

@@ -50,7 +50,6 @@ import br.com.recomendacao.dao.DAOTabelaPreco;
 
 public class PainelPedidos extends JPanel {
 
-	
 	private JLabel lblImagem;
 	private JLabel lblTituloTela;
 	private JLabel lblLogoEmpresa;
@@ -61,7 +60,7 @@ public class PainelPedidos extends JPanel {
 	private JLabel lblQuantItens;
 	private JLabel lblData;
 	private JLabel lblPermiteEditar;
-	
+
 	private static JLabel lblTipoPedido;
 	private static JTextField txtFCodigoPedi;
 	private static JTextField txtFCodiCliente;
@@ -69,8 +68,7 @@ public class PainelPedidos extends JPanel {
 	private static JTextField txtfUsuario;
 	private static JTextField txtFQuantItens;
 	private static JTextField txtFPrecopedi;
-	
-	
+
 	private static JScrollPane scrObsPedido;
 	private static JComboBox<String> cmbTipoPedido;
 	private static JComboBox<String> cmbTabPreco;
@@ -87,11 +85,9 @@ public class PainelPedidos extends JPanel {
 	private static JTabbedPane tabVisualiza;
 	private static JTable tbl01;
 	private static JTable tbl02;
-	
 
 	private static JTable tbl03;
-	
-	
+
 	private JRadioButton jrbEditarSim;
 	private JRadioButton jrbEditarNao;
 	private ButtonGroup grpRadio;
@@ -124,25 +120,35 @@ public class PainelPedidos extends JPanel {
 	private static DAOProdutosEstoque daoProdEstoque;
 
 	public PainelPedidos(String nome) {
-		UIManager.put("TextField.font", new Font("Times New Roman", Font.BOLD, 12));
-		UIManager.put("Label.font", new Font("Times New Roman", Font.PLAIN, 12));
-		UIManager.put("Button.font", new Font("Times New Roman", Font.BOLD, 12));
+		UIManager.put("TextField.font",
+				new Font("Times New Roman", Font.BOLD, 12));
+		UIManager.put("Label.font",
+				new Font("Times New Roman", Font.PLAIN, 12));
+		UIManager.put("Button.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 		// Controle
 		contPedi = new ControlaPedido();
 		controledaLista = new ControlaListaPedidos(listPedi);
 		daoTabPreco = new DAOTabelaPreco();
 		daoCondPagamento = new DAOCondPagamento();
-		listTabPreco = new ArrayList<TabelaPreco>(daoTabPreco.pesquisaString(""));
+		listTabPreco = new ArrayList<TabelaPreco>(
+				daoTabPreco.pesquisaString(""));
 		contLanc = new ControlaLancamento();
 		daoProdEstoque = new DAOProdutosEstoque();
-		
+
 		// Painel Superior
 
 		lblTituloTela = new JLabel("Pedido");
 		lblTituloTela.setFont(new Font("Times New Roman", Font.BOLD, 36));
 		setLblTipoPedido(new JLabel());
-		getLblTipoPedido().setFont(new Font("Times New Roman", Font.ITALIC, 28));
-		lblData = new JLabel(String.valueOf(Calendar.getInstance().get(Calendar.DATE)+" - "+String.valueOf(Calendar.getInstance().get(Calendar.MONTH)+1 +" - "+String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))));
+		getLblTipoPedido()
+				.setFont(new Font("Times New Roman", Font.ITALIC, 28));
+		lblData = new JLabel(String.valueOf(Calendar.getInstance()
+				.get(Calendar.DATE)
+				+ " - "
+				+ String.valueOf(Calendar.getInstance().get(Calendar.MONTH) + 1
+						+ " - " + String.valueOf(
+								Calendar.getInstance().get(Calendar.YEAR)))));
 		lblData.setFont(new Font("Times New Roman", Font.ITALIC, 16));
 		lblCodigopedi = new JLabel("Código do Pedido:");
 		txtFCodigoPedi = new JTextField();
@@ -161,7 +167,7 @@ public class PainelPedidos extends JPanel {
 			}
 		});
 		lblCliente = new JLabel("Nome Cliente: ");
-		txtFNomeCliente = new JTextField();		
+		txtFNomeCliente = new JTextField();
 		lblQuantItens = new JLabel("Quantidade de ítens: ");
 		txtFQuantItens = new JTextField();
 		txtFQuantItens.setHorizontalAlignment(JTextField.RIGHT);
@@ -174,7 +180,7 @@ public class PainelPedidos extends JPanel {
 		txtFPrecopedi.setForeground(Color.RED);
 		txtFPrecopedi.setHorizontalAlignment(JTextField.RIGHT);
 		txtFPrecopedi.setEditable(false);
-		
+
 		cmbTabPreco = new JComboBox<String>();
 		cmbTabPreco.addItem("Tabela de Preços");
 		for (int i = 0; i < listTabPreco.size(); i++) {
@@ -189,10 +195,13 @@ public class PainelPedidos extends JPanel {
 		});
 
 		// TODO Configuração do Painel Superior
-		lblLogoEmpresa = new JLabel(new ImageIcon("C:\\SIMPRO\\Salutar\\logoSalutar120x150.jpg"));
+		lblLogoEmpresa = new JLabel(
+				new ImageIcon("C:\\SIMPRO\\Salutar\\logoSalutar120x150.jpg"));
 		scrImagem = new JScrollPane(lblLogoEmpresa);
-		scrImagem.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-		scrImagem.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrImagem.setVerticalScrollBarPolicy(
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		scrImagem.setHorizontalScrollBarPolicy(
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		sppImagem = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		sppImagem.add(lblTituloTela);
@@ -202,7 +211,7 @@ public class PainelPedidos extends JPanel {
 		sppImagem.setBackground(Color.WHITE);
 		sppImagem.setForeground(Color.WHITE);
 		sppImagem.setDividerSize(3);
-		
+
 		pnlGrid = new JPanel();
 		pnlGrid.setBorder(BorderFactory.createEtchedBorder());
 		pnlGrid.setLayout(new GridLayout(7, 2));
@@ -219,16 +228,16 @@ public class PainelPedidos extends JPanel {
 		pnlGrid.add(txtFQuantItens);
 		pnlGrid.add(lblPrecoPedido);
 		pnlGrid.add(txtFPrecopedi);
-			
+
 		pnlGrid.add(cmbTabPreco);
-		
+
 		sppSuperior = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		sppSuperior.setDividerLocation(200);
 		sppSuperior.setDividerSize(3);
 		sppSuperior.setEnabled(false);
 		sppSuperior.add(sppImagem);
 		sppSuperior.add(pnlGrid);
-		
+
 		// Painel Inferior
 		tbl01 = new JTable();
 		scrP01 = new JScrollPane();
@@ -238,7 +247,6 @@ public class PainelPedidos extends JPanel {
 		scrP02 = new JScrollPane();
 		scrP02.setViewportView(tbl02);
 
-		
 		tbl03 = new JTable();
 		txtAreaObsPedido = new JTextArea();
 		scrP03 = new JScrollPane();
@@ -260,7 +268,7 @@ public class PainelPedidos extends JPanel {
 		pnlInferior.setLayout(new GridLayout());
 		pnlInferior.setBackground(Color.WHITE);
 		pnlInferior.add(tabVisualiza);
-		
+
 		desHabilitaEdicao();
 		listPedi = contPedi.listaPedidosTipo(AbaNegocios.getNomeNo());
 		tam = listPedi.size();
@@ -315,20 +323,24 @@ public class PainelPedidos extends JPanel {
 	public static void adicionaItem(Produto prod) {
 		// Tratar se o usuário cancelar ou digitar letras ou 0
 		System.out.println("PainelPedido.adicionarItem");
-		prod.setQuantMovimento(Integer.parseInt(JOptionPane.showInputDialog(null, "QUANTIDADE")));
+		prod.setQuantMovimento(Integer
+				.parseInt(JOptionPane.showInputDialog(null, "QUANTIDADE")));
 		System.out.println("Trabalhando no pedido: " + pedi.getCodiPedi());
 		for (Produto produto : pedi.getItensProduto()) {
-			System.out.println("Produto na lista: " + produto.getNome_prod() + " :::: " + produto.getQuantMovimento());
+			System.out.println("Produto na lista: " + produto.getNome_prod()
+					+ " :::: " + produto.getQuantMovimento());
 			if (produto.equals(prod)) {
 				System.out.println("Produto igual a " + produto.getNome_prod());
 			}
-			System.out.println("Produto não encontrado ::::: " + prod.getNome_prod());
+			System.out.println(
+					"Produto não encontrado ::::: " + prod.getNome_prod());
 
 		}
 		if (!pedi.getItensProduto().contains(prod)) {
 			pedi.getItensProduto().add(prod);
 			contPedi.adicionaItemProduto(pedi, prod);
-			daoProdEstoque.novoMovProdEstoque("Padrao", null, prod.getCodi_prod_1(), pedi.getQuantItens(),
+			daoProdEstoque.novoMovProdEstoque("Padrao", null,
+					prod.getCodi_prod_1(), pedi.getQuantItens(),
 					pedi.getCodiPedi(), "Sai");
 		} else {
 			contPedi.alterarQuantProd(pedi, prod);
@@ -357,7 +369,8 @@ public class PainelPedidos extends JPanel {
 		totalPedido = 0;
 		modeloTabela = new DefaultTableModel();
 		tbl01 = new JTable(modeloTabela);
-		Object colunas[] = { "Código", "Nome", "Quantidade", "Preço Unit.", "Total ítem" };
+		Object colunas[] = {"Código", "Nome", "Quantidade", "Preço Unit.",
+				"Total ítem"};
 		modeloTabela.setColumnIdentifiers(colunas);
 		getTabelaItensPedido().setRowSelectionAllowed(false);
 		getTabelaItensPedido().setCellSelectionEnabled(false);
@@ -398,14 +411,18 @@ public class PainelPedidos extends JPanel {
 		});
 		contPedi.carregarProdutosPedido(pedi);
 		for (int i = 0; i < pedi.getItensProduto().size(); i++) {
-			Object linha[] = { pedi.getItensProduto().get(i).getCodi_prod_1(),
-					pedi.getItensProduto().get(i).getNome_prod(), pedi.getItensProduto().get(i).getQuantMovimento(),
-					pedi.getItensProduto().get(i).getPrec_prod_1(), pedi.getItensProduto().get(i).getPrec_prod_1()
-							* pedi.getItensProduto().get(i).getQuantMovimento() };
+			Object linha[] = {pedi.getItensProduto().get(i).getCodi_prod_1(),
+					pedi.getItensProduto().get(i).getNome_prod(),
+					pedi.getItensProduto().get(i).getQuantMovimento(),
+					pedi.getItensProduto().get(i).getPrec_prod_1(),
+					pedi.getItensProduto().get(i).getPrec_prod_1() * pedi
+							.getItensProduto().get(i).getQuantMovimento()};
 			modeloTabela.addRow(linha);
-			quantProdutos = quantProdutos + pedi.getItensProduto().get(i).getQuantMovimento();
-			totalPedido = totalPedido + (pedi.getItensProduto().get(i).getPrec_prod_1()
-					* pedi.getItensProduto().get(i).getQuantMovimento());
+			quantProdutos = quantProdutos
+					+ pedi.getItensProduto().get(i).getQuantMovimento();
+			totalPedido = totalPedido
+					+ (pedi.getItensProduto().get(i).getPrec_prod_1() * pedi
+							.getItensProduto().get(i).getQuantMovimento());
 		}
 		tbl01.setShowGrid(true);
 		scrP01.setViewportView(tbl01);
@@ -419,7 +436,8 @@ public class PainelPedidos extends JPanel {
 		System.out.println("PainelPedidos.atualizaTabelaPagamentos");
 		modeloTabelaPagamentos = new DefaultTableModel();
 		setTbl02(new JTable(modeloTabelaPagamentos));
-		Object colunas[] = { "Cod. Pedido", "Cond. Pagamento", "Valor", "Data do Lançamento" };
+		Object colunas[] = {"Cod. Pedido", "Cond. Pagamento", "Valor",
+				"Data do Lançamento"};
 		modeloTabelaPagamentos.setColumnIdentifiers(colunas);
 		getTbl02().setRowSelectionAllowed(false);
 		getTbl02().setCellSelectionEnabled(false);
@@ -449,16 +467,18 @@ public class PainelPedidos extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int posicao = getTbl02().getSelectedRow();
-				adicionaPagamento(
-						daoCondPagamento.pesquisaCondPagCodigo(pedi.getLancPedido().get(posicao).getCodiCondPag()));
+				adicionaPagamento(daoCondPagamento.pesquisaCondPagCodigo(
+						pedi.getLancPedido().get(posicao).getCodiCondPag()));
 				carregarCampos(pedi);
 			}
 		});
 		contPedi.carregarPagamentosPedido(pedi);
 		for (int i = 0; i < pedi.getLancPedido().size(); i++) {
-			Object linha[] = { pedi.getCodiPedi(),
-					daoCondPagamento.pesquisaNomeCodigo(pedi.getLancPedido().get(i).getCodiCondPag()),
-					pedi.getLancPedido().get(i).getValor(), pedi.getLancPedido().get(i).getDataHoraLancamento() };
+			Object linha[] = {pedi.getCodiPedi(),
+					daoCondPagamento.pesquisaNomeCodigo(
+							pedi.getLancPedido().get(i).getCodiCondPag()),
+					pedi.getLancPedido().get(i).getValor(),
+					pedi.getLancPedido().get(i).getDataHoraLancamento()};
 			modeloTabelaPagamentos.addRow(linha);
 		}
 		getTbl02().setShowGrid(true);
@@ -472,19 +492,24 @@ public class PainelPedidos extends JPanel {
 		pedi = new Pedido();
 		pedi.setTipoPedido(AbaNegocios.getNomeNo());
 		pedi.setCodiPedi(txtFCodigoPedi.getText());
-		if (!txtFCodiCliente.getText().equals("") & !txtFCodiCliente.equals(null)) {
+		if (!txtFCodiCliente.getText().equals("")
+				& !txtFCodiCliente.equals(null)) {
 			pedi.setCodiPessoaCliente(txtFCodiCliente.getText());
 		}
-		if (!txtFNomeCliente.getText().equals("") & !txtFNomeCliente.equals(null)) {
+		if (!txtFNomeCliente.getText().equals("")
+				& !txtFNomeCliente.equals(null)) {
 			pedi.setxNome(txtFNomeCliente.getText());
 		}
-		if (!txtFQuantItens.getText().equals(null) & !txtFQuantItens.getText().equals("")) {
+		if (!txtFQuantItens.getText().equals(null)
+				& !txtFQuantItens.getText().equals("")) {
 			pedi.setQuantItens(Integer.parseInt(txtFQuantItens.getText()));
 		}
-		if (!txtFPrecopedi.getText().equals(null) & !txtFPrecopedi.getText().equals("")) {
+		if (!txtFPrecopedi.getText().equals(null)
+				& !txtFPrecopedi.getText().equals("")) {
 			pedi.setTotalPedi(Float.parseFloat(txtFPrecopedi.getText()));
 		}
-		pedi.setCodiTabPreco(daoTabPreco.pesquisaCodigoNome(cmbTabPreco.getSelectedItem().toString()));
+		pedi.setCodiTabPreco(daoTabPreco
+				.pesquisaCodigoNome(cmbTabPreco.getSelectedItem().toString()));
 		pedi.setObsPedi1(txtAreaObsPedido.getText());
 		return pedi;
 	}
@@ -502,7 +527,8 @@ public class PainelPedidos extends JPanel {
 			daoPedi.reservaCodigo(pedi.getCodiPedi());
 		} catch (SQLException e) {
 			// TODO Erro ao conectar banco.
-			JOptionPane.showMessageDialog(null, "Erro ao reservar código para o pedido/n" + e.getMessage());
+			JOptionPane.showMessageDialog(null,
+					"Erro ao reservar código para o pedido/n" + e.getMessage());
 			e.printStackTrace();
 		}
 		cmbTabPreco.setEnabled(true);
@@ -515,8 +541,6 @@ public class PainelPedidos extends JPanel {
 		txtAreaObsPedido.setEditable(true);
 		txtAreaObsPedido.setFocusable(true);
 		getTabelaItensPedido().setEnabled(true);
-		
-		tabVisualiza.setEnabled(true);
 		tabVisualiza.setFocusable(true);
 		tabVisualiza.addChangeListener(new ChangeListener() {
 			@Override
@@ -532,12 +556,12 @@ public class PainelPedidos extends JPanel {
 			}
 		});
 		tabVisualiza.addFocusListener(new FocusListener() {
-			
+
 			@Override
 			public void focusLost(FocusEvent e) {
-								
+
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				numTab = tabVisualiza.getSelectedIndex();
@@ -636,12 +660,14 @@ public class PainelPedidos extends JPanel {
 			txtFPrecopedi.setText(String.valueOf(pedi.getTotalPedi()));
 			lblTipoPedido.setText(pedi.getTipoPedido());
 			if (!(pedi.getCodiTabPreco() == null)) {
-				cmbTabPreco.setSelectedItem(daoTabPreco.pesquisaNomeCodigo(pedi.getCodiTabPreco()));
+				cmbTabPreco.setSelectedItem(
+						daoTabPreco.pesquisaNomeCodigo(pedi.getCodiTabPreco()));
 			} else {
 				cmbTabPreco.setSelectedIndex(0);
 			}
 			txtAreaObsPedido.setText(pedi.getObsPedi1());
-			System.out.println("Conteudo de pedido tabela de preço:  " + pedi.getCodiTabPreco());
+			System.out.println("Conteudo de pedido tabela de preço:  "
+					+ pedi.getCodiTabPreco());
 			atualizaTabelaProdutos(pedi);
 			atualizaTabelaPagamentos(pedi);
 		}
@@ -670,8 +696,10 @@ public class PainelPedidos extends JPanel {
 		daoPedi = new DAOPedidoPrepSTM();
 		Calendar c = Calendar.getInstance();
 		daoPedi.consultaUltimo();
-		String codiPedi = String.valueOf(daoPedi.consultaUltimo()) + String.valueOf(c.get(Calendar.YEAR))
-				+ String.valueOf(c.get(Calendar.MONTH)) + String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+		String codiPedi = String.valueOf(daoPedi.consultaUltimo())
+				+ String.valueOf(c.get(Calendar.YEAR))
+				+ String.valueOf(c.get(Calendar.MONTH))
+				+ String.valueOf(c.get(Calendar.DAY_OF_MONTH));
 		return codiPedi;
 	}
 
@@ -714,7 +742,7 @@ public class PainelPedidos extends JPanel {
 	public static void setPnlTabAnexos(JTabbedPane pnlTabAnexos) {
 		PainelPedidos.tabVisualiza = pnlTabAnexos;
 	}
-	
+
 	public static JTable getTbl02() {
 		return tbl02;
 	}

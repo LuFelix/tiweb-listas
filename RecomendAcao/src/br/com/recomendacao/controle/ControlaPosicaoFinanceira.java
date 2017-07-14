@@ -27,7 +27,7 @@ public class ControlaPosicaoFinanceira {
 		FrameInicial.setPainelVisualiza(new PainelStatus(""));
 		FrameInicial.atualizaTela();
 		FrameInicial.getScrLista()
-				.setViewportView(constGrafico.graficoBarrasDespCentroCusto());
+				.setViewportView(constGrafico.graficoPizzaRecDesp(3, 2));
 		FrameInicial.getBtnNovo().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

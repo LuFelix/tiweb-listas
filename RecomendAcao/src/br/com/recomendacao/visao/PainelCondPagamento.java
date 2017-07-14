@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -50,6 +51,7 @@ public class PainelCondPagamento extends JPanel {
 	private static JTextField txtF10;
 	private static JScrollPane scrP01;
 	private static JScrollPane scrP02;
+	private static JComboBox<String> cmbContaLanc;
 
 	private JPanel pnlGrid;
 	private JSplitPane sppImagem;
@@ -79,9 +81,11 @@ public class PainelCondPagamento extends JPanel {
 
 	public PainelCondPagamento(String nome) {
 
-		UIManager.put("TextField.font", new Font("Times New Roman", Font.BOLD, 14));
+		UIManager.put("TextField.font",
+				new Font("Times New Roman", Font.BOLD, 14));
 		UIManager.put("Label.font", new Font("Times New Roman", Font.BOLD, 12));
-		UIManager.put("Button.font", new Font("Times New Roman", Font.BOLD, 12));
+		UIManager.put("Button.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 
 		contCondPag = new ControlaCondPagamento();
 		daoCondPag = new DAOCondPagamento();
@@ -113,6 +117,8 @@ public class PainelCondPagamento extends JPanel {
 		tbl02 = new JTable();
 		scrP02 = new JScrollPane();
 		scrP02.setViewportView(tbl02);
+		cmbContaLanc = new JComboBox<String>();
+		cmbContaLanc.addItem("Conta Lançamento");
 
 		tabVisualiza = new JTabbedPane();
 		tabVisualiza.addTab("Tabela 1", scrP01);
@@ -137,15 +143,15 @@ public class PainelCondPagamento extends JPanel {
 		pnlGrid.add(txtF07);
 		pnlGrid.add(lbl08);
 		pnlGrid.add(txtF08);
-
-		// e finalmente...
+		pnlGrid.add(cmbContaLanc);
 
 		listCondPag = contCondPag.pesqNomeArray(nome);
 		tam = listCondPag.size();
 		tam--;
 		if (tam < 0) {
 			FrameInicial.setPainelVisualiza(null);
-			FrameInicial.getScrVisualiza().setViewportView(FrameInicial.getPainelVisualiza());
+			FrameInicial.getScrVisualiza()
+					.setViewportView(FrameInicial.getPainelVisualiza());
 		} else {
 			controledaLista = new ControlaListaCondPag(listCondPag);
 			condPag = controledaLista.first();
@@ -153,8 +159,10 @@ public class PainelCondPagamento extends JPanel {
 		}
 
 		scrImagem = new JScrollPane(lblImagem);
-		scrImagem.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-		scrImagem.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrImagem.setVerticalScrollBarPolicy(
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		scrImagem.setHorizontalScrollBarPolicy(
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		sppImagem = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		sppImagem.add(lbl01);
 		sppImagem.add(scrImagem);
@@ -218,7 +226,8 @@ public class PainelCondPagamento extends JPanel {
 			daoCondPag.reservaCodigo(codigo);
 		} catch (SQLException e) {
 
-			JOptionPane.showMessageDialog(null, "Erro ao reservar código /n" + e.getMessage());
+			JOptionPane.showMessageDialog(null,
+					"Erro ao reservar código /n" + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -326,7 +335,8 @@ public class PainelCondPagamento extends JPanel {
 		return txtF05;
 	}
 
-	public static void setTxtFDescricaoCondPag(JTextField txtFDescricaoCondPag) {
+	public static void setTxtFDescricaoCondPag(
+			JTextField txtFDescricaoCondPag) {
 		PainelCondPagamento.txtF05 = txtFDescricaoCondPag;
 	}
 

@@ -2,6 +2,7 @@ package br.com.recomendacao.beans;
 
 public class PessoaProfissional {
 
+	private int seqPessProf;
 	private String codiPess;
 	private String codiProf;
 	private String nomeProf;
@@ -44,6 +45,12 @@ public class PessoaProfissional {
 	}
 	public void setOptante(boolean optante) {
 		this.optante = optante;
+	}
+	public int getSeqPessProf() {
+		return seqPessProf;
+	}
+	public void setSeqPessProf(int seqPessProf) {
+		this.seqPessProf = seqPessProf;
 	}
 
 }

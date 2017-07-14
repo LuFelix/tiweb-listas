@@ -1,7 +1,9 @@
 package br.com.recomendacao.visao;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -14,16 +16,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
-import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import br.com.recomendacao.beans.CentroCusto;
+import br.com.recomendacao.beans.Conta;
 import br.com.recomendacao.beans.Produto;
 import br.com.recomendacao.controle.ControlaConta;
 import br.com.recomendacao.controle.ControlaListaProdutos;
@@ -33,12 +36,42 @@ import br.com.recomendacao.dao.DAOCentroCusto;
 public class PainelStatus extends JPanel {
 
 	// JFrame telaProduto;
-	private JTabbedPane principal;
+	private JTabbedPane tabPrincipal;
 	JPanel painelGeral;
 	JPanel painelDespesas;
 	JPanel painelReceitas;
 	private JLabel lblTituloTela;
 	// Labels e text fields
+	private JLabel lblImagem;
+	private JLabel lbl01;
+	private JLabel lbl02;
+	private JLabel lbl03;
+	private JLabel lbl04;
+	private JLabel lbl05;
+	private JLabel lbl06;
+	private JLabel lbl07;
+	private JLabel lbl08;
+
+	private static JTextField txtF02;
+	private static JTextField txtF03;
+	private static JTextField txtF04;
+	private static JTextField txtF05;
+	private static JTextField txtF06;
+	private static JTextField txtF07;
+	private static JTextField txtF08;
+	private JScrollPane scrImagem;
+	private static JScrollPane scrP01;
+	private static JScrollPane scrP02;
+	private static JTable tbl01;
+	private static JTable tbl02;
+
+	private JSplitPane sppImagem;
+	private JSplitPane sppPrincipal;
+	private JSplitPane sppSuperior;
+	private JPanel pnlInferior;
+	private JPanel pnlGrid;
+	private JTabbedPane tabVisualiza;
+
 	private JLabel contas;
 	private JLabel lblTotalGeral;
 	private JLabel lblRealizado;
@@ -86,22 +119,47 @@ public class PainelStatus extends JPanel {
 	// TODO Construtor
 	public PainelStatus(String nome) {
 
-		UIManager.put("TextField.font", new Font("Times New Roman", Font.BOLD, 12));
+		UIManager.put("TextField.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 		UIManager.put("Label.font", new Font("Times New Roman", Font.BOLD, 12));
-		UIManager.put("Button.font", new Font("Times New Roman", Font.BOLD, 12));
+		UIManager.put("Button.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 		// Controle
-
 		contConta = new ControlaConta();
 		contTabPreco = new ControlaTabelaPreco();
 		// Dados
 		daoCentCusto = new DAOCentroCusto();
-		// telaProduto.setContentPane(painelPrincipal);
+		iniciaComponentes();
 
-		// TODO Configuração dos Labels e text fields
+	}
+	void iniciaComponentes() {
 
-		lblTituloTela = new JLabel("Status");
-		lblTituloTela.setBounds(10, 0, 250, 40);
-		lblTituloTela.setFont(new Font("Times New Roman", Font.BOLD, 28));
+		lbl01 = new JLabel("Resumos");
+		lbl01.setFont(new Font("Times New Roman", Font.BOLD, 28));
+
+		lbl02 = new JLabel("Valor Total Receitas:");
+		txtF02 = new JTextField();
+
+		lbl03 = new JLabel("Valor Realizado Receitas:");
+		txtF03 = new JTextField();
+
+		lbl04 = new JLabel("Percentual Realizado Receitas:");
+		lbl04.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		txtF04 = new JTextField();
+		txtF04.setHorizontalAlignment(JTextField.RIGHT);
+		txtF04.setFont(new Font("Times New Roman", Font.BOLD, 16));
+
+		lbl05 = new JLabel("Valor Total Despesas: ");
+		txtF05 = new JTextField();
+
+		lbl06 = new JLabel("Valor realizado Despesas:");
+		txtF06 = new JTextField();
+
+		lbl07 = new JLabel("Percentual Realizado Despesas:");
+		lbl07.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		txtF07 = new JTextField();
+		txtF07.setHorizontalAlignment(JTextField.RIGHT);
+		txtF07.setFont(new Font("Times New Roman", Font.BOLD, 16));
 
 		cmbData = new JComboBox<String>();
 		cmbData.setBounds(10, 60, 90, 25);
@@ -119,94 +177,92 @@ public class PainelStatus extends JPanel {
 		cmbData.addItem("Novembro");
 		cmbData.addItem("Dezembro");
 
-		contas = new JLabel("Contas:");
-		contas.setBounds(10, 90, 100, 25);
-
-		lblTotalGeral = new JLabel("Total Geral: ");
-		lblTotalGeral.setBounds(120, 60, 100, 25);
-		txtFTotalGeral = new JTextField();
-		txtFTotalGeral.setBounds(200, 60, 130, 45);
-
-		tblContas = new JTable();
-		scrContas = new JScrollPane();
-		scrContas.setBounds(10, 120, 320, 187);
-		scrContas.setBorder(
-				BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.CYAN, Color.BLUE, Color.BLUE, Color.CYAN));
-		// scrContas.setBorder(BorderFactory.createEtchedBorder(Color.CYAN,
-		// Color.BLUE));
-		tblContas = contConta.tblResumoContasMes();
-		scrContas.setViewportView(tblContas);
-
-		lblRealizado = new JLabel("Realizado:");
-		lblRealizado.setBounds(10, 320, 80, 25);
-		txtFRealizado = new JTextField();
-		txtFRealizado.setBounds(110, 320, 100, 25);
-
-		txtFRealizadoPorc = new JTextField();
-		txtFRealizadoPorc.setBounds(220, 320, 60, 25);
-		lblRealizadoPorc = new JLabel("%");
-		lblRealizadoPorc.setBounds(290, 320, 30, 25);
-		lblRealizadoPorc.setFont(new Font("Times new Roman", Font.BOLD, 16));
-
-		lblRealizar = new JLabel("A Realizar:");
-		lblRealizar.setBounds(10, 350, 80, 25);
-		txtFRealizar = new JTextField();
-		txtFRealizar.setBounds(110, 350, 100, 25);
-
-		txtFRealizarPorc = new JTextField();
-		txtFRealizarPorc.setBounds(220, 350, 60, 25);
-		lblRealizarPorc = new JLabel("%");
-		lblRealizarPorc.setBounds(290, 350, 30, 25);
-		lblRealizarPorc.setFont(new Font("Times new Roman", Font.BOLD, 16));
-
-		tblCentroCusto = new JTable();
 		cmbCentroCustoDesp = new JComboBox<String>();
 		cmbCentroCustoDesp.setBounds(10, 115, 170, 25);
 		cmbCentroCustoDesp.addItem("Centro de Custo");
 		List<CentroCusto> listCentCustoDesp = daoCentCusto.pesquisarString("");
 		for (int i = 0; i < listCentCustoDesp.size(); i++) {
-			cmbCentroCustoDesp.addItem(listCentCustoDesp.get(i).getNomeCentroCusto());
+			cmbCentroCustoDesp
+					.addItem(listCentCustoDesp.get(i).getNomeCentroCusto());
 		}
-		cmbAnoDesp = new JComboBox<String>();
-		cmbAnoDesp.setBounds(220, 115, 170, 25);
-		cmbAnoDesp.addItem("Ano");
 
 		cmbCentroCustoRec = new JComboBox<String>();
 		cmbCentroCustoRec.setBounds(10, 115, 170, 25);
 		cmbCentroCustoRec.addItem("Centro de Custo");
 		List<CentroCusto> listCentCustoRec = daoCentCusto.pesquisarString("");
 		for (int i = 0; i < listCentCustoRec.size(); i++) {
-			cmbCentroCustoRec.addItem(listCentCustoRec.get(i).getNomeCentroCusto());
+			cmbCentroCustoRec
+					.addItem(listCentCustoRec.get(i).getNomeCentroCusto());
 		}
-		chkBListaPrecos = new JCheckBox("Exibir");
-		chkBListaPrecos.setBounds(10, 115, 80, 25);
-		chkBListaPrecos.addChangeListener(new ChangeListener() {
+
+		tbl01 = new JTable();
+		scrP01 = new JScrollPane();
+
+		tbl02 = new JTable();
+		scrP02 = new JScrollPane();
+
+		tabVisualiza = new JTabbedPane();
+		tabVisualiza.addTab("Contas", scrP01);
+		tabVisualiza.addTab("Tabela 02", scrP02);
+		tabVisualiza.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				if (chkBListaPrecos.isSelected()) {
-					habilitaTabelaContas();
-				} else {
-					desabilitaTabela();
-				}
-
+				// habilitaTabelaMovimentos();
 			}
 		});
+		scrImagem = new JScrollPane(lblImagem);
+		scrImagem.setVerticalScrollBarPolicy(
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		scrImagem.setHorizontalScrollBarPolicy(
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-		// Posicionamento e ações dos Botões
+		sppImagem = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		sppImagem.add(lbl01);
+		sppImagem.add(scrImagem);
+		sppImagem.setDividerLocation(50);
+		sppImagem.setEnabled(false);
+		sppImagem.setBackground(Color.WHITE);
+		sppImagem.setForeground(Color.WHITE);
+		sppImagem.setDividerSize(3);
 
-		// JRadio Buttons
-		jrbEditarSim = new JRadioButton("Sim");
-		jrbEditarSim.setBounds(95, 560, 50, 35);
-		jrbEditarNao = new JRadioButton("Não");
-		jrbEditarNao.setBounds(155, 560, 50, 35);
-		grpRadio = new ButtonGroup();
-		grpRadio.add(jrbEditarSim);
-		grpRadio.add(jrbEditarNao);
+		pnlGrid = new JPanel();
+		pnlGrid.setBorder(BorderFactory.createEtchedBorder());
+		pnlGrid.setLayout(new GridLayout(8, 2));
+		pnlGrid.setBackground(Color.WHITE);
 
-		// Ação Radio Buttons
-		jrbEditarNao.setSelected(true);
+		pnlGrid.add(lbl02);
+		pnlGrid.add(txtF02);
+		pnlGrid.add(lbl03);
+		pnlGrid.add(txtF03);
+		pnlGrid.add(lbl04);
+		pnlGrid.add(txtF04);
+		pnlGrid.add(lbl05);
+		pnlGrid.add(txtF05);
+		pnlGrid.add(lbl06);
+		pnlGrid.add(txtF06);
+		pnlGrid.add(lbl07);
+		pnlGrid.add(txtF07);
 
-		// Tabela de detalhes
+		sppSuperior = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		sppSuperior.setDividerLocation(200);
+		sppSuperior.setDividerSize(3);
+		sppSuperior.setEnabled(false);
+		sppSuperior.add(sppImagem);
+		sppSuperior.add(pnlGrid);
+
+		pnlInferior = new JPanel();
+		pnlInferior.setBorder(BorderFactory.createEtchedBorder());
+		pnlInferior.setLayout(new GridLayout());
+		pnlInferior.setBackground(Color.WHITE);
+		pnlInferior.add(tabVisualiza);
+
+		sppPrincipal = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		sppPrincipal.setDividerSize(3);
+		sppPrincipal.setDividerLocation(250);
+		sppPrincipal.setEnabled(false);
+		sppPrincipal.setBackground(Color.WHITE);
+		sppPrincipal.add(sppSuperior);
+		sppPrincipal.add(pnlInferior);
 
 		tabPnlDupPagar = new JTabbedPane();
 		tabPnlDupPagar.addTab("Vencidas", null);
@@ -215,7 +271,6 @@ public class PainelStatus extends JPanel {
 		tabPnlDupPagar.addTab("Prox. 30 dias", null);
 		tabPnlDupPagar.addTab("Prox. 60 dias", null);
 		tabPnlDupPagar.addTab("Prox. 90 dias", null);
-		tabPnlDupPagar.setBounds(0, 140, 525, 380);
 
 		tabPnlDupReceber = new JTabbedPane();
 		tabPnlDupReceber.addTab("Vencidas", null);
@@ -224,78 +279,37 @@ public class PainelStatus extends JPanel {
 		tabPnlDupReceber.addTab("Prox. 30 dias", null);
 		tabPnlDupReceber.addTab("Prox. 60 dias", null);
 		tabPnlDupReceber.addTab("Prox. 90 dias", null);
-		tabPnlDupReceber.setBounds(0, 140, 525, 380);
-		// TODO Painel principal
-		setLayout(null);
-		painelGeral = new JPanel();
-		painelGeral.setBorder(BorderFactory.createEtchedBorder());
-		painelGeral.setLayout(null);
-		painelGeral.setSize(525, 510);
-		painelGeral.add(lblTituloTela);
-		painelGeral.add(cmbData);
-		painelGeral.add(contas);
-		painelGeral.add(lblTotalGeral);
-		painelGeral.add(txtFTotalGeral);
-		painelGeral.add(scrContas);
-		painelGeral.add(lblRealizado);
-		painelGeral.add(txtFRealizado);
-		painelGeral.add(txtFRealizadoPorc);
-		painelGeral.add(lblRealizadoPorc);
-		painelGeral.add(lblRealizar);
-		painelGeral.add(txtFRealizar);
-		painelGeral.add(txtFRealizarPorc);
-		painelGeral.add(lblRealizarPorc);
-		painelGeral.setBackground(Color.WHITE);
 
 		painelDespesas = new JPanel();
 		painelDespesas.setBorder(BorderFactory.createEtchedBorder());
-		painelDespesas.setLayout(null);
-		painelDespesas.setSize(525, 510);
+		painelDespesas.setLayout(new BorderLayout());
 		painelDespesas.setBackground(Color.WHITE);
-		painelDespesas.add(cmbCentroCustoDesp);
-		painelDespesas.add(tabPnlDupPagar);
+		painelDespesas.add(cmbCentroCustoDesp, BorderLayout.NORTH);
+		painelDespesas.add(tabPnlDupPagar, BorderLayout.CENTER);
 
 		painelReceitas = new JPanel();
 		painelReceitas.setBorder(BorderFactory.createEtchedBorder());
-		painelReceitas.setLayout(null);
-		painelReceitas.setSize(525, 510);
+		painelReceitas.setLayout(new BorderLayout());
 		painelReceitas.setBackground(Color.WHITE);
-		painelReceitas.add(cmbCentroCustoRec);
-		painelReceitas.add(tabPnlDupReceber);
+		painelReceitas.add(cmbCentroCustoRec, BorderLayout.NORTH);
+		painelReceitas.add(tabPnlDupReceber, BorderLayout.CENTER);
 
-		principal = new JTabbedPane(JTabbedPane.TOP);
-		principal.setBackground(Color.WHITE);
-		principal.setSize(525, 510);
+		tabPrincipal = new JTabbedPane(JTabbedPane.TOP);
+		tabPrincipal.setBackground(Color.WHITE);
 
-		principal.addTab("Resumo", painelGeral);
-		principal.addTab("Despesas .:: C. Pagar", painelDespesas);
-		principal.addTab("Receitas .:: C. Receber", painelReceitas);
-		atualizaPaineis();
-		setLayout(null);
+		tabPrincipal.addTab("Resumo", sppPrincipal);
+		tabPrincipal.addTab("Despesas .:: C. Pagar", painelDespesas);
+		tabPrincipal.addTab("Receitas .:: C. Receber", painelReceitas);
+
 		setBackground(Color.WHITE);
-		add(principal);
-	}
+		setLayout(new GridLayout());
+		add(tabPrincipal);
+		carregaTbl01();
+		desHabilitaEdicao();
 
-	private void atualizaPaineis() {
-		scrContas.setViewportView(tblContas);
 	}
 
 	// TODO Fim contrutor inicio Habilita/Desab./Carrega/Le/Limpa Campos
-
-	public static void irParaMes(int posicao) {
-
-	}
-
-	private void desabilitaTabela() {
-		setTabelaPrecos(null);
-		getScrPrecos().setViewportView(tblContas);
-	}
-
-	// TODO Habilitar tabela de contas
-	public static JTable habilitaTabelaContas() {
-		return tblCentroCusto;
-
-	}
 
 	// TODO Ler Campos.
 	public static Produto lerCampos() {
@@ -307,14 +321,15 @@ public class PainelStatus extends JPanel {
 	}
 
 	// TODO Carregar campos
-	public static void carregarCampos(Produto prod) {
-		if (!prod.equals(null)) {
-			chkBListaPrecos.setSelected(false);
-			txtFTotalGeral.setText(String.valueOf(prod.getSeq_produto()));
-		}
+	public static void carregarCampos(Conta c) {
+
 	}
 
-	// TODO Habilitar Edição
+	public void carregaTbl01() {
+		tbl01 = contConta.pesqNomeTabela("");
+		scrP01.setViewportView(tbl01);
+	}
+
 	public static void habilitaEdicao() {
 		cmbCentroCustoDesp.setEnabled(true);
 	}
@@ -327,10 +342,12 @@ public class PainelStatus extends JPanel {
 
 	// TODO Desabilita edição
 	public static void desHabilitaEdicao() {
-		txtFTotalGeral.setEditable(false);
-
-		cmbCentroCustoDesp.setEnabled(false);
-		chkBListaPrecos.setSelected(false);
+		txtF02.setEditable(false);
+		txtF03.setEditable(false);
+		txtF04.setEditable(false);
+		txtF05.setEditable(false);
+		txtF06.setEditable(false);
+		txtF07.setEditable(false);
 	}
 
 	// TODO Limpar campos

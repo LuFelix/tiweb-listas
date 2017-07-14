@@ -1,6 +1,7 @@
 package br.com.recomendacao.beans;
 
 import java.util.Date;
+import java.util.List;
 
 public class Pessoa {
 	private int seqUsuario;
@@ -13,6 +14,7 @@ public class Pessoa {
 	private String tipoPessoa;
 	private int sexo;
 	private Date dataNasc;
+	private List<PessoaProfissional> listOcup;
 
 	public Pessoa() {
 		super();
@@ -99,6 +101,14 @@ public class Pessoa {
 
 	public void setTipoPessoa(String tipoPessoa) {
 		this.tipoPessoa = tipoPessoa;
+	}
+
+	public List<PessoaProfissional> getListOcup() {
+		return listOcup;
+	}
+
+	public void setListOcup(List<PessoaProfissional> listOcup) {
+		this.listOcup = listOcup;
 	}
 
 }

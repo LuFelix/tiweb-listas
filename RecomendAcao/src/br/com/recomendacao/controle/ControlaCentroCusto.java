@@ -10,22 +10,26 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import br.com.recomendacao.beans.CentroCusto;
 import br.com.recomendacao.dao.DAOCentroCusto;
+import br.com.recomendacao.tableModels.commom.TableModelCentroCusto;
 import br.com.recomendacao.visao.FrameInicial;
-import br.com.recomendacao.visao.PainelCentroCusto;
 import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
+import br.com.recomendacao.visao.PainelCentroCusto;
 
 public class ControlaCentroCusto {
 
 	private static JTable tabela;
+	TableModelCentroCusto mdltabela;
+	private static JComboBox<String> cmbCCusto;
 	private static List<CentroCusto> listCentroCusto;
 	private static DAOCentroCusto daoCentroCusto;
 	private static CentroCusto centroCusto;
+	private static ControlaConta contConta;
 	private static String nome;
 
 	public ControlaCentroCusto() {
@@ -33,12 +37,27 @@ public class ControlaCentroCusto {
 		daoCentroCusto = new DAOCentroCusto();
 	}
 
+	public JComboBox cmbCentrosCusto() {
+		cmbCCusto = new JComboBox<String>();
+		cmbCCusto.addItem("Centro de Custo");
+		cmbCCusto.setToolTipText("Selecione o centro de custo para a conta.");
+
+		listCentroCusto = new ArrayList<CentroCusto>(pesqNomeArray(""));
+		if (listCentroCusto.size() > 0) {
+			for (CentroCusto centroCusto : listCentroCusto) {
+				cmbCCusto.addItem(centroCusto.getNomeCentroCusto());
+			}
+		}
+		return cmbCCusto;
+
+	}
+
 	private JTable pesqNomeTabela(String str) {
 		tabela = new JTable();
-		List<String> colunas = new ArrayList<String>();
-		DefaultTableModel modelotabela = new DefaultTableModel();
-		modelotabela = (DefaultTableModel) tabela.getModel();
-		listCentroCusto = new ArrayList<CentroCusto>(daoCentroCusto.pesquisarString(str));
+
+		mdltabela = new TableModelCentroCusto(
+				daoCentroCusto.pesquisarString(str));
+		tabela.setModel(mdltabela);
 		tabela.addKeyListener(new KeyListener() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
@@ -47,9 +66,10 @@ public class ControlaCentroCusto {
 
 			@Override
 			public void keyReleased(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
-					int posicao = tabela.getSelectedRow();
-					centroCusto = listCentroCusto.get(posicao);
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
+					centroCusto = mdltabela
+							.getCentroCusto(tabela.getSelectedRow());
 					PainelCentroCusto.carregarCampos(centroCusto);
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
 					FrameInicial.getTxtfPesquisa().grabFocus();
@@ -59,14 +79,16 @@ public class ControlaCentroCusto {
 			@Override
 			public void keyPressed(KeyEvent tecla) {
 				int posicao = tabela.getSelectedRow();
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 					PainelCentroCusto.carregarCampos(centroCusto);
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
 					FrameInicial.getTxtfPesquisa().grabFocus();
 				} else if (tecla.getExtendedKeyCode() == 10) {
 					PainelCentroCusto.carregarCampos(centroCusto);
 					funcaoSobrescrever();
-					FrameInicial.getTabela().changeSelection(--posicao, 0, false, false);
+					FrameInicial.getTabela().changeSelection(--posicao, 0,
+							false, false);
 					PainelCentroCusto.getTxtFNome().grabFocus();
 				}
 			}
@@ -94,27 +116,17 @@ public class ControlaCentroCusto {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				int posicao = tabela.getSelectedRow();
-				PainelCentroCusto.irParaPoicao(posicao);
-				System.out.println(tabela.getMouseListeners());
+				centroCusto = mdltabela.getCentroCusto(tabela.getSelectedRow());
+				PainelCentroCusto.carregarCampos(centroCusto);
+
 			}
 		});
-		colunas.add("Número");
-		colunas.add("Nome");
-		colunas.add("Descrição");
-		modelotabela.setColumnIdentifiers(colunas.toArray());
 
-		for (int i = 0; i < listCentroCusto.size(); i++) {
-			Object linha[] = { listCentroCusto.get(i).getSeqcentroCusto(), listCentroCusto.get(i).getNomeCentroCusto(),
-					listCentroCusto.get(i).getDescCentroCusto() };
-			modelotabela.addRow(linha);
-		}
 		// tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tabela.getColumnModel().getColumn(0).setPreferredWidth(60);
 		tabela.getColumnModel().getColumn(1).setPreferredWidth(150);
-		tabela.getColumnModel().getColumn(2).setPreferredWidth(240);
 		tabela.setShowGrid(true);
-		tabela.setModel(modelotabela);
+
 		return tabela;
 	}
 
@@ -139,16 +151,19 @@ public class ControlaCentroCusto {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				centroCusto = PainelCentroCusto.lerCampos();
-				if (!centroCusto.equals(null) & daoCentroCusto.cadastrar(centroCusto)) {
+				if (!centroCusto.equals(null)
+						& daoCentroCusto.cadastrar(centroCusto)) {
 					PainelCentroCusto.limparCampos();
-					FrameInicial.setTabela(pesqNomeTabela(centroCusto.getCodiCentroCusto()));
-					FrameInicial.setPainelVisualiza(new PainelCentroCusto(centroCusto.getCodiCentroCusto()));
+					FrameInicial.setTabela(
+							pesqNomeTabela(centroCusto.getCodiCentroCusto()));
+					PainelCentroCusto.carregarCampos(centroCusto);
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito");
-					iniciar();
+					iniciar(centroCusto);
 				} else {
-					JOptionPane.showMessageDialog(null, "Problemas: Erro de acesso ao banco", "Erro ao Salvar",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Problemas: Erro de acesso ao banco",
+							"Erro ao Salvar", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -156,7 +171,7 @@ public class ControlaCentroCusto {
 
 	public void funcaoCancelar() {
 		System.out.println("ControlaCentroCusto.cancelar");
-		iniciar();
+		iniciar(new CentroCusto());
 	}
 
 	// TODO Funcao excluir
@@ -181,15 +196,20 @@ public class ControlaCentroCusto {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				centroCusto = PainelCentroCusto.lerCampos();
-				if (!centroCusto.equals(null) & daoCentroCusto.alterar(centroCusto)) {
-					FrameInicial.setTabela(pesqNomeTabela(centroCusto.getCodiCentroCusto()));
-					FrameInicial.setPainelVisualiza(new PainelCentroCusto(centroCusto.getCodiCentroCusto()));
+				if (!centroCusto.equals(null)
+						& daoCentroCusto.alterar(centroCusto)) {
+					FrameInicial.setTabela(
+							pesqNomeTabela(centroCusto.getCodiCentroCusto()));
+					// FrameInicial.setPainelVisualiza(new PainelCentroCusto(
+					// centroCusto.getCodiCentroCusto()));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito!");
-					iniciar();
+					iniciar(centroCusto);
 				} else {
-					JOptionPane.showMessageDialog(null, "Favor verificar os campos informados. ",
-							"Não foi possivel alterar!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Favor verificar os campos informados. ",
+							"Não foi possivel alterar!",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -209,21 +229,63 @@ public class ControlaCentroCusto {
 	public String criaCodigo() {
 		System.out.println("ControlaCentroCusto.criarCodigo");
 		Calendar c = Calendar.getInstance();
-		String codigo = String.valueOf(daoCentroCusto.consultaUltimo()) + String.valueOf(c.get(Calendar.YEAR))
-				+ String.valueOf(c.get(Calendar.MONTH)) + String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+		String codigo = String.valueOf(daoCentroCusto.consultaUltimo())
+				+ String.valueOf(c.get(Calendar.YEAR))
+				+ String.valueOf(c.get(Calendar.MONTH))
+				+ String.valueOf(c.get(Calendar.DAY_OF_MONTH));
 		return codigo;
 	}
 
+	// criar a tablemodel do centro de custo
+
 	// TODO Pesquisa Centro Custo
-	public void iniciar() {
+	public void iniciar(CentroCusto c) {
 		System.out.println("ControlaCentroCusto.pesquisaGrupo");
 		ControlaBotoes.limpaTodosBotoes();
 		ControlaBotoes.desHabilitaEdicaoBotoes();
-		FrameInicial.limparTxtfPesquisa();
 		FrameInicial.getTxtfPesquisa().grabFocus();
 		FrameInicial.setTabela(pesqNomeTabela(""));
-		FrameInicial.setPainelVisualiza(new PainelCentroCusto(""));
+		FrameInicial.setPainelVisualiza(new PainelCentroCusto());
 		FrameInicial.atualizaTela();
+		configuraTXTPesquisa();
+		configuraBotoes();
+
+	}
+	void configuraTXTPesquisa() {
+		FrameInicial.limparTxtfPesquisa();
+		FrameInicial.getTxtfPesquisa().addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent tecla) {
+				if (tecla.getExtendedKeyCode() == 40) {// seta para baixo
+					FrameInicial.getTabela().grabFocus();
+					FrameInicial.getTabela().changeSelection(0, 0, false,
+							false);
+				} else if (tecla.getExtendedKeyCode() == 27) {
+					funcaoCancelar();
+				} else {
+					// System.out.println(tecla.getExtendedKeyCode());
+					nome = FrameInicial.getTxtfPesquisa().getText();
+					FrameInicial.setTabela(pesqNomeTabela(nome));
+					// FrameInicial
+					// .setPainelVisualiza(new PainelCentroCusto(nome));
+					FrameInicial.atualizaTela();
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent tecla) {
+				nome = FrameInicial.getTxtfPesquisa().getText();
+				FrameInicial.setTabela(pesqNomeTabela(nome));
+				// FrameInicial.setPainelVisualiza(new PainelCentroCusto(nome));
+				FrameInicial.atualizaTela();
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+		});
+	}
+	void configuraBotoes() {
 		ActionListener acaoEditar = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -261,35 +323,6 @@ public class ControlaCentroCusto {
 			public void actionPerformed(ActionEvent e) {
 				ControlaBotoes.desHabilitaEdicaoBotoes();
 				funcaoExcluir();
-			}
-		});
-		FrameInicial.getTxtfPesquisa().addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40) {// seta para baixo
-					FrameInicial.getTabela().grabFocus();
-					FrameInicial.getTabela().changeSelection(0, 0, false, false);
-				} else if (tecla.getExtendedKeyCode() == 27) {
-					funcaoCancelar();
-				} else {
-					// System.out.println(tecla.getExtendedKeyCode());
-					nome = FrameInicial.getTxtfPesquisa().getText();
-					FrameInicial.setTabela(pesqNomeTabela(nome));
-					FrameInicial.setPainelVisualiza(new PainelCentroCusto(nome));
-					FrameInicial.atualizaTela();
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent tecla) {
-				nome = FrameInicial.getTxtfPesquisa().getText();
-				FrameInicial.setTabela(pesqNomeTabela(nome));
-				FrameInicial.setPainelVisualiza(new PainelCentroCusto(nome));
-				FrameInicial.atualizaTela();
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
 			}
 		});
 	}

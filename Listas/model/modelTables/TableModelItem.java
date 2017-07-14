@@ -14,7 +14,7 @@ public class TableModelItem extends AbstractTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<ItemCheckList> linhas;
-	private String[] colunas = new String[] { "Concluído", "Ítem","Observação" };
+	private String[] colunas = new String[]{"Concluído", "Ítem", "Observação"};
 	private static final int Concluido = 0;
 	private static final int Item = 1;
 	private static final int Observacao = 2;
@@ -36,22 +36,23 @@ public class TableModelItem extends AbstractTableModel {
 
 		switch (columnIndex) {
 
-		case Concluido:
-			item.setConcluido((boolean) aValue);
-			break;
-		case Item:
-			item.setItem((String) aValue);
-			break;
-		case Observacao:
-			item.setObservacao((String) aValue);
-			break;
-		default:
+			case Concluido :
+				item.setConcluido((boolean) aValue);
+				break;
+			case Item :
+				item.setItem((String) aValue);
+				break;
+			case Observacao :
+				item.setObservacao((String) aValue);
+				break;
+			default :
 
-			throw new IndexOutOfBoundsException("columnIndex out of bounds");
+				throw new IndexOutOfBoundsException(
+						"columnIndex out of bounds");
 		}
 
 		fireTableCellUpdated(rowIndex, columnIndex);
-		daoLista.editaItem(item);
+		daoLista.atualizaItem(item);
 
 	}
 
@@ -59,15 +60,16 @@ public class TableModelItem extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		ItemCheckList itemCheckList = linhas.get(rowIndex);
 		switch (columnIndex) {
-		case Concluido:
-			return itemCheckList.isConcluido();
-		case Item:
-			return itemCheckList.getItem();
-		case Observacao:
-			return itemCheckList.getObservacao();
+			case Concluido :
+				return itemCheckList.isConcluido();
+			case Item :
+				return itemCheckList.getItem();
+			case Observacao :
+				return itemCheckList.getObservacao();
 
-		default:
-			throw new IndexOutOfBoundsException("columnIndex out of bounds");
+			default :
+				throw new IndexOutOfBoundsException(
+						"columnIndex out of bounds");
 		}
 	}
 
@@ -75,14 +77,15 @@ public class TableModelItem extends AbstractTableModel {
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		switch (columnIndex) {
 
-		case Concluido:
-			return columnIndex == Concluido;
-		case Item:
-			return columnIndex == Item;
-		case Observacao:
-			return columnIndex == Observacao;
-		default:
-			throw new IndexOutOfBoundsException("columnIndex out of bounds");
+			case Concluido :
+				return columnIndex == Concluido;
+			case Item :
+				return columnIndex == Item;
+			case Observacao :
+				return columnIndex == Observacao;
+			default :
+				throw new IndexOutOfBoundsException(
+						"columnIndex out of bounds");
 		}
 
 	}
@@ -96,14 +99,15 @@ public class TableModelItem extends AbstractTableModel {
 
 		switch (columnIndex) {
 
-		case Concluido:
-			return Boolean.class;
-		case Item:
-			return String.class;
-		case Observacao:
-			return String.class;
-		default:
-			throw new IndexOutOfBoundsException("columnIndex out of bounds");
+			case Concluido :
+				return Boolean.class;
+			case Item :
+				return String.class;
+			case Observacao :
+				return String.class;
+			default :
+				throw new IndexOutOfBoundsException(
+						"columnIndex out of bounds");
 		}
 	}
 

@@ -20,11 +20,13 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.util.Rotation;
 
 import br.com.recomendacao.beans.CotacaoAtivo;
 import br.com.recomendacao.dao.DAOCotacaoAtivo;
@@ -56,17 +58,20 @@ public class ConstrutorGrafico extends JPanel {
 	public JPanel graficoBarrasDespCentroCusto() {
 		painelGrafico = new JPanel();
 		datasetb = new DefaultCategoryDataset();
-		datasetb.addValue(8, "TI", "1 valor");
-		datasetb.addValue(15, "Teste", "2 valor");
-		datasetb.addValue(18, "Casa", "3 valor");
-		chart = ChartFactory.createBarChart("Despesas X Centro de Custo", "$", "Centro de Custo", datasetb);
-		chart.setBackgroundPaint(Color.LIGHT_GRAY);
+		datasetb.addValue(8, "TI", "TI");
+		datasetb.addValue(15, "Teste", "Teste");
+		datasetb.addValue(18, "Casa", "Casa");
+		chart = ChartFactory.createBarChart("Despesas X Centro de Custo", "$",
+				"Centro de Custo", datasetb);
+		chart.setBackgroundPaint(Color.BLACK);
+		chart.setBorderPaint(Color.BLACK);
 		chart.getTitle().setVisible(false);
+		final CategoryPlot plot = (CategoryPlot) chart.getPlot();
+		plot.setBackgroundPaint(Color.BLACK);
 		chartPanel = new ChartPanel(chart);
-		chartPanel.setPreferredSize(new java.awt.Dimension(503, 333));
+		chartPanel.setPreferredSize(new java.awt.Dimension(420, 500));
 		painelGrafico.add(chartPanel);
 		return painelGrafico;
-
 	}
 
 	public JPanel graficoPizzaRecDesp(float receita, float despesa) {
@@ -75,13 +80,24 @@ public class ConstrutorGrafico extends JPanel {
 		pieDataset.setValue("Despesas", despesa);
 		pieDataset.setValue("Receitas", receita);
 		chart = ChartFactory.createPieChart("Receitas X Despesas", pieDataset);
-		chart.setBackgroundPaint(Color.LIGHT_GRAY);
+		chart.setBackgroundPaint(Color.BLACK);
+		chart.setBorderPaint(Color.BLACK);
 		chart.getTitle().setVisible(false);
+		PiePlot plot = (PiePlot) chart.getPlot();
+		plot.setLabelLinksVisible(true);
+		plot.setNoDataMessage(
+				"Não existem dados para serem exibidos no gráfico");
+
+		// plot.setStartAngle(90);
+		plot.setDirection(Rotation.CLOCKWISE);
+
+		plot.setBackgroundPaint(Color.DARK_GRAY);
+		// plot.setInteriorGap(0.20);
+
 		chartPanel = new ChartPanel(chart);
-		chartPanel.setPreferredSize(new java.awt.Dimension(503, 333));
+		chartPanel.setPreferredSize(new java.awt.Dimension(420, 500));
 		painelGrafico.add(chartPanel);
 		return painelGrafico;
-
 	}
 
 	public JPanel graficoLinhaPrecFech(String idNeg) {
@@ -90,11 +106,12 @@ public class ConstrutorGrafico extends JPanel {
 		arrayCot = daoCot.conCotAtvOrdDtAscend(idNeg);
 		for (int i = 0; i < arrayCot.size(); i++) {
 			valDouble = arrayCot.get(i).getPreFec();
-			defCatDataset.addValue(valDouble, "Pre Fec", String.valueOf(arrayCot.get(i).getDataCotacao()));
+			defCatDataset.addValue(valDouble, "Pre Fec",
+					String.valueOf(arrayCot.get(i).getDataCotacao()));
 		}
 
-		chart = ChartFactory.createLineChart("Gráfico de Preços", "", "", defCatDataset, PlotOrientation.VERTICAL, true,
-				true, false);
+		chart = ChartFactory.createLineChart("Gráfico de Preços", "", "",
+				defCatDataset, PlotOrientation.VERTICAL, true, true, false);
 		chart.setBackgroundPaint(Color.BLACK);
 		chart.getTitle().setVisible(false);
 		// chart.getSubtitle(0).setVisible(false);
@@ -120,14 +137,17 @@ public class ConstrutorGrafico extends JPanel {
 		// muda a cor da linha do grafico
 		categoryitemrenderer.setSeriesPaint(0, Color.CYAN);
 
-		LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
+		LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot
+				.getRenderer();
 		renderer.setSeriesShape(0, renderer.DEFAULT_SHAPE);
 		// tornar a linha do grafico visivel (o inteiro e o numero da linha)
 		// renderer.setSeriesLinesVisible(0, true);
 
 		// mudar linhas - pontilhada
-		renderer.setSeriesStroke(0, new BasicStroke(2.0f, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_ROUND, 2.0f,
-				new float[] { 10.0f, 6.0f }, 1.0f));
+		renderer.setSeriesStroke(0,
+				new BasicStroke(2.0f, BasicStroke.JOIN_ROUND,
+						BasicStroke.JOIN_ROUND, 2.0f, new float[]{10.0f, 6.0f},
+						1.0f));
 
 		// renderer.setSeriesStroke(
 		// 0, new BasicStroke(
@@ -167,10 +187,12 @@ public class ConstrutorGrafico extends JPanel {
 		arrayCot = daoCot.conCotAtvOrdDtAscend(idNeg);
 		for (int i = 0; i < arrayCot.size(); i++) {
 			valDouble = arrayCot.get(i).getPreFec();
-			defCatDataset.addValue(valDouble, "Pre Fec", String.valueOf(arrayCot.get(i).getDataCotacao()));
+			defCatDataset.addValue(valDouble, "Pre Fec",
+					String.valueOf(arrayCot.get(i).getDataCotacao()));
 		}
-		chart = ChartFactory.createLineChart("Grafico de Preï¿½os", "Dia", "Valor", defCatDataset,
-				PlotOrientation.VERTICAL, true, true, false);
+		chart = ChartFactory.createLineChart("Grafico de Preï¿½os", "Dia",
+				"Valor", defCatDataset, PlotOrientation.VERTICAL, true, true,
+				false);
 		chartPanel = new ChartPanel(chart);
 		painelGrafico.add(chartPanel);
 		return painelGrafico;
@@ -180,10 +202,12 @@ public class ConstrutorGrafico extends JPanel {
 		arrayCot = daoCot.conCotAtvOrdDtAscend(idNeg);
 		for (int i = 0; i < arrayCot.size(); i++) {
 			valDouble = arrayCot.get(i).getPreFec();
-			defCatDataset.addValue(valDouble, "Pre Fec", String.valueOf(arrayCot.get(i).getDataCotacao().getDay()));
+			defCatDataset.addValue(valDouble, "Pre Fec",
+					String.valueOf(arrayCot.get(i).getDataCotacao().getDay()));
 		}
-		chart = ChartFactory.createLineChart("Grafico de Preï¿½os", "Dia", "Valor", defCatDataset,
-				PlotOrientation.VERTICAL, true, true, false);
+		chart = ChartFactory.createLineChart("Grafico de Preï¿½os", "Dia",
+				"Valor", defCatDataset, PlotOrientation.VERTICAL, true, true,
+				false);
 		chart.setBackgroundPaint(getBackground());
 		final CategoryPlot plot = (CategoryPlot) chart.getPlot();
 		plot.setBackgroundPaint(Color.BLACK);
@@ -223,9 +247,11 @@ public class ConstrutorGrafico extends JPanel {
 		for (int i = 0; i < arrayMediaM.size(); i++) {
 			valDouble = arrayMediaM.get(i);
 			System.out.println(valDouble);
-			dataset.addValue(valDouble, "MM de " + dias, String.valueOf(arrayCot.get(i).getDataCotacao().getDay()));
+			dataset.addValue(valDouble, "MM de " + dias,
+					String.valueOf(arrayCot.get(i).getDataCotacao().getDay()));
 		}
-		chart = ChartFactory.createLineChart("Media Mï¿½vel de " + dias + " dias", "Dia", "Valor", dataset,
+		chart = ChartFactory.createLineChart(
+				"Media Mï¿½vel de " + dias + " dias", "Dia", "Valor", dataset,
 				PlotOrientation.VERTICAL, true, true, false);
 		OutputStream arquivo;
 		try {
@@ -259,12 +285,14 @@ public class ConstrutorGrafico extends JPanel {
 			this.comeco = comeco;
 			this.fim = fim;
 			this.dados = new DefaultCategoryDataset();
-			this.grafico = ChartFactory.createLineChart("Indicadores", "Dias", "Valores", dados,
-					PlotOrientation.VERTICAL, true, true, false);
+			this.grafico = ChartFactory.createLineChart("Indicadores", "Dias",
+					"Valores", dados, PlotOrientation.VERTICAL, true, true,
+					false);
 		}
 
 		public void salva(OutputStream out) throws IOException {
-			ChartUtilities.writeChartAsJPEG(out, (JFreeChart) grafico, 500, 350);
+			ChartUtilities.writeChartAsJPEG(out, (JFreeChart) grafico, 500,
+					350);
 		}
 	}
 

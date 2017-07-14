@@ -56,11 +56,13 @@ public class PainelCentroCusto extends JPanel {
 	private static List<CentroCusto> listCentroCusto;
 	private static ControlaListaCentroCusto controledaLista;
 
-	public PainelCentroCusto(String str) {
+	public PainelCentroCusto() {
 
-		UIManager.put("TextField.font", new Font("Times New Roman", Font.BOLD, 12));
+		UIManager.put("TextField.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 		UIManager.put("Label.font", new Font("Times New Roman", Font.BOLD, 12));
-		UIManager.put("Button.font", new Font("Times New Roman", Font.BOLD, 12));
+		UIManager.put("Button.font",
+				new Font("Times New Roman", Font.BOLD, 12));
 		setLayout(null);
 
 		contCentroCusto = new ControlaCentroCusto();
@@ -77,8 +79,10 @@ public class PainelCentroCusto extends JPanel {
 		txtF05 = new JTextField();
 
 		scrImagem = new JScrollPane(lblImagem);
-		scrImagem.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-		scrImagem.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrImagem.setVerticalScrollBarPolicy(
+				JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		scrImagem.setHorizontalScrollBarPolicy(
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		tabVisualiza = new JTabbedPane();
 		tabVisualiza.addTab("Tabela 1", scr1);
 		tabVisualiza.add("Tabela 2", scr2);
@@ -119,17 +123,7 @@ public class PainelCentroCusto extends JPanel {
 		pnlInferior.add(tabVisualiza);
 
 		desHabilitaEdicao();
-		listCentroCusto = contCentroCusto.pesqNomeArray(str);
-		int tam = listCentroCusto.size();
-		tam--;
-		if (tam < 0) {
-			FrameInicial.setPainelVisualiza(null);
-			FrameInicial.getScrVisualiza().setViewportView(FrameInicial.getPainelVisualiza());
-		} else {
-			controledaLista = new ControlaListaCentroCusto(listCentroCusto);
-			centroCusto = controledaLista.first();
-			carregarCampos(centroCusto);
-		}
+
 		sppPrincipal = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		sppPrincipal.setDividerSize(3);
 		sppPrincipal.setDividerLocation(250);
@@ -157,8 +151,10 @@ public class PainelCentroCusto extends JPanel {
 		if (!txtF04.getText().equals(null) & !txtF04.getText().equals("")) {
 			centroCusto.setNomeCentroCusto(txtF04.getText());
 		} else {
-			JOptionPane.showMessageDialog(null, "Problemas: Verifique as informações preenchidas",
-					"Erro ao Salvar. Campos com * são necessários", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"Problemas: Verifique as informações preenchidas",
+					"Erro ao Salvar. Campos com * são necessários",
+					JOptionPane.ERROR_MESSAGE);
 		}
 		if (!txtF05.getText().equals(null) & !txtF05.getText().equals("")) {
 			centroCusto.setDescCentroCusto(txtF05.getText());
@@ -172,7 +168,8 @@ public class PainelCentroCusto extends JPanel {
 	// TODO carregar Campos
 	public static void carregarCampos(CentroCusto centroCusto) {
 		if (!centroCusto.equals(null)) {
-			getTxtFSequencia().setText(String.valueOf(centroCusto.getSeqcentroCusto()));
+			getTxtFSequencia()
+					.setText(String.valueOf(centroCusto.getSeqcentroCusto()));
 			getTxtFCodigo().setText(centroCusto.getCodiCentroCusto());
 			getTxtFNome().setText(centroCusto.getNomeCentroCusto());
 			getTxtFDescricao().setText(centroCusto.getDescCentroCusto());
@@ -180,12 +177,6 @@ public class PainelCentroCusto extends JPanel {
 			limparCampos();
 		}
 
-	}
-
-	public static void irParaPoicao(int posicao) {
-		controledaLista.setCurrentPosition(posicao);
-		centroCusto = controledaLista.getAt(posicao);
-		carregarCampos(centroCusto);
 	}
 
 	// TODO Edição

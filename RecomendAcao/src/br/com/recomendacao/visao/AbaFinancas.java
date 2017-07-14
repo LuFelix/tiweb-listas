@@ -20,7 +20,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import br.com.recomendacao.adapter.ConstrutorGrafico;
 import br.com.recomendacao.controle.ControlaPessoa;
-import br.com.recomendacao.util.ModeloArvore;
+import br.com.recomendacao.util.ModeloListenerArvore;
 import br.com.recomendacao.util.MontaGrid;
 
 public class AbaFinancas extends JPanel implements TreeSelectionListener {
@@ -109,7 +109,7 @@ public class AbaFinancas extends JPanel implements TreeSelectionListener {
 		// montagem da �rvore
 		sistema.add(usuario);
 		modArvore = new DefaultTreeModel(sistema);
-		modArvore.addTreeModelListener(new ModeloArvore());
+		modArvore.addTreeModelListener(new ModeloListenerArvore());
 		arvoreSistema = new JTree(modArvore);
 		arvoreSistema.setBounds(5, 5, 225, 440);
 

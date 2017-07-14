@@ -22,11 +22,13 @@ import br.com.recomendacao.beans.GrupoSubgrupo;
 import br.com.recomendacao.beans.Pessoa;
 import br.com.recomendacao.beans.PessoaProfissional;
 import br.com.recomendacao.dao.DAOGrupoSubgrupo;
+import br.com.recomendacao.dao.DAOPedidoPrepSTM;
 import br.com.recomendacao.dao.DAOPessoa;
 import br.com.recomendacao.dao.DAOPessoaPG;
 import br.com.recomendacao.dao.DAOPessoaProfissional;
-import br.com.recomendacao.tableModels.TableModelPessoa;
+import br.com.recomendacao.dao.TableModelPedidos;
 import br.com.recomendacao.tableModels.TableModelProfissao;
+import br.com.recomendacao.tableModels.commom.TableModelPessoa;
 import br.com.recomendacao.visao.AbaCadastros;
 import br.com.recomendacao.visao.FrameInicial;
 import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
@@ -40,10 +42,13 @@ public class ControlaPessoa {
 	static DAOPessoa daoP;
 	static DAOGrupoSubgrupo daoG;
 	static DAOPessoaProfissional daoPP;
+	static DAOPedidoPrepSTM daoPed;
 	static JTable tbl01;
 	static JTable tbl02;
+	static JTable tbl03;
 	static TableModelPessoa tblMdPessoa;
 	static TableModelProfissao tblMdProf;
+	static TableModelPedidos tblMdUltP;
 	private JComboBox<String> cmbGrupos;
 	static Pessoa p;
 
@@ -51,6 +56,7 @@ public class ControlaPessoa {
 		daoP = new DAOPessoaPG();
 		daoG = new DAOGrupoSubgrupo();
 		daoPP = new DAOPessoaProfissional();
+		daoPed = new DAOPedidoPrepSTM();
 		listGrupo = daoG.pesquisarString("");
 
 	}
@@ -154,12 +160,11 @@ public class ControlaPessoa {
 				int posicao = tbl01.getSelectedRow();
 				if (tecla.getExtendedKeyCode() == 40
 						|| tecla.getExtendedKeyCode() == 38) {
-					// PainelPessoa.irParaPoicao(posicao);
+
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
 					FrameInicial.getTxtfPesquisa().grabFocus();
 				} else if (tecla.getExtendedKeyCode() == 10) {
 					// PainelPessoa.irParaPoicao(posicao);
-					funcaoSobrescrever();
 					FrameInicial.getTabela().changeSelection(--posicao, 0,
 							false, false);
 					PainelPessoa.getTxtfNome().grabFocus();
@@ -210,6 +215,7 @@ public class ControlaPessoa {
 		tbl01.setModel(modelotabela);
 		return tbl01;
 	}
+
 	public void iniciar(String tipo) {
 		System.out.println("FrameInicial.controlePessoasIniciar");
 		configuraBotoes();
@@ -315,12 +321,12 @@ public class ControlaPessoa {
 
 	public String carregarNomeGrupoCodigo(String codiGrupo) {
 		return daoG.pesquisarNomeCodigo(codiGrupo);
-
 	}
+
 	public String carregarCodigoGrupoNome(String nomeGrupo) {
 		return daoG.pesquisarCodigoNome(nomeGrupo);
-
 	}
+
 	public JComboBox<String> carregarGrupos() {
 		cmbGrupos = new JComboBox<String>();
 		cmbGrupos.addItem("Grupos");
@@ -331,7 +337,7 @@ public class ControlaPessoa {
 
 	}
 
-	public boolean logar(Pessoa u2) {
+	public boolean logar(Pessoa p) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -352,9 +358,10 @@ public class ControlaPessoa {
 	}
 
 	// TODO Função sobrescrever
-	public static void funcaoSobrescrever() {
+	public void funcaoSobrescrever() {
 		System.out.println("ControlaUsuario.funcaoSobrescrever");
 		ControlaBotoes.limparBtnSalvar();
+		PainelPessoa.habilitaEdicao();
 		FrameInicial.getBtnSalvar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -413,11 +420,18 @@ public class ControlaPessoa {
 		return listEmpregos;
 
 	}
-	public JTable tblProfissoes(Pessoa p) {
+	public JTable carregaProfissoes(Pessoa p) {
 		tblMdProf = new TableModelProfissao(
 				daoPP.leFuncaoCodigo(p.getCodiPessoa()));
 		tbl02 = new JTable(tblMdProf);
+
 		return tbl02;
+	}
+	public JTable carregaUltPed(Pessoa p) {
+		tblMdUltP = new TableModelPedidos(
+				daoPed.carregaPedCliente(p.getCodiPessoa()));
+		tbl03 = new JTable(tblMdUltP);
+		return tbl03;
 	}
 	// TODO Funcao excluir
 	public static boolean funcaoExcluir() {
@@ -439,7 +453,6 @@ public class ControlaPessoa {
 		FrameInicial.getBtnEditar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PainelPessoa.habilitaEdicao();
 				ControlaBotoes.habilitaEdicaoBotoes();
 				funcaoSobrescrever();
 			}
@@ -553,5 +566,33 @@ public class ControlaPessoa {
 	public void carregaDetalhes(Pessoa p) {
 		PainelPessoa.carregarCampos(p);
 		FrameInicial.atualizaTela();
+	}
+
+	public JTable adicionaOcup(Pessoa p) {
+		p.setListOcup(daoPP.leFuncaoCodigo(p.getCodiPessoa()));
+		if (p.getListOcup().isEmpty()) {
+			tblMdProf = new TableModelProfissao();
+			tblMdProf.adicionaOcup(p, tbl02.getSelectedRow());
+			tbl02 = new JTable(tblMdProf);
+			carregaDetalhes(p);
+		} else {
+			tblMdProf = new TableModelProfissao(p.getListOcup());
+			tbl02 = new JTable(tblMdProf);
+			carregaDetalhes(p);
+		}
+
+		return tbl02;
+
+	}
+
+	public void apagaOcup() {
+		if (!tbl02.equals(null) & tbl02.getSelectedRow() != -1) {
+			PessoaProfissional pp = tblMdProf
+					.getPessProf(tbl02.getSelectedRow());
+			daoPP.apagar(pp);
+			carregaDetalhes(p);
+		} else {
+
+		}
 	}
 }

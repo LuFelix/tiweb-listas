@@ -20,9 +20,8 @@ import br.com.recomendacao.dao.DAOFuse;
 import br.com.recomendacao.dao.DAOOperacao;
 import br.com.recomendacao.util.ManipulaData;
 import br.com.recomendacao.visao.FrameInicial;
-import br.com.recomendacao.visao.PainelConta;
-import br.com.recomendacao.visao.PainelFuse;
 import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
+import br.com.recomendacao.visao.PainelFuse;
 
 public class ControlaFuse {
 
@@ -70,8 +69,9 @@ public class ControlaFuse {
 		dados = daoFuse.pesquisarNome("");
 		modelotabela.setColumnIdentifiers(colunas.toArray());
 		for (int i = 0; i < dados.size(); i++) {
-			Object linha[] = { dados.get(i).getCodiAtivo(), String.valueOf(dados.get(i).getLucroPrejuizo()),
-					String.valueOf(dados.get(i).getObsFuse()) };
+			Object linha[] = {dados.get(i).getCodiAtivo(),
+					String.valueOf(dados.get(i).getLucroPrejuizo()),
+					String.valueOf(dados.get(i).getObsFuse())};
 			modelotabela.addRow(linha);
 		}
 		tabela.setShowGrid(true);
@@ -122,7 +122,8 @@ public class ControlaFuse {
 			public void keyPressed(KeyEvent tecla) {
 				if (tecla.getExtendedKeyCode() == 40) {
 					FrameInicial.getTabela().grabFocus();
-					FrameInicial.getTabela().changeSelection(0, 0, false, false);
+					FrameInicial.getTabela().changeSelection(0, 0, false,
+							false);
 				} else {
 					String nome = FrameInicial.getTxtfPesquisa().getText();
 					FrameInicial.setTabela(pesqNomeTabela(nome));
@@ -167,7 +168,8 @@ public class ControlaFuse {
 				fuse = PainelFuse.lerCampos();
 				if (!fuse.equals(null) & daoFuse.alterar(fuse)) {
 					FrameInicial.setTabela(pesqNomeTabela(fuse.getCodiFuse()));
-					FrameInicial.setPainelVisualiza(new PainelFuse(fuse.getCodiFuse()));
+					FrameInicial.setPainelVisualiza(
+							new PainelFuse(fuse.getCodiFuse()));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito!");
 					iniciar();
@@ -187,13 +189,15 @@ public class ControlaFuse {
 				if (!fuse.equals(null) & daoFuse.cadastrar(fuse)) {
 					PainelFuse.limparCampos();
 					FrameInicial.setTabela(pesqNomeTabela(fuse.getCodiFuse()));
-					FrameInicial.setPainelVisualiza(new PainelConta(fuse.getCodiFuse()));
+					FrameInicial.setPainelVisualiza(
+							new PainelFuse(fuse.getCodiFuse()));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito");
 					iniciar();
 				} else {
-					JOptionPane.showMessageDialog(null, "Problemas: Erro de acesso ao banco", "Erro ao Salvar",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Problemas: Erro de acesso ao banco",
+							"Erro ao Salvar", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -238,7 +242,8 @@ public class ControlaFuse {
 
 			@Override
 			public void keyReleased(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 					int posicao = tabela.getSelectedRow();
 					PainelFuse.irParaPoicao(posicao);
 				}
@@ -247,7 +252,8 @@ public class ControlaFuse {
 			@Override
 			public void keyPressed(KeyEvent tecla) {
 				int posicao = tabela.getSelectedRow();
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 
 					PainelFuse.irParaPoicao(posicao);
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
@@ -255,7 +261,8 @@ public class ControlaFuse {
 				} else if (tecla.getExtendedKeyCode() == 10) {
 					PainelFuse.irParaPoicao(posicao);
 					// PainelFuse.getBtnEditar().doClick();
-					FrameInicial.getTabela().changeSelection(--posicao, 0, false, false);
+					FrameInicial.getTabela().changeSelection(--posicao, 0,
+							false, false);
 					// PainelFuse.getBtnNovo().grabFocus();
 				}
 			}
@@ -299,8 +306,9 @@ public class ControlaFuse {
 		arrayFuse = daoFuse.pesquisarNome(nome);
 		modelotabela.setColumnIdentifiers(colunas.toArray());
 		for (int i = 0; i < arrayFuse.size(); i++) {
-			Object linha[] = { arrayFuse.get(i).getCodiAtivo(), String.valueOf(arrayFuse.get(i).getLucroPrejuizo()),
-					arrayFuse.get(i).getTipoFuse() };
+			Object linha[] = {arrayFuse.get(i).getCodiAtivo(),
+					String.valueOf(arrayFuse.get(i).getLucroPrejuizo()),
+					arrayFuse.get(i).getTipoFuse()};
 			modelotabela.addRow(linha);
 		}
 		tabela.setShowGrid(true);
@@ -312,14 +320,17 @@ public class ControlaFuse {
 	public String criaCodigo() {
 		Calendar c = Calendar.getInstance();
 		daoFuse.consultaUltimo();
-		String codiFuse = String.valueOf(daoFuse.consultaUltimo()) + String.valueOf(c.get(Calendar.YEAR))
-				+ String.valueOf(c.get(Calendar.MONTH)) + String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+		String codiFuse = String.valueOf(daoFuse.consultaUltimo())
+				+ String.valueOf(c.get(Calendar.YEAR))
+				+ String.valueOf(c.get(Calendar.MONTH))
+				+ String.valueOf(c.get(Calendar.DAY_OF_MONTH));
 		return codiFuse;
 	}
 
 	public void relLucAtivo() {
 		FrameInicial.limpaTela();
-		String codiAtivo = JOptionPane.showInputDialog("Informe o Código do ativo!");
+		String codiAtivo = JOptionPane
+				.showInputDialog("Informe o Código do ativo!");
 		float lucroTotal = 0;
 		txtARelat = new JTextArea();
 		txtARelat.setBounds(0, 0, 525, 510);
@@ -331,10 +342,12 @@ public class ControlaFuse {
 		txtARelat.append(linha + "\n");
 		for (Fuse fuse : arrayFuse) {
 			linha = String.valueOf(fuse.getLucroPrejuizo() * fuse.getQuant());
-			lucroTotal = lucroTotal + (fuse.getLucroPrejuizo() * fuse.getQuant());
+			lucroTotal = lucroTotal
+					+ (fuse.getLucroPrejuizo() * fuse.getQuant());
 			txtARelat.append(linha + "\n");
 		}
-		linha = "O lucro desse ativo durante o período analisado foi de: " + lucroTotal;
+		linha = "O lucro desse ativo durante o período analisado foi de: "
+				+ lucroTotal;
 		txtARelat.append(linha + "\n");
 		FrameInicial.getScrVisualiza().setViewportView(txtARelat);
 	}
@@ -358,15 +371,22 @@ public class ControlaFuse {
 		txtARelat.append(linha + "\n");
 		relatorio = relatorio + linha + "\n";
 		for (Fuse fuse : arrayFuse) {
-			linha = "Data início: " + manData.inverteData6(fuse.getDataInicio().toString().substring(0, 10))
-					+ "  |  Data fim: " + manData.inverteData6(fuse.getDataFim().toString().substring(0, 10))
-					+ "  |  Lucro ==>> " + String.valueOf(fuse.getLucroPrejuizo() * fuse.getQuant());
-			lucroTotal = lucroTotal + (fuse.getLucroPrejuizo() * fuse.getQuant());
+			linha = "Data início: "
+					+ manData.inverteData6(
+							fuse.getDataInicio().toString().substring(0, 10))
+					+ "  |  Data fim: "
+					+ manData.inverteData6(
+							fuse.getDataFim().toString().substring(0, 10))
+					+ "  |  Lucro ==>> "
+					+ String.valueOf(fuse.getLucroPrejuizo() * fuse.getQuant());
+			lucroTotal = lucroTotal
+					+ (fuse.getLucroPrejuizo() * fuse.getQuant());
 			txtARelat.append(linha + "\n");
 			relatorio = relatorio + linha + "\n";
 		}
 
-		linha = "\n O lucro desse ativo durante o período analisado foi de: " + lucroTotal;
+		linha = "\n O lucro desse ativo durante o período analisado foi de: "
+				+ lucroTotal;
 		txtARelat.append(linha + "\n");
 		relatorio = relatorio + linha + "\n";
 		return relatorio;
@@ -389,11 +409,14 @@ public class ControlaFuse {
 		linha = "Encontradas " + arrayFuse.size() + " fuse(s).";
 		txtARelat.append(linha + "\n");
 		for (Fuse fuse : arrayFuse) {
-			linha = "*** " + fuse.getCodiAtivo() + " ====>>  " + fuse.getLucroPrejuizo() * fuse.getQuant();
-			lucroTotal = lucroTotal + (fuse.getLucroPrejuizo() * fuse.getQuant());
+			linha = "*** " + fuse.getCodiAtivo() + " ====>>  "
+					+ fuse.getLucroPrejuizo() * fuse.getQuant();
+			lucroTotal = lucroTotal
+					+ (fuse.getLucroPrejuizo() * fuse.getQuant());
 			txtARelat.append(linha + "\n");
 		}
-		linha = "O lucro dessas fuses durante o período analisado foi de: " + lucroTotal;
+		linha = "O lucro dessas fuses durante o período analisado foi de: "
+				+ lucroTotal;
 		txtARelat.append(linha + "\n");
 		FrameInicial.getScrVisualiza().setViewportView(txtARelat);
 	}
@@ -405,7 +428,8 @@ public class ControlaFuse {
 		listAtivo = daoFuse.pesquisarAtivoComFuse();
 
 		for (String ativo : listAtivo) {
-			txtARelatDet.append(relLucAtivo(ativo) + "\n" + "++++++++++++++++++++++++++ \n");
+			txtARelatDet.append(relLucAtivo(ativo) + "\n"
+					+ "++++++++++++++++++++++++++ \n");
 		}
 		FrameInicial.getScrVisualiza().setViewportView(txtARelatDet);
 	}

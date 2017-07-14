@@ -1,12 +1,25 @@
 package br.com.recomendacao.beans;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class CentroCusto {
 
 	private int seqcentroCusto;
 	private String codiCentroCusto;
 	private String nomeCentroCusto;
 	private String descCentroCusto;
+	private List<Conta> listContas;
 
+	public CentroCusto() {
+		super();
+		listContas = new ArrayList<Conta>();
+	}
+	@Override
+	public String toString() {
+		return getNomeCentroCusto();
+	}
 	public int getSeqcentroCusto() {
 		return seqcentroCusto;
 	}
@@ -37,6 +50,14 @@ public class CentroCusto {
 
 	public void setDescCentroCusto(String descCentroCusto) {
 		this.descCentroCusto = descCentroCusto;
+	}
+
+	public List<Conta> getListContas() {
+		return Collections.unmodifiableList(listContas);
+	}
+
+	public void setListContas(List<Conta> listContas) {
+		this.listContas = listContas;
 	}
 
 }

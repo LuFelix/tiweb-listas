@@ -50,6 +50,7 @@ import br.com.recomendacao.controle.ControlaCondPagamento;
 import br.com.recomendacao.controle.ControlaConta;
 import br.com.recomendacao.controle.ControlaFuse;
 import br.com.recomendacao.controle.ControlaGrupoSubgrupo;
+import br.com.recomendacao.controle.ControlaLancamento;
 import br.com.recomendacao.controle.ControlaOperacao;
 import br.com.recomendacao.controle.ControlaPedido;
 import br.com.recomendacao.controle.ControlaPessoa;
@@ -95,12 +96,12 @@ public class FrameInicial {
 	static JLabel lblStatus;
 	static JLabel lblPesquisa;
 	private static File arquivoAberto;
-	static int tipoTela;
-	// private Ativo atv;
+	// static int tipoTela;
 	private static Pessoa usuarioLogado;
 	protected static JTextField txtfPesquisa;
 
 	// +++++Objetos de Controle+++++++++++
+	private static ControlaLancamento contLanc;
 	private static ControlaPosicaoFinanceira contPosiFin;
 	private static ControlaPessoa contPess;
 	private static ControlaServico contServ;
@@ -153,7 +154,8 @@ public class FrameInicial {
 	// +++++Itens dos menu Importar+++++++++++++++++
 	private JMenuItem mnItmArquivo;
 	private JMenuItem mnItmBdi;
-	public static JMenuItem mnuParametros;
+	public static JMenuItem mnuParamFuse;
+	public static JMenuItem mnuParamOrder;
 	private JMenuItem mnuFuncosBanco;
 	// +++++Sub menu do menu help
 	private JMenuItem mntmSobre;
@@ -235,7 +237,8 @@ public class FrameInicial {
 		mnPrincipal = new JMenu("Principal");
 		mnImportar = new JMenu("Importar");
 		mnRelatorios = new JMenu("Relatórios");
-		mnuParametros = new JMenuItem("Parâmetros");
+		mnuParamFuse = new JMenuItem("Parâmetros Fuse");
+		mnuParamOrder = new JMenuItem("Parâmetros Order");
 		mnuFuncosBanco = new JMenuItem("Funções de Banco ");
 		mnHelp = new JMenu("Help");
 
@@ -247,17 +250,29 @@ public class FrameInicial {
 
 		// Sub-ítens do menu sobre
 		mntmSobre = new JMenuItem("Sobre");
+		mntmSobre.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				JOptionPane.showMessageDialog(null,
+						"Fuse - Lists - Order - Writter \nTechnology Projects - ME\n"
+								+ "\nVersão 1.3  12/2016\n" + "Desde 2010");
+			}
+		});
 		mnHelp.add(mntmSobre);
 
 		// Menu principal
 		mnPrincipal.add(mnImportar);
-		mnPrincipal.add(mnuParametros);
+		mnPrincipal.add(mnuParamFuse);
+		mnPrincipal.add(mnuParamOrder);
 		mnPrincipal.add(mnuFuncosBanco);
 
 		// Objeto de data
 		cal = new JCalendarComboBox();
 
 		// TODO Objetos de Controle
+		setContLanc(new ControlaLancamento());
 		setContConta(new ControlaConta());
 		contPess = new ControlaPessoa();
 		contProd = new ControlaProduto();
@@ -281,7 +296,7 @@ public class FrameInicial {
 				// new TelaSeletoraTipoDeArquivo();
 			}
 		});
-		mnuParametros.addActionListener(new ActionListener() {
+		mnuParamFuse.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -705,9 +720,9 @@ public class FrameInicial {
 
 		// Configuração das abas
 
-		painelTab1 = new AbaCadastros();
-		painelTab2 = new AbaNegocios();
-		painelTab3 = new AbaFuse();
+		painelTab1 = new AbaFuse();
+		painelTab2 = new AbaCadastros();
+		painelTab3 = new AbaNegocios();
 		painelTab4 = new AbaRelatorios();
 
 		// painelTab4 = new AbaStatus();
@@ -720,25 +735,25 @@ public class FrameInicial {
 			@Override
 			public void stateChanged(ChangeEvent arg0) {
 				if (painelTabulado1.getSelectedIndex() == 0) {
-					AbaCadastros.getArvoreNegocios().setSelectionRow(0);
-
+					FrameInicial.pesquisaAtivo();
 				}
 				if (painelTabulado1.getSelectedIndex() == 1) {
-					AbaNegocios.getArvoreNegocios().setSelectionRow(0);
+					contPess.iniciar("");
+					// AbaCadastros.getArvoreNegocios().setSelectionRow(0);
 				}
 				if (painelTabulado1.getSelectedIndex() == 2) {
-					FrameInicial.pesquisaAtivo();
+					contPedi.iniciar("");
+					AbaNegocios.getArvoreNegocios().setSelectionRow(0);
 				}
 				if (painelTabulado1.getSelectedIndex() == 3) {
 					limpaTela();
 				}
 			}
 		});
-		painelTabulado1.setBounds(5, 10, 250, 540);
-		painelTabulado1.add("Cadastros", painelTab1);
-		painelTabulado1.add("Negócios", painelTab2);
-		painelTabulado1.add("Fuse", painelTab3);
-		painelTabulado1.add("Relatórios", painelTab4);
+		painelTabulado1.add("Fuse", painelTab1);
+		painelTabulado1.add("Lists", painelTab2);
+		painelTabulado1.add("Order's", painelTab3);
+		painelTabulado1.add("Writter", painelTab4);
 
 		// painelTabulado.add("Serviços", painelTab3);
 		// painelTabulado.add("Status", painelTab4);
@@ -784,7 +799,6 @@ public class FrameInicial {
 		frmPrincipal.setVisible(true);
 		// atu = new AtualizaCotacaoAutHashSet();
 		// atu.run();
-		tipoTela = verificaPainelDetalhes();
 		ControlaBotoes.desHabilitaEdicaoBotoes();
 	} // Fim
 		// Construtor
@@ -1216,42 +1230,47 @@ public class FrameInicial {
 
 	// TODO Verificar tipo de painel
 	static int verificaPainelDetalhes() {
+		int tela = 0;
+		if (!getPainelVisualiza().equals(null)) {
 
-		if (getPainelVisualiza().getClass().equals(PainelProdutos.class)) {
-			return 1;
-		} else if (getPainelVisualiza().getClass().equals(PainelPessoa.class)) {
-			return 2;
-		} else if (getPainelVisualiza().getClass()
-				.equals(PainelPedidos.class)) {
-			return 3;
-		} else if (getPainelVisualiza().getClass()
-				.equals(PainelCentroCusto.class)) {
-			return 4;
-		} else if (getPainelVisualiza().getClass()
-				.equals(PainelServico.class)) {
-			return 5;
-		} else if (getPainelVisualiza().getClass()
-				.equals(PainelCondPagamento.class)) {
-			return 6;
-		} else if (getPainelVisualiza().getClass()
-				.equals(PainelOrdServicos.class)) {
-			return 7;
-		} else if (getPainelVisualiza().getClass()
-				.equals(PainelTabelaPreco.class)) {
-			return 8;
-		} else if (getPainelVisualiza().getClass().equals(PainelConta.class)) {
-			return 9;
-		} else if (getPainelVisualiza().getClass()
-				.equals(PainelGrupoSubgrupo.class)) {
-			return 10;
-		} else if (getPainelVisualiza().getClass().equals(PainelFuse.class)) {
-			return 11;
-		} else if (getPainelVisualiza().getClass()
-				.equals(PainelOperacao.class)) {
-			return 12;
-		} else {
-			return 0;
+			if (getPainelVisualiza().getClass().equals(PainelProdutos.class)) {
+				tela = 1;
+			} else if (getPainelVisualiza().getClass()
+					.equals(PainelPessoa.class)) {
+				tela = 2;
+			} else if (getPainelVisualiza().getClass()
+					.equals(PainelPedidos.class)) {
+				tela = 3;
+			} else if (getPainelVisualiza().getClass()
+					.equals(PainelCentroCusto.class)) {
+				tela = 4;
+			} else if (getPainelVisualiza().getClass()
+					.equals(PainelServico.class)) {
+				tela = 5;
+			} else if (getPainelVisualiza().getClass()
+					.equals(PainelCondPagamento.class)) {
+				tela = 6;
+			} else if (getPainelVisualiza().getClass()
+					.equals(PainelOrdServicos.class)) {
+				tela = 7;
+			} else if (getPainelVisualiza().getClass()
+					.equals(PainelTabelaPreco.class)) {
+				tela = 8;
+			} else if (getPainelVisualiza().getClass()
+					.equals(PainelConta.class)) {
+				tela = 9;
+			} else if (getPainelVisualiza().getClass()
+					.equals(PainelGrupoSubgrupo.class)) {
+				tela = 10;
+			} else if (getPainelVisualiza().getClass()
+					.equals(PainelFuse.class)) {
+				tela = 11;
+			} else if (getPainelVisualiza().getClass()
+					.equals(PainelOperacao.class)) {
+				tela = 12;
+			}
 		}
+		return tela;
 	}
 
 	// TODO Controle de Botões
@@ -1471,6 +1490,14 @@ public class FrameInicial {
 
 	public static void setContFuse(ControlaFuse contFuse) {
 		FrameInicial.contFuse = contFuse;
+	}
+
+	public static ControlaLancamento getContLanc() {
+		return contLanc;
+	}
+
+	public static void setContLanc(ControlaLancamento contLanc) {
+		FrameInicial.contLanc = contLanc;
 	}
 
 	public static JTable getTblLista() {

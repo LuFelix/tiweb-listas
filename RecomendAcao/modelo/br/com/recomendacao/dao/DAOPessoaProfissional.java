@@ -12,6 +12,7 @@ import br.com.recomendacao.util.Conexao;
 public class DAOPessoaProfissional {
 	PessoaProfissional pPro;
 	Conexao c;
+	CallableStatement cStm;
 	List<PessoaProfissional> listPro;
 
 	public DAOPessoaProfissional() {
@@ -25,11 +26,12 @@ public class DAOPessoaProfissional {
 		String sql = "{call lista_funcoes_codi_pess(?)}";
 		listPro = new ArrayList<PessoaProfissional>();
 		try {
-			CallableStatement cStm = c.getCon().prepareCall(sql);
+			cStm = c.getCon().prepareCall(sql);
 			cStm.setString(1, codiPessoa);
 			ResultSet rs = cStm.executeQuery();
 			while (rs.next()) {
 				pPro = new PessoaProfissional();
+				pPro.setSeqPessProf(rs.getInt("seq_func"));
 				pPro.setCodiPess(rs.getString("codi_pess"));
 				pPro.setCodiProf(rs.getString("codi_prof"));
 				pPro.setNomeProf(rs.getString("nome_prof"));
@@ -52,7 +54,7 @@ public class DAOPessoaProfissional {
 		String sql = "{call cadastra_funcao(?,?,?,?,?,?)}";
 
 		try {
-			CallableStatement cStm = c.getCon().prepareCall(sql);
+			cStm = c.getCon().prepareCall(sql);
 			cStm.setString(1, pp.getCodiPess());
 			cStm.setString(2, pp.getCodiProf());
 			cStm.setString(3, pp.getNomeProf());
@@ -69,18 +71,32 @@ public class DAOPessoaProfissional {
 		c.conectar();
 		String sql = "{call atualiza_ocupacao(?,?,?,?,?)}";
 		try {
-			CallableStatement cStm = c.getCon().prepareCall(sql);
+			cStm = c.getCon().prepareCall(sql);
 			cStm.setString(1, pp.getNomeProf());
 			cStm.setString(2, pp.getDocFunc());
 			cStm.setInt(3, pp.getPis());
 			cStm.setBoolean(4, pp.isOptante());
 			cStm.setString(5, pp.getCodiPess());
 			cStm.executeQuery();
+			c.desconectar();
 		} catch (SQLException e) {
+			c.desconectar();
 			e.printStackTrace();
 		}
 
 	}
-	public void apagar() {
+	public void apagar(PessoaProfissional pp) {
+		c.conectar();
+		String sql = "{call apaga_ocupacao(?,?)}";
+		try {
+			cStm = c.getCon().prepareCall(sql);
+			cStm.setString(1, pp.getCodiPess());
+			cStm.setInt(2, pp.getSeqPessProf());
+			cStm.execute();
+			c.desconectar();
+		} catch (SQLException e) {
+			c.desconectar();
+			e.printStackTrace();
+		}
 	}
 }

@@ -17,12 +17,13 @@ public class DAOCentroCusto {
 	private PreparedStatement prepStm;
 	private List<CentroCusto> listCentroCusto;
 	private CentroCusto centroCusto;
-
+	private DAOConta daoConta;
 	public DAOCentroCusto() {
 		super();
 		System.out.println("DAOCentroCusto.construtor");
 		c = new Conexao(ConfigS.getBdPg(), "siacecf");
 		c2 = new ConexaoSTM(ConfigS.getBdPg(), "siacecf");
+		daoConta = new DAOConta();
 	}
 
 	public void reservaCodigo(String codigo) throws SQLException {
@@ -42,8 +43,8 @@ public class DAOCentroCusto {
 			prepStm = c.getCon().prepareStatement(sql);
 			prepStm.setString(1, nome);
 			result = prepStm.executeQuery();
-			centroCusto = new CentroCusto();
 			if (result.next()) {
+				centroCusto = new CentroCusto();
 				centroCusto
 						.setSeqcentroCusto(result.getInt("seq_centro_custo"));
 				centroCusto.setCodiCentroCusto(
@@ -82,6 +83,7 @@ public class DAOCentroCusto {
 						result.getString("nome_centro_custo"));
 				centroCusto.setDescCentroCusto(
 						result.getString("desc_centro_custo"));
+
 				c.desconectar();
 				return centroCusto;
 			} else {
@@ -167,6 +169,39 @@ public class DAOCentroCusto {
 		}
 
 	}
+	public List<CentroCusto> listCompleta() {
+		System.out.println("DAOCentroCusto.pesquisarString");
+		String sql = "select * from contas_centro_custo order by nome_centro_custo;";
+		listCentroCusto = new ArrayList<CentroCusto>();
+		c.conectar();
+		try {
+			prepStm = c.getCon().prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+			result = prepStm.executeQuery();
+			while (result.next()) {
+				centroCusto = new CentroCusto();
+				centroCusto
+						.setSeqcentroCusto(result.getInt("seq_centro_custo"));
+				centroCusto.setCodiCentroCusto(
+						result.getString("codi_centro_custo"));
+				centroCusto.setNomeCentroCusto(
+						result.getString("nome_centro_custo"));
+				centroCusto.setDescCentroCusto(
+						result.getString("desc_centro_custo"));
+				centroCusto.setListContas(daoConta
+						.listContCCusto(centroCusto.getCodiCentroCusto()));
+				listCentroCusto.add(centroCusto);
+			}
+			c.desconectar();
+			return listCentroCusto;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			c.desconectar();
+			return null;
+		}
+
+	}
 
 	public boolean alterar(CentroCusto centroCusto) {
 		System.out.println("DAOGrupoSubgrupo.alterar");
@@ -204,5 +239,4 @@ public class DAOCentroCusto {
 			return false;
 		}
 	}
-
 }

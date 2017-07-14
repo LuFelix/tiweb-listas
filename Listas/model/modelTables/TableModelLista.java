@@ -15,7 +15,7 @@ public class TableModelLista extends AbstractTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<CheckList> linhas;
-	private String[] colunas = new String[] { "Listas" };
+	private String[] colunas = new String[]{"Listas"};
 	private static final int Listas = 0;
 	DaoLista daoLista;
 
@@ -33,10 +33,11 @@ public class TableModelLista extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		CheckList chkList = linhas.get(rowIndex);
 		switch (columnIndex) {
-		case Listas:
-			return chkList.getNomeLista();
-		default:
-			throw new IndexOutOfBoundsException("columnIndex out of bounds");
+			case Listas :
+				return chkList.getNomeLista();
+			default :
+				throw new IndexOutOfBoundsException(
+						"columnIndex out of bounds");
 		}
 	}
 
@@ -56,10 +57,11 @@ public class TableModelLista extends AbstractTableModel {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
-		case Listas:
-			return String.class;
-		default:
-			throw new IndexOutOfBoundsException("columnIndex out of bounds");
+			case Listas :
+				return String.class;
+			default :
+				throw new IndexOutOfBoundsException(
+						"columnIndex out of bounds");
 		}
 	}
 
@@ -68,7 +70,7 @@ public class TableModelLista extends AbstractTableModel {
 		CheckList checkList = linhas.get(rowIndex);
 		checkList.setNomeLista((String) aValue);
 		fireTableCellUpdated(rowIndex, columnIndex);
-		daoLista.editaLista(checkList);
+		daoLista.atualizaLista(checkList);
 	}
 
 	@Override

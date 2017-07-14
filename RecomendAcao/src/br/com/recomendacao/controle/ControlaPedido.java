@@ -23,8 +23,8 @@ import br.com.recomendacao.dao.DAOProdutosEstoque;
 import br.com.recomendacao.dao.DAOProdutosPedidos;
 import br.com.recomendacao.visao.AbaNegocios;
 import br.com.recomendacao.visao.FrameInicial;
-import br.com.recomendacao.visao.PainelPedidos;
 import br.com.recomendacao.visao.FrameInicial.ControlaBotoes;
+import br.com.recomendacao.visao.PainelPedidos;
 
 public class ControlaPedido {
 	Pedido pedi;
@@ -64,14 +64,17 @@ public class ControlaPedido {
 				try {
 					daoPedi.alterar(pedi);
 					PainelPedidos.limparCampos();
-					FrameInicial.setPainelVisualiza(new PainelPedidos(pedi.getCodiPedi()));
-					FrameInicial.setTabela(tblPedidosNomeTipo(pedi.getCodiPedi(), pedi.getTipoPedido()));
+					FrameInicial.setPainelVisualiza(
+							new PainelPedidos(pedi.getCodiPedi()));
+					FrameInicial.setTabela(tblPedidosNomeTipo(
+							pedi.getCodiPedi(), pedi.getTipoPedido()));
 					FrameInicial.atualizaTela();
 					JOptionPane.showMessageDialog(null, "Feito!");
 					iniciar(pedi.getTipoPedido());
 				} catch (Exception e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Verifique os campos informados", "Erro ao gravar",
+					JOptionPane.showMessageDialog(null,
+							"Verifique os campos informados", "Erro ao gravar",
 							JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -89,8 +92,10 @@ public class ControlaPedido {
 				pedi = PainelPedidos.leCampos();
 				try {
 					daoPedi.alterar(pedi);
-					FrameInicial.setTabela(tblPedidosNomeTipo(pedi.getCodiPedi(), pedi.getTipoPedido()));
-					FrameInicial.setPainelVisualiza(new PainelPedidos(pedi.getCodiPedi()));
+					FrameInicial.setTabela(tblPedidosNomeTipo(
+							pedi.getCodiPedi(), pedi.getTipoPedido()));
+					FrameInicial.setPainelVisualiza(
+							new PainelPedidos(pedi.getCodiPedi()));
 					FrameInicial.atualizaTela();
 					PainelPedidos.desHabilitaEdicao();
 					PainelPedidos.desbilitaTabela();
@@ -100,8 +105,9 @@ public class ControlaPedido {
 				} catch (Exception e2) {
 					e2.printStackTrace();
 
-					JOptionPane.showMessageDialog(null, "Problemas: Verifique os campos informados", "Erro ao Salvar",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Problemas: Verifique os campos informados",
+							"Erro ao Salvar", JOptionPane.ERROR_MESSAGE);
 					funcaoCancelarNovo();
 				}
 			}
@@ -158,6 +164,38 @@ public class ControlaPedido {
 		FrameInicial.setPainelVisualiza(new PainelPedidos(""));
 		FrameInicial.atualizaTela();
 		funcaoCancelar();
+
+		FrameInicial.getTxtfPesquisa().addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent tecla) {
+				if (tecla.getExtendedKeyCode() == 40) {
+					FrameInicial.getTabela().grabFocus();
+					FrameInicial.getTabela().changeSelection(0, 0, false,
+							false);
+				} else {
+					String nome = FrameInicial.getTxtfPesquisa().getText();
+					FrameInicial
+							.setTabela(tblPedidosNomeTipo(nome, tipoPedido));
+					FrameInicial.setPainelVisualiza(new PainelPedidos(nome));
+					FrameInicial.atualizaTela();
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent tecla) {
+				String nome = FrameInicial.getTxtfPesquisa().getText();
+				FrameInicial.setTabela(tblPedidosNomeTipo(nome, tipoPedido));
+				FrameInicial.setPainelVisualiza(new PainelPedidos(nome));
+				FrameInicial.atualizaTela();
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+		});
+
+	}
+	void configuraBotoes() {
 		FrameInicial.getBtnEditar().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -183,33 +221,6 @@ public class ControlaPedido {
 				funcaoExcluir(pedi);
 			}
 		});
-		FrameInicial.getTxtfPesquisa().addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40) {
-					FrameInicial.getTabela().grabFocus();
-					FrameInicial.getTabela().changeSelection(0, 0, false, false);
-				} else {
-					String nome = FrameInicial.getTxtfPesquisa().getText();
-					FrameInicial.setTabela(tblPedidosNomeTipo(nome, tipoPedido));
-					FrameInicial.setPainelVisualiza(new PainelPedidos(nome));
-					FrameInicial.atualizaTela();
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent tecla) {
-				String nome = FrameInicial.getTxtfPesquisa().getText();
-				FrameInicial.setTabela(tblPedidosNomeTipo(nome, tipoPedido));
-				FrameInicial.setPainelVisualiza(new PainelPedidos(nome));
-				FrameInicial.atualizaTela();
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-		});
-
 	}
 
 	public void posicionarTabela(int linha) {
@@ -220,7 +231,7 @@ public class ControlaPedido {
 
 	// TODO Ajustar largura colunas
 	private void ajusta_tamanho_coluna() {
-		//tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		// tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tabela.getColumnModel().getColumn(0).setPreferredWidth(60);
 		tabela.getColumnModel().getColumn(1).setPreferredWidth(220);
 		tabela.getColumnModel().getColumn(2).setPreferredWidth(70);
@@ -246,7 +257,8 @@ public class ControlaPedido {
 
 			@Override
 			public void keyReleased(KeyEvent tecla) {
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 					int posicao = tabela.getSelectedRow();
 					PainelPedidos.irParaPoicao(posicao);
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
@@ -257,13 +269,15 @@ public class ControlaPedido {
 			@Override
 			public void keyPressed(KeyEvent tecla) {
 				int posicao = tabela.getSelectedRow();
-				if (tecla.getExtendedKeyCode() == 40 || tecla.getExtendedKeyCode() == 38) {
+				if (tecla.getExtendedKeyCode() == 40
+						|| tecla.getExtendedKeyCode() == 38) {
 					PainelPedidos.irParaPoicao(posicao);
 				} else if (tecla.getExtendedKeyCode() == 27) {// esc
 					FrameInicial.getTxtfPesquisa().grabFocus();
 				} else if (tecla.getExtendedKeyCode() == 10) {
 					PainelPedidos.irParaPoicao(posicao);
-					FrameInicial.getTabela().changeSelection(--posicao, 0, false, false);
+					FrameInicial.getTabela().changeSelection(--posicao, 0,
+							false, false);
 					PainelPedidos.getTxtfCliente().grabFocus();
 				}
 			}
@@ -305,8 +319,9 @@ public class ControlaPedido {
 		modelotabela.setColumnIdentifiers(colunas.toArray());
 		ajusta_tamanho_coluna();
 		for (int i = 0; i < listPedi.size(); i++) {
-			Object linha[] = { listPedi.get(i).getSeqPedi(), listPedi.get(i).getxNome(),
-					listPedi.get(i).getQuantItens(), listPedi.get(i).getTotalPedi() };
+			Object linha[] = {listPedi.get(i).getSeqPedi(),
+					listPedi.get(i).getxNome(), listPedi.get(i).getQuantItens(),
+					listPedi.get(i).getTotalPedi()};
 			modelotabela.addRow(linha);
 		}
 		tabela.setShowGrid(true);
