@@ -107,7 +107,7 @@ public class PnlTarefasNotas extends JSplitPane {
 			public void stateChanged(ChangeEvent e) {
 				if (tabPTarNot.getSelectedIndex() == 0) {
 					if (contList.getTblListas().getSelectedRow() != -1) {
-						exibeItens();
+
 					}
 
 				} else if (tabPTarNot.getSelectedIndex() == 1) {
@@ -143,22 +143,22 @@ public class PnlTarefasNotas extends JSplitPane {
 	 * Exibição de ítens
 	 */
 	public static void exibeItens(ButtonModel md) {
-		System.out.println("PnlTarefasNotas.exibeItens");
+		System.out.println("PnlTarefasNotas.exibeItens(ButtonModel md)");
 		if (md == rdBtnConcluir.getModel()) {
 			if (contList.getTblListas().getSelectedRow() != -1) {
-				System.out.println("Itens à concluir.");
+				System.out.println("(concluir)");
 				scrTblTarefas.setViewportView(
 						contList.tblItens(contList.pegaListadaTabela(), false));
 			}
 		} else if (md == rdBtnConcluidos.getModel()) {
 			if (contList.getTblListas().getSelectedRow() != -1) {
-				System.out.println("Ítens concluidos.");
+				System.out.println("(concluidos)");
 				scrTblTarefas.setViewportView(
 						contList.tblItens(contList.pegaListadaTabela(), true));
 			}
 		} else {
 			if (contList.getTblListas().getSelectedRow() != -1) {
-				System.out.println("Todos os ítens");
+				System.out.println("(todos)");
 				scrTblTarefas.setViewportView(
 						contList.tblItens(contList.pegaListadaTabela()));
 			}
@@ -167,13 +167,14 @@ public class PnlTarefasNotas extends JSplitPane {
 	}
 
 	public static void exibeItens(Boolean status) {
+		System.out.println("PnlTarefasNotas.exibeItens(Boolean status);");
 		if (contList.getTblListas().getSelectedRow() != -1) {
 			scrTblTarefas.setViewportView(
 					contList.tblItens(contList.pegaListadaTabela(), status));
 		}
 	}
 	public static void exibeItens() {
-		System.out.println("Executou exibeItens");
+		System.out.println("PnlTarefasNotas.exibeItens();");
 		if (contList.getTblListas().getSelectedRow() != -1) {
 			scrTblTarefas.setViewportView(
 					contList.tblItens(contList.pegaListadaTabela()));

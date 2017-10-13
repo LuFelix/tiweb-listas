@@ -140,8 +140,9 @@ public class PnlButtonsItens extends JPanel {
 					int linha = contList.getTblItens().getSelectedRow();
 					if (linha != -1) {
 						item = contList.pegaItemTabela();
+
 						contList.removeItem(item.getSeqItem());
-						PnlTarefasNotas.exibeItens();
+						PnlTarefasNotas.exibeItens(item.isConcluido());
 						contList.getTblItens().changeSelection(linha - 1, 0,
 								false, false);
 						PnlTarefasNotas.exibeObsItem();
@@ -186,7 +187,6 @@ public class PnlButtonsItens extends JPanel {
 		rdBtnConcluir = new JRadioButton("Concluir", true);
 		rdBtnConcluir.setName("Concluir");
 		rdBtnConcluir.addItemListener(new ItemListener() {
-
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				JRadioButton rdBtn = (JRadioButton) e.getSource();;
@@ -224,7 +224,6 @@ public class PnlButtonsItens extends JPanel {
 				}
 			}
 		});
-
 		grpBtnRadio.add(rdBtnConcluir);
 		grpBtnRadio.add(rdBtnConcluidos);
 		grpBtnRadio.add(rdBtnTodos);
@@ -233,7 +232,6 @@ public class PnlButtonsItens extends JPanel {
 		pnlFunction.add(btnAdd);
 		pnlFunction.add(btnRem);
 		pnlFunction.add(rdBtnConcluir);
-
 		pnlFunction.add(rdBtnConcluidos);
 		pnlFunction.add(rdBtnTodos);
 

@@ -13,11 +13,11 @@ import controllerListas.ControlaLista;
 public class MnuCrudGrupos extends JMenu {
 	ControlaLista contList;
 	Grupo g;
-	public MnuCrudGrupos(Grupo g, int posX, int posY) {
+	public MnuCrudGrupos(Grupo g, int posX, int posY, int baseDados) {
 
 		super();
 		this.g = g;
-		contList = new ControlaLista();
+		contList = new ControlaLista(baseDados);
 		criaMenuCrudGrupo(posX, posY);
 	}
 

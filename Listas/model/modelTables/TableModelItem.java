@@ -6,7 +6,9 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import beansListas.ItemCheckList;
-import daoListas.DaoLista;
+import daoListas.DaoListaM;
+import daoListas.DaoListaS;
+import daoListas.InterDAOListas;
 
 public class TableModelItem extends AbstractTableModel {
 	/**
@@ -18,15 +20,21 @@ public class TableModelItem extends AbstractTableModel {
 	private static final int Concluido = 0;
 	private static final int Item = 1;
 	private static final int Observacao = 2;
-	private DaoLista daoLista;
+	private InterDAOListas daoLista;
 
 	public TableModelItem() {
 		linhas = new ArrayList<ItemCheckList>();
+
 	}
 
-	public TableModelItem(List<ItemCheckList> listDados) {
-		daoLista = new DaoLista();
+	public TableModelItem(List<ItemCheckList> listDados, int baseDados) {
+		if (baseDados == 1) {
+			daoLista = new DaoListaM();
+		} else {
+			daoLista = new DaoListaS();
+		}
 		linhas = new ArrayList<ItemCheckList>(listDados);
+
 	}
 
 	@Override

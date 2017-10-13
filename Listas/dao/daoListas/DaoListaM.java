@@ -13,7 +13,7 @@ import beansListas.Grupo;
 import beansListas.ItemCheckList;
 import utilListas.Conexao;
 
-public class DaoLista {
+public class DaoListaM extends InterDAOListas {
 	Connection c2;
 	Conexao c;
 	CallableStatement callStm;
@@ -24,7 +24,7 @@ public class DaoLista {
 	Grupo grupo;
 	ItemCheckList item;
 
-	public DaoLista() {
+	public DaoListaM() {
 		c = new Conexao();
 		// FirebaseOptions options = null;
 		// try {
@@ -53,17 +53,17 @@ public class DaoLista {
 	 * @param nomeGrupo
 	 */
 	public boolean addGrupo(String nomeGrupo) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call cria_grupo(?,?)}");
 			callStm.setString(1, nomeGrupo);
 			callStm.setString(2, nomeGrupo);
 			callStm.executeQuery();
-			c.disconect();
+			c.disconectMaria();
 			return true;
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return false;
 		}
@@ -79,9 +79,9 @@ public class DaoLista {
 	 * @return
 	 */
 	public Grupo buscaGrupo(String nomeGrupo) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
-			callStm = c2.prepareCall("{call busca_grupo_nome(?)}");
+			callStm = c2.prepareCall("{call ler_grupo_nome(?)}");
 			callStm.setString(1, nomeGrupo);
 			ResultSet rs = callStm.executeQuery();
 			if (rs.first()) {
@@ -90,10 +90,10 @@ public class DaoLista {
 				grupo.setNome(rs.getString("nota"));
 				grupo.setNome(rs.getString("descr"));
 			}
-			c.disconect();
+			c.disconectMaria();
 			return grupo;
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return null;
 		}
@@ -109,9 +109,9 @@ public class DaoLista {
 	 * @return
 	 */
 	public Grupo buscaGrupo(int seqGrupo) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
-			callStm = c2.prepareCall("{call busca_grupo_seq(?)}");
+			callStm = c2.prepareCall("{call ler_grupo_seq(?)}");
 			callStm.setInt(1, seqGrupo);
 			ResultSet rs = callStm.executeQuery();
 			if (rs.first()) {
@@ -120,14 +120,13 @@ public class DaoLista {
 				grupo.setNome(rs.getString("nota"));
 				grupo.setNome(rs.getString("descr"));
 			}
-			c.disconect();
+			c.disconectMaria();
 			return grupo;
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return null;
 		}
-
 	}
 
 	/**
@@ -138,7 +137,7 @@ public class DaoLista {
 	 * @return List <CheckList>
 	 */
 	public List<Grupo> lerGrupos() {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		listGrupo = new ArrayList<Grupo>();
 		try {
 			callStm = c2.prepareCall("{call ler_grupos()}");
@@ -150,11 +149,11 @@ public class DaoLista {
 				grupo.setDescr(rs.getString("desc_grupo"));
 				listGrupo.add(grupo);
 			}
-			c.disconect();
+			c.disconectMaria();
 			return listGrupo;
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return null;
 		}
@@ -168,17 +167,17 @@ public class DaoLista {
 	 *            -- g grupo a ser atualizado
 	 */
 	public void atualizaGrupo(Grupo g) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call atualiza_grupo_seq(?,?,?)}");
 			callStm.setString(1, g.getNome());
 			callStm.setString(2, g.getDescr());
 			callStm.setInt(3, g.getSeq());
 			callStm.execute();
-			c.disconect();
+			c.disconectMaria();
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 
 		}
@@ -191,12 +190,14 @@ public class DaoLista {
 	 * @param nomeGrupo
 	 */
 	public void remGrupo(Grupo grupo) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call rem_grupo(?)}");
 			callStm.setInt(1, grupo.getSeq());
 			callStm.executeUpdate();
+			c.disconectMaria();
 		} catch (SQLException e) {
+			c.disconectMaria();
 			e.printStackTrace();
 		}
 
@@ -215,14 +216,14 @@ public class DaoLista {
 	 *            checkList - Lista a ser criada
 	 */
 	public void addLista(CheckList chkList) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call cria_chk_list(?)}");
 			callStm.setString(1, chkList.getNomeLista());
-			callStm.executeQuery();
-			c.disconect();
+			callStm.execute();
+			c.disconectMaria();
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 		}
 
@@ -236,7 +237,7 @@ public class DaoLista {
 	 * @return List <CheckList>
 	 */
 	public List<CheckList> lerListas() {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		listChkLists = new ArrayList<CheckList>();
 		try {
 			callStm = c2.prepareCall("{call ler_listas()}");
@@ -248,11 +249,11 @@ public class DaoLista {
 				checkList.setNota(rs.getString("nota"));
 				listChkLists.add(checkList);
 			}
-			c.disconect();
+			c.disconectMaria();
 			return listChkLists;
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return null;
 		}
@@ -269,7 +270,7 @@ public class DaoLista {
 	 * @return List <CheckList>
 	 */
 	public List<CheckList> lerListas(int grupo) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		listChkLists = new ArrayList<CheckList>();
 		try {
 			callStm = c2.prepareCall("{call ler_listas_grupo (?)}");
@@ -282,11 +283,11 @@ public class DaoLista {
 				checkList.setNota(rs.getString("nota"));
 				listChkLists.add(checkList);
 			}
-			c.disconect();
+			c.disconectMaria();
 			return listChkLists;
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return null;
 		}
@@ -304,11 +305,11 @@ public class DaoLista {
 	 * @return CheckList -- checkList com a lisa de ítens
 	 */
 	public CheckList carregarItens(CheckList checkList) {
-		this.c2 = (Connection) c.conect();
+		this.c2 = (Connection) c.conectMaria();
 		this.checkList = checkList;
 		listItens = new ArrayList<ItemCheckList>();
 		try {
-			callStm = c2.prepareCall("{call exibir_lista_id(?)}");
+			callStm = c2.prepareCall("{call ler_itens_lista_seq(?)}");
 			callStm.setInt(1, checkList.getNumLista());
 			ResultSet rs = callStm.executeQuery();
 			while (rs.next()) {
@@ -322,11 +323,11 @@ public class DaoLista {
 
 			}
 			checkList.setListItens(listItens);
-			c.disconect();
+			c.disconectMaria();
 			return checkList;
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return null;
 		}
@@ -342,17 +343,16 @@ public class DaoLista {
 	 *            -- Lista a ser modificada
 	 */
 	public void atualizaLista(CheckList checkList) {
-
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call atualiza_nomelista_seq(?,?)}");
 			callStm.setString(1, checkList.getNomeLista());
 			callStm.setInt(2, checkList.getNumLista());
 			callStm.execute();
-			c.disconect();
+			c.disconectMaria();
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 
 		}
@@ -365,16 +365,16 @@ public class DaoLista {
 	 *            --checkList com a ser modificada
 	 */
 	public void alteraGrupoLista(CheckList checkList) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call altera_grupo_lista(?,?)}");
 			callStm.setInt(1, checkList.getGrupo().getSeq());
 			callStm.setInt(2, checkList.getNumLista());
 			callStm.execute();
-			c.disconect();
+			c.disconectMaria();
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 
 		}
@@ -387,15 +387,15 @@ public class DaoLista {
 	 *            -- checkList a ser removida
 	 */
 	public boolean remLista(CheckList chkList) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call rem_lista(?)}");
 			callStm.setInt(1, chkList.getNumLista());
 			callStm.executeUpdate();
-			c.disconect();
+			c.disconectMaria();
 			return true;
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return false;
 		}
@@ -414,16 +414,16 @@ public class DaoLista {
 	 * @param item
 	 */
 	public void addItemListaSeqLista(CheckList chkList, ItemCheckList item) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call add_item_lista_seq_lista(?,?,?)}");
 			callStm.setInt(1, chkList.getNumLista());
 			callStm.setString(2, item.getItem());
 			callStm.setString(3, item.getObservacao());
 			callStm.executeQuery();
-			c.disconect();
+			c.disconectMaria();
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 		}
 	}
@@ -436,7 +436,7 @@ public class DaoLista {
 	 * @param item
 	 */
 	public void atualizaItem(ItemCheckList item) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call atualiza_item_seq(?,?,?,?)}");
 			callStm.setBoolean(1, item.isConcluido());
@@ -444,10 +444,10 @@ public class DaoLista {
 			callStm.setString(3, item.getObservacao());
 			callStm.setInt(4, item.getSeqItem());
 			callStm.execute();
-			c.disconect();
+			c.disconectMaria();
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 
 		}
@@ -465,10 +465,10 @@ public class DaoLista {
 	 * @return ArrayList<ItemCheckList>
 	 */
 	public List<ItemCheckList> lerItensListaNomeLista(String nomeLista) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		listItens = new ArrayList<ItemCheckList>();
 		try {
-			callStm = c2.prepareCall("{call exibir_lista_nome(?)}");
+			callStm = c2.prepareCall("{call ler_itens_lista_nome_lista(?)}");
 			callStm.setString(1, nomeLista);
 			ResultSet rs = callStm.executeQuery();
 			while (rs.next()) {
@@ -480,11 +480,11 @@ public class DaoLista {
 				item.setObservacao(rs.getString("observacao"));
 				listItens.add(item);
 			}
-			c.disconect();
+			c.disconectMaria();
 			return listItens;
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return null;
 		}
@@ -501,7 +501,7 @@ public class DaoLista {
 	 * @return List
 	 */
 	public List<ItemCheckList> lerItensListaSeq(int numLista) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		listItens = new ArrayList<ItemCheckList>();
 		try {
 			callStm = c2.prepareCall("{call ler_itens_lista_seq(?)}");
@@ -517,11 +517,11 @@ public class DaoLista {
 				listItens.add(item);
 
 			}
-			c.disconect();
+			c.disconectMaria();
 			return listItens;
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return null;
 		}
@@ -541,7 +541,7 @@ public class DaoLista {
 	 * @return List
 	 */
 	public List<ItemCheckList> lerItensListaSeq(int numLista, boolean status) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		listItens = new ArrayList<ItemCheckList>();
 		try {
 			callStm = c2.prepareCall("{call ler_itens_lista_seq_status(?,?)}");
@@ -558,11 +558,11 @@ public class DaoLista {
 				listItens.add(item);
 
 			}
-			c.disconect();
+			c.disconectMaria();
 			return listItens;
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return null;
 		}
@@ -580,17 +580,16 @@ public class DaoLista {
 	 *            -- item
 	 */
 	public void remItem(ItemCheckList item) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call rem_item(?)}");
 			callStm.setInt(1, item.getSeqItem());
 			callStm.executeUpdate();
-			c.disconect();
+			c.disconectMaria();
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -606,8 +605,7 @@ public class DaoLista {
 	 * @return String -- texto com a nota
 	 */
 	public String lerNota(int numLista) {
-
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		String nota = null;
 		try {
 			callStm = c2.prepareCall("{call ler_nota_seq_lista(?)}");
@@ -616,11 +614,11 @@ public class DaoLista {
 			if (rs.first()) {
 				nota = rs.getString("nota");
 			}
-			c.disconect();
+			c.disconectMaria();
 			return nota;
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return null;
 		}
@@ -634,20 +632,20 @@ public class DaoLista {
 	 * @return String -- nota
 	 */
 	public String lerNota(String nomeLista) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		String nota = null;
 		try {
-			callStm = c2.prepareCall("{call ler_nota_nome(?)}");
+			callStm = c2.prepareCall("{call ler_nota_nome_lista(?)}");
 			callStm.setString(1, nomeLista);
 			ResultSet rs = callStm.executeQuery();
 			if (rs.first()) {
 				nota = rs.getString("nota");
 			}
-			c.disconect();
+			c.disconectMaria();
 			return nota;
 
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 			return null;
 		}
@@ -663,13 +661,13 @@ public class DaoLista {
 	 * @throws SQLException
 	 */
 	public void atualizaNota(int numLista, String nota) throws SQLException {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 
 		callStm = c2.prepareCall("{call atualiza_nota_seq(?,?)}");
 		callStm.setInt(1, numLista);
 		callStm.setString(2, nota);
 		callStm.executeQuery();
-		c.disconect();
+		c.disconectMaria();
 
 	}
 
@@ -682,15 +680,15 @@ public class DaoLista {
 	 *            -- nota
 	 */
 	public void atualizaNota(String nomeLista, String nota) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call atualiza_nota_nome(?,?)}");
 			callStm.setString(1, nomeLista);
 			callStm.setString(2, nota);
 			callStm.executeQuery();
-			c.disconect();
+			c.disconectMaria();
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 		}
 	}
@@ -706,14 +704,14 @@ public class DaoLista {
 	 */
 
 	public void addListaFireBase(CheckList chkList) {
-		c2 = (Connection) c.conect();
+		c2 = (Connection) c.conectMaria();
 		try {
 			callStm = c2.prepareCall("{call nova_chk_list(?)}");
 			callStm.setString(1, chkList.getNomeLista());
 			callStm.executeQuery();
-			c.disconect();
+			c.disconectMaria();
 		} catch (SQLException e) {
-			c.disconect();
+			c.disconectMaria();
 			e.printStackTrace();
 		}
 

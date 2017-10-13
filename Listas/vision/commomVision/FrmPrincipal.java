@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
 import java.util.Enumeration;
 
 import javax.swing.ImageIcon;
@@ -39,6 +40,7 @@ public class FrmPrincipal extends JFrame {
 	JSplitPane sppSuperior;
 	JSplitPane sppInferior;
 	static JSplitPane sppVisualiza;
+	static int baseDados;
 
 	JPanel pnlPrincipal;
 	JPanel pnlNavegador;
@@ -74,7 +76,7 @@ public class FrmPrincipal extends JFrame {
 	public static ControlaLista contList;
 
 	public FrmPrincipal() {
-		Font font = new Font("Arial", Font.BOLD, 16);
+		Font font = new Font("Arial", Font.BOLD, 12);
 		// setDefaultFont(font);
 		UIManager.put("Button.font", font);
 		try {
@@ -88,8 +90,9 @@ public class FrmPrincipal extends JFrame {
 			// If Nimbus is not available, you can set the GUI to another look
 			// and feel.
 		}
-
-		contList = new ControlaLista();
+		baseDados = Integer.parseInt(JOptionPane.showInputDialog(
+				"Olá!  {:->\nBem vindo chefe! \nQual Base de dados iremos acessar?\n1 - MariaDB.\n2 - SQLite."));
+		contList = new ControlaLista(baseDados);
 
 		// TODO Menus
 		txtFPesquisa = new JTextField();
@@ -108,11 +111,11 @@ public class FrmPrincipal extends JFrame {
 			}
 		});
 
-		scrNavegador = new JScrollPane(new PnlTreeRoot());
+		scrNavegador = new JScrollPane(new PnlTreeRoot(baseDados));
 		scrEventos = new JScrollPane();
-
-		String localImagem = "C:\\SIMPRO\\img\\listas\\Order64x64.png";
-		lblImage = new JLabel(new ImageIcon(localImagem));
+		String path = new File("").getAbsolutePath() + "/img/";
+		path = path.replace("\\", "/") + "Order64x64.png";
+		lblImage = new JLabel(new ImageIcon(path));
 		lblImage.setBackground(Color.WHITE);
 
 		scrImages = new JScrollPane(lblImage);
@@ -144,8 +147,9 @@ public class FrmPrincipal extends JFrame {
 
 				JOptionPane.showMessageDialog(null,
 						"My Reminders \nTechnology Projects - ME\n"
-								+ "\n12/2016 --- " + "Versão 1.3" + "\n06/2017"
-								+ " --- Versão 2.1");
+								+ "\n12/2016 --- " + "Versão 1.3"
+								+ "\n06/2017 --- Versão 2.1"
+								+ "\n07/2017 --- Versão 2.2 - SQLite StandAlone");
 			}
 		});
 		// TODO Barras
@@ -195,11 +199,13 @@ public class FrmPrincipal extends JFrame {
 		setSize(1280, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		atualizaArvore();
+		contList.iniciaTarefaNotas();
 		setVisible(true);
 
 	}
 	public static void atualizaArvore() {
-		scrNavegador.setViewportView(new PnlTreeRoot());
+		scrNavegador.setViewportView(new PnlTreeRoot(baseDados));
 	}
 
 	public static void limpaTelas() {

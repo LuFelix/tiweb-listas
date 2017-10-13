@@ -31,7 +31,9 @@ import beansListas.CheckList;
 import beansListas.Grupo;
 import beansListas.ItemCheckList;
 import commomVision.FrmPrincipal;
-import daoListas.DaoLista;
+import daoListas.DaoListaM;
+import daoListas.DaoListaS;
+import daoListas.InterDAOListas;
 import modelTables.TableModelItem;
 import modelTables.TableModelLista;
 
@@ -43,19 +45,25 @@ public class ControlaLista {
 	private JTable tblListas;
 	private JTextArea txtAObsItem;
 	private JTextArea txtNota;
+	private int baseDados;
 	List<Grupo> listGruposChkList;
 	List<CheckList> listChkList;
 	List<ItemCheckList> listItens;
 
 	CheckList checkList;
 	ItemCheckList item;
-	DaoLista daoLista;
+	InterDAOListas daoLista;
 
 	/**
 	 * Construtor
 	 */
-	public ControlaLista() {
-		daoLista = new DaoLista();
+	public ControlaLista(int baseDados) {
+		this.baseDados = baseDados;
+		if (baseDados == 1) {
+			daoLista = new DaoListaM();
+		} else {
+			daoLista = new DaoListaS();
+		}
 
 		txtAObsItem = new JTextArea();
 		txtAObsItem.addCaretListener(new CaretListener() {
@@ -427,7 +435,7 @@ public class ControlaLista {
 			checkList = modelTblLista.getLista(tblListas.getSelectedRow());
 			JMenuItem item = new JMenuItem("Remover");
 			JMenu subMenu = new JMenu("Enviar para...");
-			new MnuGrupos(checkList, subMenu);
+			new MnuGrupos(checkList, subMenu, baseDados);
 			menu.add(item);
 			menu.add(subMenu);
 
@@ -502,7 +510,7 @@ public class ControlaLista {
 	public JTable tblItens(CheckList checkList) {
 		tblItens = new JTable();
 		modelTblItens = new TableModelItem(
-				daoLista.lerItensListaSeq(checkList.getNumLista()));
+				daoLista.lerItensListaSeq(checkList.getNumLista()), baseDados);
 		tblItens.setModel(modelTblItens);
 		tblItens.addKeyListener(new KeyListener() {
 
@@ -552,7 +560,8 @@ public class ControlaLista {
 	public JTable tblItens(CheckList checkList, boolean status) {
 		tblItens = new JTable();
 		modelTblItens = new TableModelItem(
-				daoLista.lerItensListaSeq(checkList.getNumLista(), status));
+				daoLista.lerItensListaSeq(checkList.getNumLista(), status),
+				baseDados);
 		tblItens.setModel(modelTblItens);
 		tblItens.addKeyListener(new KeyListener() {
 

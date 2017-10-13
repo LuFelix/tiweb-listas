@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import beansListas.CheckList;
-import daoListas.DaoLista;
+import daoListas.DaoListaS;
 
 public class TableModelLista extends AbstractTableModel {
 
@@ -17,15 +17,15 @@ public class TableModelLista extends AbstractTableModel {
 	private List<CheckList> linhas;
 	private String[] colunas = new String[]{"Listas"};
 	private static final int Listas = 0;
-	DaoLista daoLista;
+	DaoListaS daoLista;
 
 	public TableModelLista() {
-		daoLista = new DaoLista();
+		daoLista = new DaoListaS();
 		linhas = new ArrayList<CheckList>();
 	}
 
 	public TableModelLista(List<CheckList> listCheckList) {
-		daoLista = new DaoLista();
+		daoLista = new DaoListaS();
 		linhas = new ArrayList<CheckList>(listCheckList);
 	}
 

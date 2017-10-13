@@ -18,11 +18,11 @@ public class MnuGrupos extends JMenu {
 	CheckList checkList;
 	ControlaLista contList;
 
-	public MnuGrupos(CheckList checkList, JMenu menu) {
+	public MnuGrupos(CheckList checkList, JMenu menu, int baseDados) {
 		super();
 		this.menu = menu;
 		this.checkList = checkList;
-		contList = new ControlaLista();
+		contList = new ControlaLista(baseDados);
 		criaMenuGrupos();
 
 	}

@@ -5,22 +5,23 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import daoListas.DaoLista;
+import daoListas.DaoListaM;
+import daoListas.InterDAOListas;
 
 public class TableModelPessoa extends AbstractTableModel {
 
 	private List<String> linhas;
-	private String[] colunas = new String[] { "Listas" };
+	private String[] colunas = new String[]{"Listas"};
 	private static final int Listas = 0;
-	DaoLista daoLista;
+	InterDAOListas daoLista;
 
 	public TableModelPessoa() {
-		daoLista = new DaoLista();
+		daoLista = new DaoListaM();
 		linhas = new ArrayList<String>();
 	}
 
 	public TableModelPessoa(List<String> listFunc) {
-		daoLista = new DaoLista();
+		daoLista = new DaoListaM();
 		linhas = new ArrayList<String>(listFunc);
 	}
 
@@ -28,10 +29,11 @@ public class TableModelPessoa extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		String nome = linhas.get(rowIndex);
 		switch (columnIndex) {
-		case Listas:
-			return nome;
-		default:
-			throw new IndexOutOfBoundsException("columnIndex out of bounds");
+			case Listas :
+				return nome;
+			default :
+				throw new IndexOutOfBoundsException(
+						"columnIndex out of bounds");
 		}
 	}
 
@@ -51,10 +53,11 @@ public class TableModelPessoa extends AbstractTableModel {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
-		case Listas:
-			return String.class;
-		default:
-			throw new IndexOutOfBoundsException("columnIndex out of bounds");
+			case Listas :
+				return String.class;
+			default :
+				throw new IndexOutOfBoundsException(
+						"columnIndex out of bounds");
 		}
 	}
 
