@@ -138,7 +138,7 @@ public class DAOCentroCusto {
 
 	public List<CentroCusto> pesquisarString(String str) {
 		System.out.println("DAOCentroCusto.pesquisarString");
-		String sql = "select * from contas_centro_custo where codi_centro_custo ~* ? or nome_centro_custo ~* ? or desc_centro_custo ~* ? order by nome_centro_custo;";
+		String sql = "select * from tbl_ctas_centro_custo where codi_centro_custo ~* ? or nome_centro_custo ~* ? or desc_centro_custo ~* ? order by nome_centro_custo;";
 		listCentroCusto = new ArrayList<CentroCusto>();
 		c.conectar();
 		try {

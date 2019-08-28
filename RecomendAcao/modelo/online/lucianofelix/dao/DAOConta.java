@@ -77,7 +77,7 @@ public class DAOConta {
 	}
 	public List<Conta> listContCCusto(String codiCentroCusto) {
 		System.out.println("DAOConta.listContaCCusto");
-		String sql = "select * from contas where codi_centro_custo = ? order by nome_conta;";
+		String sql = "select * from tbl_contas where codi_centro_custo = ? order by nome_conta;";
 		listConta = new ArrayList<Conta>();
 		c.conectar();
 		try {
@@ -229,7 +229,7 @@ public class DAOConta {
 	}
 	public List<Conta> pesquisarString(String str, String codiCentro) {
 		System.out.println("DAOConta.pesquisarString");
-		String sql = "select * from contas where codi_conta ~* ? or agencia ~* ? or conta ~* ? or banco = ? or nome_conta ~* ? and codi_centro_custo = ? order by nome_conta;";
+		String sql = "select * from tbl_contas where codi_conta ~* ? or agencia ~* ? or conta ~* ? or banco = ? or nome_conta ~* ? and codi_centro_custo = ? order by nome_conta;";
 		listConta = new ArrayList<Conta>();
 		c.conectar();
 		try {
@@ -277,7 +277,7 @@ public class DAOConta {
 	public List<Conta> listContaGroupByCCusto() {
 		System.out.println("DAOConta.pesquisarString");
 		String sql = "select seq_conta, codi_conta, nome_conta, titular, codi_centro_custo"
-				+ " from contas order by codi_centro_custo, nome_conta;";
+				+ " from tbl_contas order by codi_centro_custo, nome_conta;";
 		listConta = new ArrayList<Conta>();
 		c.conectar();
 		try {
